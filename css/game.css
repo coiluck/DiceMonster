@@ -1,0 +1,356 @@
+#modal-game {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none; /* 通常時はflexで使用 */
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  gap: 20px;
+}
+
+#enemy-container {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  min-height: 200px; 
+}
+
+#player-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+}
+.player-container-center-and-right {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.player-container-left,
+.player-container-center,
+.player-container-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  gap: 15px;
+}
+
+.player-container-left-button {
+  position: relative;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #e0e0e0;
+  background-image: url('../assets/images/paper.jpg');
+  background-size: cover;
+  background-blend-mode: luminosity;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #333;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#item-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translateY(-50%);
+  width: 80%;
+  height: 80%;
+  background-image: url('../assets/images/Storage.ico');
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  z-index: 1;
+}
+#pair-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translateY(-50%);
+  width: 80%;
+  height: 70%;
+  background-image: url('../assets/images/Document.ico');
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.dice-area {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.dice {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.dice:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+}
+.dice:hover::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid rgb(255, 0, 0);
+  border-radius: 8px;
+}
+.dice-hand-info {
+  text-align: center;
+}
+#dice-hand-info-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+#dice-hand-info-effect-title {
+  font-size: 0.8rem;
+  text-align: center;
+}
+#dice-hand-info-effect-value {
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.dice-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.player-card-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 5 / 7;
+  background: 
+    linear-gradient(135deg, rgba(99, 99, 99, 0.6) 0%, rgba(58, 58, 58, 0.6) 100%),
+    linear-gradient(90deg, rgba(99, 99, 99, 0.8) 0%, rgba(58, 58, 58, 0.8) 100%);
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: center;
+}
+.card.player > * {
+  position: relative;
+  z-index: 2;
+}
+.card.player::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 90%;
+  height: 70%;
+  background-image: url('../assets/images/player.png');
+  background-size: cover;
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.status-bar {
+  position: relative;
+  height: 20px;
+  background-color: #333; /* 枠 */
+  border: 1px solid #222;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0 0;
+}
+.status-bar.hp {
+  background-color: #444; /* HP専用の下地色 */
+}
+.status-bar .label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: .9rem;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #fff;
+  text-shadow: 1px 1px 2px black;
+  z-index: 2;
+  user-select: none;
+}
+#player-bar {
+  height: 100%;
+  background: linear-gradient(to bottom, #2ecc71, #27ae60);
+  transition: width 0.3s ease;
+}
+
+.buff-container {
+  display: flex;
+  width: 100%;
+  height: 30px;
+  justify-content: space-around;
+}
+.buff {
+  position: relative;
+}
+.buff-number {
+  width: 12px;
+  height: 12px;
+  font-size: 8px;
+  position: absolute;
+  top: 70%;
+  left: 70%;
+  text-align: center;
+  color: #eee;
+  background-color: #333;
+  border: 1px solid #e8d9b6;
+  border-radius: 50%;
+  z-index: 1000;
+}
+/* buffはbuff.cssで管理 */
+.skill-point {
+  font-size: 0.8rem;
+  text-align: center;
+  white-space: nowrap;
+}
+.skills {
+  display: flex;
+  gap: 10px;
+}
+.skill-btn {
+  position: relative;
+  width: 90%;
+  padding: 3px 5px;
+  color: #e8d9b6;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 30, 30, 0.5); 
+  border: 1px solid #706040; 
+  border-radius: 5px;
+  box-shadow: 
+    inset 0 0 8px rgba(0, 0, 0, 0.6), 
+    1px 1px 0px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+.skill-btn:hover {
+  border-color: #a09070;
+  background-color: rgba(30, 30, 30, 0.3); 
+  box-shadow: 0 3px 6px rgba(255, 255, 255, 0.2);
+}
+.skill-btn:hover::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 10px;
+  }
+  #enemy-container {
+    height: 15%;
+  }
+  #player-container {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .player-container-left {
+    padding: 5px;
+    flex-direction: row;
+  }
+  .player-container-left-button {
+    padding: 8px 10px;
+  }
+  .player-container-center-and-right {
+    grid-template-columns: 3fr 2fr;
+    gap: 0;
+  }
+  .player-container-center,
+  .player-container-right {
+    padding: 5px;
+  }
+  .dice-area {
+    gap: 5px;
+  }
+  .dice {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  #dice-hand-info-title {
+    font-size: 1rem;
+  }
+  #dice-hand-info-effect-title {
+    font-size: 0.7rem;
+  }
+  #dice-hand-info-effect-value {
+    font-size: 0.7rem;
+  }
+  .dice-buttons button {
+    font-size: 0.8rem;
+  }
+}

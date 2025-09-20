@@ -1,0 +1,279 @@
+* {
+  margin: 0;
+  padding: 0;
+  color: #f0e6d2;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+button {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.fade-in {  /* もっとも一般的なフェードイン */
+  animation: FadeIn .5s;
+  animation-fill-mode: both;
+}
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.fade-out {  /* もっとも一般的なフェードアウト */
+  animation: FadeOut .5s;
+  animation-fill-mode: both;
+}
+@keyframes FadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.body-background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+}
+.body-background-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -100;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+.body-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.95) 100%);
+  z-index: -98;
+}
+
+#modal-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.top-container {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  height: 100%;
+}
+
+.top-container-left {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.top-container-left-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.top-main-title {
+  font-size: 4rem;
+  font-family: 'Zen Old Mincho', serif;
+  animation: glowing 4s ease-in-out infinite;
+}
+@keyframes glowing {
+  0% {
+    text-shadow:
+      0 0 8px rgba(0,0,0,0.8),
+      0 0 5px hsl(180, 100%, 70%),
+      0 0 10px hsl(180, 100%, 70%);
+  }
+  50% {
+    text-shadow:
+      0 0 8px rgba(0,0,0,0.8),
+      0 0 20px hsl(180, 100%, 70%),
+      0 0 40px hsl(180, 100%, 70%),
+      0 0 60px hsl(180, 100%, 70%);
+  }
+  100% {
+    text-shadow:
+      0 0 8px rgba(0,0,0,0.8),
+      0 0 5px hsl(180, 100%, 70%),
+      0 0 10px hsl(180, 100%, 70%);
+  }
+}
+.top-sub-title {
+  font-size: 1.2rem;
+  font-family: 'Zen Old Mincho', serif;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+.top-dice-image {
+  width: 1.2rem;
+  height: auto;
+}
+.top-player-image {
+  width: 70%;
+  height: auto;
+  margin: 10px 0 0;
+  padding: 0;
+  object-fit: cover;
+}
+
+.top-container-right {
+  position: relative;
+  height: 100%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.top-button {
+  border: none;
+  width: 300px;
+  margin: 20px auto;
+  padding: 18px 30px;
+  font-family: 'Zen Old Mincho', serif;
+  font-size: 1.6em;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.top-button:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+.top-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0.7); /* 内側の枠線 */
+  pointer-events: none;
+}
+.top-button::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid rgba(255, 255, 255, 0.7); /* 外側の枠線 */
+  pointer-events: none;
+}
+.top-button-text {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 5px;
+}
+.top-button-subtext {
+  position: relative;
+  z-index: 1;
+  font-size: 0.7em;
+  color: #c0b0a0;
+}
+.top-continue-button {
+  background: linear-gradient(145deg, rgba(10, 45, 10, 0.8) 0%, rgba(33, 90, 33, 0.8) 100%), url(../assets/images/paper.jpg) center/cover;
+}
+.top-continue-button:hover {
+  box-shadow: 0 8px 20px rgba(138, 205, 138, 0.7), inset 0 0 15px rgba(240, 230, 210, 0.3);
+}
+.top-new-button {
+  background: linear-gradient(145deg, rgba(77, 10, 27, 0.8) 0%, rgba(122, 33, 53, 0.8) 100%), url(../assets/images/paper.jpg) center/cover;
+}
+.top-new-button:hover {
+  box-shadow: 0 8px 20px rgba(205, 104, 137, 0.7), inset 0 0 15px rgba(240, 230, 210, 0.3);
+}
+.top-rules-button {
+  background: linear-gradient(145deg, rgba(15, 28, 41, 0.8) 0%, rgba(47, 64, 80, 0.8) 100%), url(../assets/images/paper.jpg) center/cover;
+}
+.top-rules-button:hover {
+  box-shadow: 0 8px 20px rgba(141, 188, 220, 0.7), inset 0 0 15px rgba(240, 230, 210, 0.3);
+}
+
+/* レスポンシブ */
+@media (max-width: 830px) {
+  .top-button {
+    width: 250px;
+    font-size: 1.2rem;
+    gap: 10px;
+  }
+  .top-button-text {
+    margin-bottom: 3px;
+  }
+  .top-button-subtext {
+    font-size: 0.6rem;
+  }
+}
+@media (max-width: 768px) {
+  .top-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .top-main-title {
+    font-size: 3.5rem;
+  }
+  .top-sub-title {
+    font-size: 1rem;
+  }
+  .top-player-image {
+    margin-top: 0;
+    width: 50%;
+  }
+  .top-container-left-inner {
+    position: absolute;
+    top: 50%;
+  }
+  .top-container-right {
+    margin-top: 0;
+  }
+  .top-button {
+    width: 60%;
+    min-width: 250px;
+    margin: 5px auto;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+  }
+}

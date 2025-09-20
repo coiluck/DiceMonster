@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/top.css">
+  <link rel="stylesheet" href="./css/game.css">
+  <link rel="stylesheet" href="./css/buff.css">
+  <link rel="stylesheet" href="./css/tooltip.css">
+  <title>六面天運 - サイコロローグライク - </title>
+  <link rel="icon" href="./assets/images/favicon.ico">
+  <meta property="og:title" content="六面天運">
+  <meta property="og:description" content="振って、揃えて、運命を覆せ">
+  <meta property="og:image" content="./assets/images/favicon.icon">
+  <meta property="og:url" content="https://coiluck.moe/DiceMonster/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="六面天運">
+  <meta name="twitter:description" content="振って、揃えて、運命を覆せ">
+  <meta name="twitter:image" content="./assets/images/favicon.avif">
+</head>
+<body>
+  <!-- 背景 -->
+  <div class="body-background-wrapper">
+    <img src="./assets/images/background_ruins.avif" alt="神秘的な背景" class="body-background-image">
+    <div class="body-overlay"></div>
+  </div>
+
+  <div id="modal-top" class="modal">
+    <div class="top-container">
+      <div class="top-container-left">
+        <div class="top-container-left-inner">
+          <h1 class="top-main-title">六面天運</h1>
+          <p class="top-sub-title">振って、揃えて、運命を覆せ<img src="./assets/images/favicon.webp" alt="dice" class="top-dice-image"></p>
+        </div>
+        <img src="./assets/images/player.png" alt="playerImage" class="top-player-image">
+      </div>
+      <div class="top-container-right">
+        <button class="top-button top-continue-button">
+          <span class="top-button-text">前回の冒険から</span>
+          <span class="top-button-subtext">物語を紡ぎ直す</span>
+        </button>
+        <button class="top-button top-new-button">
+          <span class="top-button-text">新たな旅を始める</span>
+          <span class="top-button-subtext">未知の運命へ</span>
+        </button>
+        <button class="top-button top-rules-button">
+          <span class="top-button-text">冒険の掟を知る</span>
+          <span class="top-button-subtext">運命に抗う術を</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-rules" class="modal"></div>
+
+  <div id="modal-game" class="modal">
+    <div class="game-container">
+      <div id="enemy-container"></div>
+      <div id="player-container">
+        <div class="player-container-left">
+          <button id="item-button" class="player-container-left-button">アイテム</button>
+          <button id="pair-button" class="player-container-left-button">役の一覧</button>
+        </div>
+        <div class="player-container-center-and-right">
+          <div class="player-container-center">
+            <div class="dice-area">
+              <div class="dice">3</div>
+              <div class="dice">5</div>
+              <div class="dice">1</div>
+              <div class="dice">3</div>
+            </div>
+            <div class="dice-hand-info">
+              <h3 id="dice-hand-info-title">現在の役: <span>---</span></h3>
+              <p id="dice-hand-info-effect-title">効果</p>
+              <p id="dice-hand-info-effect-value">---</p>
+            </div>
+            <div class="dice-buttons">
+              <div class="button-group-container">
+                <div class="button-group" data-phase="1">
+                  <button id="dice-roll-button">ダイスを振る</button>
+                </div>
+                <div class="button-group" data-phase="2">
+                  <button id="dice-reroll-button">リロール（残り1回）</button>
+                  <button id="dice-confirm-button">役を確定</button>
+                </div>
+                <div class="button-group" data-phase="3">
+                  <button id="dice-attack-button">攻撃</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="player-container-right">
+            <div class="card player">
+              <h3>プレイヤー</h3>
+              <div class="player-card-container">
+                <div class="status-bar hp">
+                  <span class="label">HP: <span id="player-hp">50</span> / <span id="player-max-hp">50</span></span>
+                  <div id="player-bar" style="width: 80%;"></div>
+                </div>
+                 <div class="buff-container" id="player-buff-container">
+                  <div class="buff buff-shield"><div class="buff-number">4</div></div>
+                  <div class="buff buff-attack"><div class="buff-number">4</div></div>
+                  <div class="buff buff-reduction"><div class="buff-number">4</div></div>
+                </div>
+                <p class="skill-point">スキルポイント: <span id="skill-point">0</span></p>
+                <div class="skills">
+                  <button class="skill-btn" data-skill="turn">反転</button>
+                  <button class="skill-btn" data-skill="round">進化</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/top.js" type="module"></script>
+  <script src="./js/game.js" type="module"></script>
+  <script src="./js/module/addToolTip.js" type="module"></script>
+</body>
+</html>
