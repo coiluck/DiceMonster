@@ -16,7 +16,10 @@ function initGame() {
   setUpDice();
 }
 
-async function setUpEnemy(round) { }
+async function setUpEnemy(round) {
+  // 各ラウンドの敵の設定
+  
+}
 
 import { skillsData } from './module/skills.js';
 
@@ -60,6 +63,8 @@ function setUpDice() {
   }
 }
 
+import { message } from './module/message.js';
+
 // フェーズを切り替える関数
 function setPhase(phase) {
   document.querySelectorAll('.button-group').forEach(group => {
@@ -97,6 +102,8 @@ document.getElementById('dice-attack-button').addEventListener('click', () => {
     dice.removeEventListener('click', toggleHold);
     dice.textContent = '？';
   });
+  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
+  document.querySelector('#dice-hand-info-effect-value').textContent = '---';
   setPhase(1);
 });
 setPhase(1); // 初期状態

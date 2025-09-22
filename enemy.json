@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "rank": 3,
+    "name": "歪みし凶刃",
+    "image": "distorted_blade.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 2,
+    "rank": 3,
+    "name": "無垢なる蒼眸",
+    "image": "blue_eye.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 3,
+    "rank": 3,
+    "name": "紫晶喰らい",
+    "image": "amethyst_devourer.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 4,
+    "rank": 5,
+    "name": "腐敗したシカ",
+    "image": "rotted_deer.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 5,
+    "rank": 5,
+    "name": "さまよえる者",
+    "image": "lost_one.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 6,
+    "rank": 6,
+    "name": "星を紡ぐ者",
+    "image": "cosmos_observation.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 7,
+    "name": "蝕まれし黒曜",
+    "rank": 6,
+    "image": "corroded_obsidian.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 8,
+    "name": "黄昏の牙",
+    "rank": 6,
+    "image": "golden_tooth.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 9,
+    "name": "宵闇の凶角",
+    "rank": 7,
+    "image": "nightmare_beast.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 10,
+    "rank": 8,
+    "name": "厄災竜",
+    "image": "disaster_dragon.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 11,
+    "name": "岩窟竜",
+    "rank": 8,
+    "image": "cave_dragon.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 12,
+    "name": "地を焦がす劫火",
+    "isBoss": true,
+    "image": "fire_of_destruction.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  },
+  {
+    "id": 13,
+    "name": "天を喰らう咆哮",
+    "isBoss": true,
+    "image": "roar_of_destruction.avif",
+    "hp": 10,
+    "attack": 1,
+    "description": "スライムは小さなモンスターです。",
+    "abilities": ["fiting_spilit"]
+  }
+]
