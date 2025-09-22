@@ -7,6 +7,7 @@ const initialState = {
     shield: 0,
     damageReduction: 0,
     attack: 0,
+    rerollCount: 2,
     skills: ['turn', 'round'],
     skillsPoint: 0,
     items: [],

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./css/game.css">
   <link rel="stylesheet" href="./css/buff.css">
   <link rel="stylesheet" href="./css/tooltip.css">
+  <link rel="stylesheet" href="./css/message.css">
   <title>六面天運 - サイコロローグライク - </title>
   <link rel="icon" href="./assets/images/favicon.ico">
   <meta property="og:title" content="六面天運">
@@ -80,7 +81,7 @@
                   <button id="dice-roll-button">ダイスを振る</button>
                 </div>
                 <div class="button-group" data-phase="2">
-                  <button id="dice-reroll-button">リロール（残り1回）</button>
+                  <button id="dice-reroll-button">リロール（残り2回）</button>
                   <button id="dice-confirm-button">役を確定</button>
                 </div>
                 <div class="button-group" data-phase="3">
@@ -114,6 +115,8 @@
       </div>
     </div>
   </div>
+
+  <div id="message-box"></div>
 
   <script src="./js/top.js" type="module"></script>
   <script src="./js/game.js" type="module"></script>
