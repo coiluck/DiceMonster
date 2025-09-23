@@ -1,6 +1,8 @@
 // gameState.js
 const initialState = {
   round: 1,
+  difficulty: 'easy',
+  easyStageEnemy: [],
   player: {
     hp: 50,
     maxHp: 50,

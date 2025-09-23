@@ -10,15 +10,131 @@ import { globalGameState } from './module/gameState.js';
 import { addTooltipEvents } from './module/addToolTip.js';
 
 function initGame() {
-  setUpEnemy(globalGameState.round);
+  chooseEnemy(globalGameState.round, globalGameState.difficulty);
   setUpPlayer();
   setUpItems();
   setUpDice();
 }
 
-async function setUpEnemy(round) {
+let enemyData;
+async function getEnemyData() {
+  if (!enemyData) {
+    const response = await fetch('enemy.json');
+    enemyData = await response.json();
+  }
+  return enemyData;
+}
+
+async function chooseEnemy(round, difficulty) {
   // 各ラウンドの敵の設定
-  
+  let earlyStageStart;
+  let midStageStart;
+  let lateStageStart;
+  let maxEnemyLimit;
+  if (difficulty === 'easy') {
+    earlyStageStart = 1;
+    midStageStart = 4;
+    lateStageStart = 10;
+    maxEnemyLimit = 3;
+  } else if (difficulty === 'normal') {
+    earlyStageStart = 1;
+    midStageStart = 4;
+    lateStageStart = 8;
+    maxEnemyLimit = 4;
+  } else if (difficulty === 'hard') {
+    earlyStageStart = 1;
+    midStageStart = 3;
+    lateStageStart = 7;
+    maxEnemyLimit = 5;
+  }
+  const enemyData = await getEnemyData();
+  let enemyIds = [];
+  // earlyStage -> ランク3の敵を1体
+  if (round >= earlyStageStart && round < midStageStart) {
+    const newEnemies = enemyData
+      .filter(enemy => enemy.rank === 3)
+      .filter(enemy => !globalGameState.easyStageEnemy.some(easyEnemy => easyEnemy.id === enemy.id));
+    const randomIndex = Math.floor(Math.random() * newEnemies.length);
+    const selectedEnemy = newEnemies[randomIndex];
+    // selectedEnemyが存在する場合のみIDを配列に追加
+    if (selectedEnemy) {
+        enemyIds = [selectedEnemy.id];
+    }
+  // midStage -> ランク3～6の敵を (maxEnemyLimit - 1) 体
+  } else if (round >= midStageStart && round < lateStageStart) {
+    const midStageEnemies = enemyData.filter(enemy => enemy.rank >= 3 && enemy.rank <= 6);
+    let selectedEnemies;
+    if (midStageEnemies.length < maxEnemyLimit - 1) {
+      selectedEnemies = midStageEnemies;
+      console.warn("敵の候補が足りないため、存在する全ての候補を選びました。");
+    } else {
+      do {
+        selectedEnemies = [...midStageEnemies]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, maxEnemyLimit - 1);
+      } while (
+        selectedEnemies.length > 0 &&
+        selectedEnemies.every(enemy => enemy.rank === 6)
+      );
+    }
+    // 選ばれた敵オブジェクトの配列からIDのみを抽出して配列を生成
+    enemyIds = selectedEnemies.map(enemy => enemy.id);
+  // lateStage -> ランク5～8の敵を maxEnemyLimit 体
+  } else if (round >= lateStageStart && round !== 15) {
+    const lateStageEnemies = enemyData.filter(enemy => enemy.rank >= 5 && enemy.rank <= 8);
+    let selectedEnemies;
+    if (lateStageEnemies.length < maxEnemyLimit) {
+      selectedEnemies = lateStageEnemies;
+      console.warn("敵の候補が足りないため、存在する全ての候補を選びました。");
+    } else {
+      do {
+        selectedEnemies = [...lateStageEnemies]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, maxEnemyLimit);
+      } while (
+        selectedEnemies.length > 0 &&
+        selectedEnemies.every(enemy => enemy.rank === 8)
+      );
+    }
+    // 選ばれた敵オブジェクトの配列からIDのみを抽出して配列を生成
+    enemyIds = selectedEnemies.map(enemy => enemy.id);
+  // bossStage -> ボスを1体
+  } else {
+    const randomId = Math.random() < 0.5 ? 12 : 13;
+    const selectedBoss = enemyData.find(enemy => enemy.id === randomId);
+    // selectedBossが存在する場合のみIDを配列に追加
+    if (selectedBoss) {
+        enemyIds = [selectedBoss.id];
+    }
+  }
+  // 最終的に選ばれた敵
+  console.log("最終的に選ばれた敵のID配列:", enemyIds);
+  setUpEnemy(enemyIds);
+}
+function setUpEnemy(enemyIds) {
+  document.getElementById('enemy-container').innerHTML = '';
+  for (const enemyId of enemyIds) {
+    const enemy = enemyData.find(e => e.id === enemyId);
+    if (!enemy) {
+      console.error(`ID: ${enemyId} の敵データが見つかりません。`);
+      continue;
+    }
+    const enemyCard = document.createElement('div');
+    enemyCard.className = 'card';
+    if (enemy.isBoss) {
+      enemyCard.classList.add('boss');
+    } else {
+      enemyCard.classList.add('enemy');
+    }
+    enemyCard.dataset.enemyId = enemy.id;
+    enemyCard.innerHTML = `
+      <p class="enemy-attack">${enemy.attack}</p>
+      <p class="enemy-name">${enemy.name}</p>
+      <img src="./assets/images/enemy/${enemy.image}">
+      <p class="enemy-hp">HP: ${enemy.hp}</p>
+    `;
+    document.getElementById('enemy-container').appendChild(enemyCard);
+  }
 }
 
 import { skillsData } from './module/skills.js';
