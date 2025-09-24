@@ -36,7 +36,7 @@ export function judgeHand() {
     return {
       handId: 'straight',
       handName: 'ストレート',
-      text: `すべての敵に出目の合計値(${sum})のダメージを与え、自分にランダムなバフを付与`,
+      text: `すべての敵に出目の合計値の1.5倍(${Math.floor(sum * 1.5)})のダメージを与え、自分にランダムなバフを付与`,
       skillpoint: 4,
     };
   }
@@ -45,7 +45,7 @@ export function judgeHand() {
     return {
       handId: 'full house',
       handName: 'フルハウス',
-      text: `出目の合計値(${sum})のダメージを与え、与えたダメージの半分の量HPを回復し、このターンの攻撃力 - 2`,
+      text: `出目の合計値の1.5倍(${Math.floor(sum * 1.5)})のダメージを与え、与えたダメージの半分の量HPを回復し、敵のこのターンの攻撃力 - 2`,
       skillpoint: 3,
     };
   }

@@ -4,8 +4,8 @@
     "rank": 3,
     "name": "歪みし凶刃",
     "image": "distorted_blade.avif",
-    "hp": 10,
-    "attack": 1,
+    "hp": 15,
+    "attack": 3,
     "description": "",
     "abilities": ["fiting_spilit"]
   },
@@ -14,8 +14,8 @@
     "rank": 3,
     "name": "無垢なる蒼眸",
     "image": "blue_eye.avif",
-    "hp": 10,
-    "attack": 1,
+    "hp": 25,
+    "attack": 2,
     "description": "",
     "abilities": ["fiting_spilit"]
   },
@@ -24,8 +24,8 @@
     "rank": 3,
     "name": "紫晶喰らい",
     "image": "amethyst_devourer.avif",
-    "hp": 10,
-    "attack": 1,
+    "hp": 20,
+    "attack": 2,
     "description": "",
     "abilities": ["fiting_spilit"]
   },

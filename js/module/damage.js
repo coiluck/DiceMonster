@@ -5,12 +5,28 @@ export async function executeHand(target, hand, dice) {
   switch (hand.handId) {
     case 'four card':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3);
+      for (const enemyId in globalGameState.enemies) {
+        if (globalGameState.enemies[enemyId].hp > 0) {
+          changeEnemyAttack(enemyId, -1);
+        }
+      }
       break;
     case 'straight':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      for (const enemyId in globalGameState.enemies) {
+        if (globalGameState.enemies[enemyId].hp > 0) {
+          damage(enemyId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+        }
+      }
+      const buffs = ["shield", "damageReduction", "attack"];
+      const randomIndex = Math.floor(Math.random() * buffs.length);
+      addPlayerBuff(buffs[randomIndex], 1);
       break;
     case 'full house':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
+      for (const enemy in globalGameState.enemies) {
+        changeEnemyAttack(enemy, -2);
+      }
       break;
     case 'three card':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
@@ -23,11 +39,11 @@ export async function executeHand(target, hand, dice) {
       break;
     case 'all even':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
-      heal(target, Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
+      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'all odd':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
-      heal(target, Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
+      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'one pair':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
@@ -72,12 +88,38 @@ function damage(target, value) {
     targetEnemy.dataset.enemyHp = newHp;
   }
 }
-function addEnemyBuff(target, buffName, value) {
-  if (!globalGameState.enemies[target]) {
+function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
+  if (!globalGameState.enemies[targetId]) {
     return;
   }
-  globalGameState.enemies[target].buffs[buffName] = value;
+  // isThisTurnOnlyフラグに応じて、永続的な攻撃力か一時的な攻撃力を変更
+  if (isThisTurnOnly) {
+    globalGameState.enemies[targetId].attackInThisTurn += value;
+  } else {
+    const currentAttack = globalGameState.enemies[targetId].attack;
+    globalGameState.enemies[targetId].attack = Math.max(0, currentAttack + value);
+  }
+  const targetEnemy = document.querySelector(`.card[data-unique-id="${targetId}"]`);
+  if (!targetEnemy) {
+      console.warn('対象がありません');
+      return;
+  };
+  // 攻撃力の合計値を表示
+  const totalAttack =
+    Math.max(0, globalGameState.enemies[targetId].attack + globalGameState.enemies[targetId].attackInThisTurn);
+  targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
 }
 function addPlayerBuff(buffName, value) {
-  
+  if (globalGameState.player.hasOwnProperty(buffName)) {
+    globalGameState.player[buffName] += value;
+    // DOMも更新
+    document.querySelector('#player-buff-container .buff-shield .buff-number').textContent = globalGameState.player.shield;
+    document.querySelector('#player-buff-container .buff-shield').style.display = globalGameState.player.shield === 0 ? 'none' : 'block';
+    document.querySelector('#player-buff-container .buff-attack .buff-number').textContent = globalGameState.player.attack;
+    document.querySelector('#player-buff-container .buff-attack').style.display = globalGameState.player.attack === 0 ? 'none' : 'block';
+    document.querySelector('#player-buff-container .buff-reduction .buff-number').textContent = globalGameState.player.damageReduction;
+    document.querySelector('#player-buff-container .buff-reduction').style.display = globalGameState.player.damageReduction === 0 ? 'none' : 'block';
+  } else {
+    console.warn(`Invalid buff name: ${buffName}`);
+  }
 }

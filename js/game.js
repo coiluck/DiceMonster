@@ -226,9 +226,7 @@ document.getElementById('dice-attack-button').addEventListener('click', () => {
     const hp = Number(enemy.dataset.enemyHp);
     if (hp > 0) {
       enemy.classList.add('target');
-      enemy.addEventListener('click', () => {
-        playerAttack(enemy);
-      }, { once: true });
+      enemy.addEventListener('click', decideAttackTarget);
     }
   });
 });
@@ -269,6 +267,9 @@ function toggleHold(event) {
 
 import { executeHand } from './module/damage.js';
 
+function decideAttackTarget(event) {
+  playerAttack(event.currentTarget);
+}
 function playerAttack(target) {
   // すべてのtargetとイベントリスナーを解除
   document.querySelectorAll('.card.enemy').forEach(card => {
