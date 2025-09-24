@@ -108,17 +108,28 @@ async function chooseEnemy(round, difficulty) {
     }
   }
   // 最終的に選ばれた敵
-  console.log("最終的に選ばれた敵のID配列:", enemyIds);
+  console.log("敵のID配列:", enemyIds);
   setUpEnemy(enemyIds);
 }
 function setUpEnemy(enemyIds) {
   document.getElementById('enemy-container').innerHTML = '';
+  globalGameState.enemies = {};
+  let enemyUniqueIdCount = 0;
   for (const enemyId of enemyIds) {
     const enemy = enemyData.find(e => e.id === enemyId);
     if (!enemy) {
       console.error(`ID: ${enemyId} の敵データが見つかりません。`);
       continue;
     }
+    // globalGameStateに入れる
+    enemyUniqueIdCount++
+    globalGameState.enemies[enemyUniqueIdCount] = {
+      id: enemy.id,
+      hp: enemy.hp,
+      attack: enemy.attack,
+      attackInThisTurn: 0,
+    };
+    // 要素をDOMに作成
     const enemyCard = document.createElement('div');
     enemyCard.className = 'card';
     if (enemy.isBoss) {
@@ -127,6 +138,8 @@ function setUpEnemy(enemyIds) {
       enemyCard.classList.add('enemy');
     }
     enemyCard.dataset.enemyId = enemy.id;
+    enemyCard.dataset.uniqueId = enemyUniqueIdCount;
+    enemyCard.dataset.enemyHp = enemy.hp;
     enemyCard.innerHTML = `
       <p class="enemy-attack">${enemy.attack}</p>
       <p class="enemy-name">${enemy.name}</p>
@@ -209,18 +222,15 @@ document.getElementById('dice-confirm-button').addEventListener('click', () => {
   setPhase(3);
 });
 document.getElementById('dice-attack-button').addEventListener('click', () => {
-  // 以下のはsetUpNextTurnで行うべき
-  // ここでは攻撃対象の選択を行う
-  globalGameState.player.rerollCount = 2;
-  document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
-  document.querySelectorAll('.dice').forEach(dice => {
-    dice.classList.remove('hold');
-    dice.removeEventListener('click', toggleHold);
-    dice.textContent = '？';
+  document.querySelectorAll('.card.enemy').forEach(enemy => {
+    const hp = Number(enemy.dataset.enemyHp);
+    if (hp > 0) {
+      enemy.classList.add('target');
+      enemy.addEventListener('click', () => {
+        playerAttack(enemy);
+      }, { once: true });
+    }
   });
-  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
-  document.querySelector('#dice-hand-info-effect-value').textContent = '---';
-  setPhase(1);
 });
 setPhase(1); // 初期状態
 
@@ -256,3 +266,34 @@ function rollDice() {
 function toggleHold(event) {
   event.currentTarget.classList.toggle('hold');
 }
+
+import { executeHand } from './module/damage.js';
+
+function playerAttack(target) {
+  // すべてのtargetとイベントリスナーを解除
+  document.querySelectorAll('.card.enemy').forEach(card => {
+    card.classList.remove('target');
+    card.removeEventListener('click', () => {
+      playerAttack(card);
+    });
+  });
+  // ダメージを与える
+  const hand = judgeHand();
+  const diceElements = document.querySelectorAll('.dice');
+  const dices = Array.from(diceElements).map(el => parseInt(el.textContent, 10));
+  executeHand(target, hand, dices);
+  // skillpoint
+  globalGameState.player.skillsPoint += hand.skillpoint;
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint;
+  // 次のターンの設定
+  globalGameState.player.rerollCount = 2;
+  document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.classList.remove('hold');
+    dice.removeEventListener('click', toggleHold);
+    dice.textContent = '？';
+  });
+  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
+  document.querySelector('#dice-hand-info-effect-value').textContent = '---';
+  setPhase(1);
+};

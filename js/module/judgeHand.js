@@ -26,7 +26,7 @@ export function judgeHand() {
     return {
       handId: 'four card',
       handName: 'フォーカード',
-      text: `出目(${diceValue}) × 5 の貫通大ダメージを与える`,
+      text: `出目(${diceValue}) × 3 の大ダメージを与え、すべての敵の攻撃力 - 1`,
       skillpoint: 5,
     };
   }
@@ -36,7 +36,7 @@ export function judgeHand() {
     return {
       handId: 'straight',
       handName: 'ストレート',
-      text: `出目の合計値(${sum})のダメージ * 2`,
+      text: `すべての敵に出目の合計値(${sum})のダメージを与え、自分にランダムなバフを付与`,
       skillpoint: 4,
     };
   }
@@ -45,7 +45,7 @@ export function judgeHand() {
     return {
       handId: 'full house',
       handName: 'フルハウス',
-      text: `出目の合計値(${sum})のダメージを与え、このターンすべての敵の攻撃力 - 1`,
+      text: `出目の合計値(${sum})のダメージを与え、与えたダメージの半分の量HPを回復し、このターンの攻撃力 - 2`,
       skillpoint: 3,
     };
   }

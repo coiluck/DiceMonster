@@ -14,6 +14,20 @@ const initialState = {
     skillsPoint: 0,
     items: [],
   },
+  enemies: {
+    1: {
+      id: 1,
+      hp: 10,
+      attack: 10,
+      attackInThisTurn: 0,
+    },
+    2: {
+      id: 12,
+      hp: 10,
+      attack: 10,
+      attackInThisTurn: 0,
+    }
+  }
 };
 
 export const globalGameState = structuredClone(initialState); // 初期化
