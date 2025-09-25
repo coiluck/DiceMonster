@@ -265,12 +265,12 @@ function toggleHold(event) {
   event.currentTarget.classList.toggle('hold');
 }
 
-import { executeHand } from './module/damage.js';
+import { executeHand, enemyAttack } from './module/damage.js';
 
 function decideAttackTarget(event) {
-  playerAttack(event.currentTarget);
+  processTurn(event.currentTarget);
 }
-function playerAttack(target) {
+async function processTurn(target) {
   // すべてのtargetとイベントリスナーを解除
   document.querySelectorAll('.card.enemy').forEach(card => {
     card.classList.remove('target');
@@ -280,10 +280,12 @@ function playerAttack(target) {
   const hand = judgeHand();
   const diceElements = document.querySelectorAll('.dice');
   const dices = Array.from(diceElements).map(el => parseInt(el.textContent, 10));
-  executeHand(target, hand, dices);
+  await executeHand(target, hand, dices);
   // skillpoint
   globalGameState.player.skillsPoint += hand.skillpoint;
   document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint;
+  // 敵の攻撃
+  await enemyAttack();
   // 次のターンの設定
   globalGameState.player.rerollCount = 2;
   document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
@@ -295,4 +297,18 @@ function playerAttack(target) {
   document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
   document.querySelector('#dice-hand-info-effect-value').textContent = '---';
   setPhase(1);
+  for (const enemyId in globalGameState.enemies) {
+    if (globalGameState.enemies[enemyId].hp > 0) {
+      globalGameState.enemies[enemyId].attackInThisTurn = 0;
+    }
+    const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
+    if (!targetEnemy) {
+      console.warn('対象がありません');
+      return;
+    };
+    // 攻撃力の合計値を表示
+    const totalAttack =
+      Math.max(0, globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
+    targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
+  }
 };

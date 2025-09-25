@@ -1,6 +1,8 @@
+// damage.js
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 import { globalGameState } from "./gameState.js";
 
-// damage.js
 export async function executeHand(target, hand, dice) {
   switch (hand.handId) {
     case 'four card':
@@ -77,9 +79,21 @@ function damage(target, value) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
   //  あとでhpが0の処理を書く
   if (target === 'player') {
-    globalGameState.player.hp -= value;
-    document.getElementById('player-hp').textContent = globalGameState.player.hp
-    document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
+    let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
+    // シールドでダメージを吸収
+    const damageToShield = Math.min(actualDamage, globalGameState.player.shield);
+    globalGameState.player.shield -= damageToShield;
+    actualDamage -= damageToShield;
+    // 残りのダメージをHPに適用
+    if (actualDamage > 0) {
+      globalGameState.player.hp -= actualDamage;
+    }
+    // DOM更新
+    document.querySelector('#player-buff-container .buff-shield .buff-number').textContent = globalGameState.player.shield;
+    document.querySelector('#player-buff-container .buff-shield').style.display = globalGameState.player.shield === 0 ? 'none' : 'block';
+    document.getElementById('player-hp').textContent = globalGameState.player.hp;
+    document.querySelector('#player-bar').style.width = `${(globalGameState.player.hp / globalGameState.player.maxHp) * 100}%`;
+    // ゲームオーバー処理
     if (globalGameState.player.hp <= 0) {
       gameOver();
       return;
@@ -88,6 +102,7 @@ function damage(target, value) {
     if (!globalGameState.enemies[target] || globalGameState.enemies[target].hp == 0) {
       return;
     }
+    value += globalGameState.player.attack;
     const newHp = globalGameState.enemies[target].hp -= value;
     const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
     if (!targetEnemy) console.warn('対象がありません');
@@ -99,7 +114,7 @@ function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
   if (!globalGameState.enemies[targetId]) {
     return;
   }
-  // isThisTurnOnlyフラグに応じて、永続的な攻撃力か一時的な攻撃力を変更
+  // 永続的な攻撃力か一時的な攻撃力か判別
   if (isThisTurnOnly) {
     globalGameState.enemies[targetId].attackInThisTurn += value;
   } else {
@@ -108,8 +123,8 @@ function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
   }
   const targetEnemy = document.querySelector(`.card[data-unique-id="${targetId}"]`);
   if (!targetEnemy) {
-      console.warn('対象がありません');
-      return;
+    console.warn('対象がありません');
+    return;
   };
   // 攻撃力の合計値を表示
   const totalAttack =
@@ -128,5 +143,16 @@ function addPlayerBuff(buffName, value) {
     document.querySelector('#player-buff-container .buff-reduction').style.display = globalGameState.player.damageReduction === 0 ? 'none' : 'block';
   } else {
     console.warn(`Invalid buff name: ${buffName}`);
+  }
+}
+
+
+export async function enemyAttack() {
+  await wait(500);
+  for (const enemyId in globalGameState.enemies) {
+    if (globalGameState.enemies[enemyId].hp > 0) {
+      damage('player', globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
+    }
+    await wait(500);
   }
 }
