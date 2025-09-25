@@ -70,13 +70,20 @@ function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplaye
     targetEnemy.dataset.enemyHp = newHp;
   }
 }
+
+import { gameOver } from './result.js';
+
 function damage(target, value) {
-  console.log('damage', target, value);
+  console.log('攻撃対象: ', target, '攻撃力: ', value);
   //  あとでhpが0の処理を書く
   if (target === 'player') {
     globalGameState.player.hp -= value;
     document.getElementById('player-hp').textContent = globalGameState.player.hp
     document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
+    if (globalGameState.player.hp <= 0) {
+      gameOver();
+      return;
+    }
   } else {
     if (!globalGameState.enemies[target] || globalGameState.enemies[target].hp == 0) {
       return;

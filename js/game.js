@@ -255,7 +255,7 @@ function rollDice() {
       dice.addEventListener('click', toggleHold);
     });
     const hand = judgeHand();
-    console.log(hand);
+    console.log(`役: ${hand.handName}`);
     document.querySelector('#dice-hand-info-title').textContent = `現在の役: ${hand.handName}`;
     document.querySelector('#dice-hand-info-effect-value').textContent = hand.text;
   }, 1000);
@@ -274,9 +274,7 @@ function playerAttack(target) {
   // すべてのtargetとイベントリスナーを解除
   document.querySelectorAll('.card.enemy').forEach(card => {
     card.classList.remove('target');
-    card.removeEventListener('click', () => {
-      playerAttack(card);
-    });
+    card.removeEventListener('click', decideAttackTarget);
   });
   // ダメージを与える
   const hand = judgeHand();
