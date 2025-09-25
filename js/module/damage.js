@@ -73,11 +73,10 @@ function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplaye
   }
 }
 
-import { gameOver } from './result.js';
+import { gameOver, roundEnd } from './result.js';
 
 function damage(target, value) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
-  //  あとでhpが0の処理を書く
   if (target === 'player') {
     let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
     // シールドでダメージを吸収
@@ -104,10 +103,31 @@ function damage(target, value) {
     }
     value += globalGameState.player.attack;
     const newHp = globalGameState.enemies[target].hp -= value;
-    const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
-    if (!targetEnemy) console.warn('対象がありません');
-    targetEnemy.querySelector('.enemy-hp').textContent = `HP: ${newHp}`;
-    targetEnemy.dataset.enemyHp = newHp;
+    if (newHp > 0) {
+      const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
+      if (!targetEnemy) console.warn('対象がありません');
+      targetEnemy.querySelector('.enemy-hp').textContent = `HP: ${newHp}`;
+      targetEnemy.dataset.enemyHp = newHp;
+    } else {
+      const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
+      if (!targetEnemy) console.warn('対象がありません');
+      targetEnemy.querySelector('.enemy-hp').textContent = `HP: 0`;
+      targetEnemy.dataset.enemyHp = 0;
+      // フェードアウト
+      targetEnemy.querySelector('.enemy-name').classList.add('fade-out');
+      targetEnemy.querySelector('.enemy-attack').classList.add('fade-out');
+      targetEnemy.querySelector('.enemy-hp').classList.add('fade-out');
+      targetEnemy.querySelector('img').classList.add('fade-out');
+      setTimeout(() => {
+        targetEnemy.innerHTML = '';
+        targetEnemy.innerHTML += '<img src="./assets/images/defeatedCard.avif" class="defeated-card-image">';
+        targetEnemy.querySelector('.defeated-card-image').classList.add('fade-in');
+        // すべての敵のhPが0以下ならラウンド終了
+        if (Object.values(globalGameState.enemies).every(enemy => enemy.hp <= 0)) {
+          roundEnd();
+        }
+      }, 500);
+    }
   }
 }
 function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {

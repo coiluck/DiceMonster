@@ -300,15 +300,15 @@ async function processTurn(target) {
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0) {
       globalGameState.enemies[enemyId].attackInThisTurn = 0;
+      const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
+      if (!targetEnemy) {
+        console.warn('対象がありません');
+        return;
+      };
+      // 攻撃力の合計値を表示
+      const totalAttack =
+        Math.max(0, globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
+      targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
     }
-    const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
-    if (!targetEnemy) {
-      console.warn('対象がありません');
-      return;
-    };
-    // 攻撃力の合計値を表示
-    const totalAttack =
-      Math.max(0, globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
-    targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
   }
 };
