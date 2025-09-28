@@ -222,6 +222,7 @@ document.getElementById('dice-confirm-button').addEventListener('click', () => {
   setPhase(3);
 });
 document.getElementById('dice-attack-button').addEventListener('click', () => {
+  document.getElementById('dice-attack-button').disabled = true;
   document.querySelectorAll('.card.enemy').forEach(enemy => {
     const hp = Number(enemy.dataset.enemyHp);
     if (hp > 0) {
@@ -289,6 +290,8 @@ async function processTurn(target) {
   // 次のターンの設定
   globalGameState.player.rerollCount = 2;
   document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
+  document.getElementById('dice-attack-button').disabled = false;
+  setPhase(1);
   document.querySelectorAll('.dice').forEach(dice => {
     dice.classList.remove('hold');
     dice.removeEventListener('click', toggleHold);
@@ -296,7 +299,6 @@ async function processTurn(target) {
   });
   document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
   document.querySelector('#dice-hand-info-effect-value').textContent = '---';
-  setPhase(1);
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0) {
       globalGameState.enemies[enemyId].attackInThisTurn = 0;
