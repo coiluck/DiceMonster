@@ -10,7 +10,7 @@ const initialState = {
     damageReduction: 0,
     attack: 0,
     rerollCount: 2,
-    skills: ['turn', 'round'],
+    skills: ['tsuigeki', 'kinen'],
     skillsPoint: 0,
     items: [],
   },

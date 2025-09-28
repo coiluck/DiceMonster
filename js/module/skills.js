@@ -1,11 +1,70 @@
 // skills.js
 export const skillsData = {
-  turn: {
-    name: '反転',
-    description: '選んだサイコロ1つの出目を反転させる。（1 ⇔ 6, 2 ⇔ 5, 3 ⇔ 4）',
+  tsuigeki: {
+    name: '追撃',
+    enName: 'Aftershock',
+    rank: 1,
+    description: '敵1体に3ダメージ',
+    enDescription: 'Deal 3 damage to a single enemy.',
+    cost: 3,
   },
-  round: {
+  kinen: {
+    name: '祈念',
+    enName: 'Solace',
+    rank: 2,
+    description: '自分のHPを3回復',
+    enDescription: 'Restore 3 HP to yourself.',
+  },
+  hanten: {
+    name: '反転',
+    enName: 'Invert',
+    rank: 3,
+    description: '選んだサイコロ1つの出目を反転させる。（1 ⇔ 6, 2 ⇔ 5, 3 ⇔ 4）',
+    enDescription: 'Invert the value of a chosen die. (1 ⇔ 6, 2 ⇔ 5, 3 ⇔ 4)',
+  },  
+  fujaku: {
+    name: '封弱',
+    enName: 'Blight',
+    rank: 1,
+    description: 'このターン、すべての敵の攻撃力 - 1',
+    enDescription: 'Reduce the attack power of all enemies by 1 for this turn.',
+  },
+  rinten: {
+    name: '輪転',
+    rank: 2,
+    enName: 'Flux',
+    description: 'サイコロ1つの出目を+1か-1する（ループ式）',
+    enDescription: 'Increase or decrease the value of a single die by 1 (values loop).',
+  },
+  gototsu: {
+    name: '護突',
+    rank: 1,
+    enName: 'Aegis',
+    description: 'シールドを4得る',
+    enDescription: 'Gain 4 Shield.',
+  },
+  shinka: {
     name: '進化',
+    rank: 3,
+    enName: 'Ascension',
+    isLimmitedTimes: true,
     description: 'このラウンド中、強化状態になり最大HPが上昇 & 与えるダメージ + 2',
+    enDescription: 'For the remainder of the round, enter an enhanced state, increasing max HP and adding 2 to all damage dealt.',
+  },
+  kyofun: {
+    name: '狂奮',
+    rank: 2,
+    enName: 'Bloodlust',
+    isLimmitedTimes: true,
+    description: '自分のHPを半分消費し、このラウンド中、与えるダメージ + 2 & ダメージ軽減 1',
+    enDescription: 'Consume half of your current HP. For the remainder of the round, increase damage dealt by 2 and gain 1 damage reduction.',
+  },
+  sengun: {
+    name: '殲群',
+    enName: 'Decimate',
+    rank: 3,
+    isLimmitedTimes: true,
+    description: 'このターン、すべての敵に攻撃をあてる',
+    enDescription: 'Strike all enemies this turn.',
   },
 };

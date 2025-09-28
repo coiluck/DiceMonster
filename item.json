@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "アイテム1",
+    "image": "item1.png",
+    "description": "アイテム1の説明",
+    "type": "アイテム",
+    "rank": 1,
+    "effect": "アイテム1の効果"
+  },
+  {
+    "id": 2,
+    "name": "アイテム2",
+    "image": "item2.png",
+    "description": "アイテム2の説明",
+    "type": "アイテム",
+    "rank": 2,
+    "effect": "アイテム2の効果"
+  }
+]
