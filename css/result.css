@@ -34,6 +34,7 @@
   font-size: 3rem;
   font-weight: bold;
   font-family: 'Bokor', serif;
+  color: #e8d9b6;
   letter-spacing: 0.3rem;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   margin-bottom: 1rem;
@@ -118,12 +119,24 @@
 .result-choice-container-item {
   flex: 1;
   max-width: 30%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.3);
   padding: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
+}
+.result-choice-container-type {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.6rem;
+  font-family: serif;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #999;
+  padding: 2px 5px;
+  border-radius: calc(0.6rem + 10px);
 }
 .result-choice-container-item-title {
   font-size: 0.9rem;
@@ -146,17 +159,29 @@
 }
 .result-choice-container-item-button {
   position: relative;
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   padding: 5px;
-  font-family: serif;
+  color: #ece0c4;
   font-size: 0.9rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid #999;
+  font-family: serif;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 30, 30, 0.7); 
+  border: 1px solid #706040; 
+  border-radius: 5px;
+  box-shadow: 
+    inset 0 0 8px rgba(0, 0, 0, 0.6), 
+    1px 1px 0px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 .result-choice-container-item-button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border: 1px solid #fff;
+  background-color: rgba(50, 50, 50, 0.8);
+  color: #f0e6d2;
+  border-color: #a09070;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(232, 217, 182, 0.3); 
 }
 .result-choice-container-item-button::before {
   content: '';
@@ -165,7 +190,8 @@
   left: 3px;
   right: 3px;
   bottom: 3px;
-  border: 1px solid #999;
+  border: 1px solid #a09070;
+  border-radius: 2px;
   opacity: 0;
   transition: opacity 0.3s ease; /* ← ここが重要 */
 }

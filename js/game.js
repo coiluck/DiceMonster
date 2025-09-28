@@ -9,11 +9,14 @@ document.querySelector('.top-new-button').addEventListener('click', () => {
 import { globalGameState } from './module/gameState.js';
 import { addTooltipEvents } from './module/addToolTip.js';
 
+let isProcessing
+
 function initGame() {
   chooseEnemy(globalGameState.round, globalGameState.difficulty);
   setUpPlayer();
   setUpItems();
   setUpDice();
+  isProcessing = false;
 }
 
 let enemyData;
@@ -175,6 +178,10 @@ function setUpPlayer() {
     addTooltipEvents(skillBtn, skillsData[skill].description);
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
+      if (isProcessing) {
+        message('warning', '敵のターン中にスキルを使用することはできません', 3000);
+        return;
+      }
     });
     document.querySelector('.skills').appendChild(skillBtn);
   }
@@ -190,6 +197,7 @@ function setUpDice() {
     dice.textContent = '？';
     document.querySelector('.dice-area').appendChild(dice);
   }
+  document.getElementById('dice-attack-button').disabled = false;
 }
 
 import { message } from './module/message.js';
@@ -222,6 +230,7 @@ document.getElementById('dice-confirm-button').addEventListener('click', () => {
   setPhase(3);
 });
 document.getElementById('dice-attack-button').addEventListener('click', () => {
+  isProcessing = true;
   document.getElementById('dice-attack-button').disabled = true;
   document.querySelectorAll('.card.enemy').forEach(enemy => {
     const hp = Number(enemy.dataset.enemyHp);
@@ -313,4 +322,5 @@ async function processTurn(target) {
       targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
     }
   }
+  isProcessing = false;
 };

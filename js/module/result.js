@@ -72,6 +72,12 @@ async function setUpResult() {
       const itemDiv = document.createElement('div');
       itemDiv.className = 'result-choice-container-item';
 
+      const typeP = document.createElement('p');
+      typeP.className = 'result-choice-container-type';
+      // rewardTypeに基づいてテキストを設定
+      typeP.textContent = rewardType === 'skill' ? 'スキル' : 'アイテム';
+      itemDiv.appendChild(typeP);
+
       const titleP = document.createElement('p');
       titleP.className = 'result-choice-container-item-title';
       titleP.textContent = name;
