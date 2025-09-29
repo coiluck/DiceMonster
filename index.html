@@ -122,12 +122,13 @@
           <div class="player-container-right">
             <div class="card player">
               <h3>プレイヤー</h3>
+              <div class="game-image-container"><img src="./assets/images/player.png" alt="playerImage"></div>
               <div class="player-card-container">
                 <div class="status-bar hp">
                   <span class="label">HP: <span id="player-hp">50</span> / <span id="player-max-hp">50</span></span>
                   <div id="player-bar" style="width: 80%;"></div>
                 </div>
-                 <div class="buff-container" id="player-buff-container">
+                <div class="buff-container" id="player-buff-container">
                   <div class="buff buff-shield"><div class="buff-number">4</div></div>
                   <div class="buff buff-attack"><div class="buff-number">4</div></div>
                   <div class="buff buff-reduction"><div class="buff-number">4</div></div>
@@ -184,6 +185,11 @@
             </div>
           </div>
         </div>
+      </div>
+      <div id="result-player-card-background"></div>
+      <div id="result-player-card-hidden">
+        <p class="result-player-card-title">入れ替えるスキルを選択してください</p>
+        <div id="result-player-card-container"></div>
       </div>
     </div>
   </div>

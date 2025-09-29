@@ -27,6 +27,9 @@ async function getItemData() {
   return itemData;
 }
 
+import { initGame } from '../game.js';
+import { addTooltipEvents } from './addToolTip.js';
+
 async function setUpResult() {
   document.querySelector('#result-header .result-header-round').innerHTML = `Round ${globalGameState.round} >> ${globalGameState.round + 1}`;
   // 獲得アイテムを抽選
@@ -101,11 +104,97 @@ async function setUpResult() {
           btn.disabled = true;
         });
 
-        // 報酬獲得の処理
-        const type = clickedButton.dataset.rewardType;
-        const id = clickedButton.dataset.rewardId;
-        console.log(`報酬を獲得。タイプ: ${type}, ID: ${id}`);
-        // あとで書く
+        if (button.dataset.rewardType === 'skill') {
+          // スキル入れ替え用のUIを表示
+          const skillSwapBackground = document.getElementById('result-player-card-background');
+          const skillSwapContainer = document.getElementById('result-player-card-hidden');
+          skillSwapBackground.classList.add('active');
+          skillSwapContainer.classList.add('active');
+          skillSwapContainer.innerHTML = '';
+
+          const newSkillId = clickedButton.dataset.rewardId;
+          const newSkill = skillsData[newSkillId];
+
+          // 獲得する新しいスキル情報を表示
+          const newSkillInfo = document.createElement('div');
+          newSkillInfo.className = 'result-player-card-new-skill-info';
+          newSkillInfo.innerHTML = `
+            <p class="result-new-skill-title">獲得するスキル</p>
+            <div class="result-new-skill-data">
+              <p class="result-new-skill-name">${newSkill.name}</p>
+              <p class="result-new-skill-description">${newSkill.description}</p>
+            </div>
+          `;
+          skillSwapContainer.appendChild(newSkillInfo);
+
+          // タイトルを設定
+          const title = document.createElement('p');
+          title.className = 'result-player-card-title';
+          title.textContent = '入れ替えるスキルを選択してください';
+          skillSwapContainer.appendChild(title);
+
+          // 現在の所持スキルを入れ替え候補としてボタンで表示
+          const currentSkillsWrapper = document.createElement('div');
+          currentSkillsWrapper.className = 'result-player-card-current-skills-container';
+
+          globalGameState.player.skills.forEach((currentSkillId, index) => {
+            const currentSkill = skillsData[currentSkillId];
+            const skillButton = document.createElement('button');
+            skillButton.className = 'result-player-card-current-skill-button';
+            skillButton.innerHTML = `
+              <p class="result-choice-container-item-title">${currentSkill.name}</p>
+              <p class="result-player-card-current-skill-button-description">所持中のスキル</p>
+            `;
+            addTooltipEvents(skillButton, currentSkill.description);
+
+            // 現在のスキルボタンがクリックされた時の処理
+            skillButton.addEventListener('click', () => {
+              // スキルを入れ替え
+              globalGameState.player.skills[index] = newSkillId;
+              console.log(`所持スキル: ${globalGameState.player.skills}`);
+
+              // スキル選択画面を非表示に
+              skillSwapBackground.classList.remove('active');
+              skillSwapContainer.classList.remove('active');
+
+              // 選択肢のコンテナをアニメーション付きで削除
+              const containerHeight = container.offsetHeight + 30; // マージン分を考慮
+              container.style.marginTop = `-${containerHeight}px`;
+              container.classList.add('slide-up');
+
+              setTimeout(() => {
+                container.remove();
+                // すべての報酬選択が終わったかチェック
+                if (document.querySelectorAll('.result-choice-container').length === 0) {
+                  globalGameState.round++;
+                  changeModal('game', null, 500, false);
+                  initGame();
+                }
+              }, 500); // アニメーション時間
+            });
+            currentSkillsWrapper.appendChild(skillButton);
+          });
+          skillSwapContainer.appendChild(currentSkillsWrapper);
+
+        } else if (button.dataset.rewardType === 'item') {
+          // アイテムの獲得処理
+          const id = Number(clickedButton.dataset.rewardId);
+          globalGameState.player.items.push(id);
+          console.log(`所持アイテム: ${globalGameState.player.items}`);
+          // コンテナの消去アニメーション
+          const containerHeight = container.offsetHeight + 30;
+          container.style.marginTop = `-${containerHeight}px`;
+          container.classList.add('slide-up');
+          setTimeout(() => {
+            container.remove();
+            // すべての報酬を獲得し終えた場合
+            if (document.querySelectorAll('.result-choice-container').length === 0) {
+              globalGameState.round++;
+              changeModal('game', null, 500, false);
+              initGame();
+            }
+          }, 500);
+        }
       });
       itemDiv.appendChild(titleP);
       itemDiv.appendChild(descriptionP);
@@ -174,7 +263,7 @@ async function getReward() {
             break;
         }
         const itemDataList = await getItemData();
-        const availableItems = itemDataList.filter(item => 
+        const availableItems = itemDataList.filter(item =>
           eligibleRanks.includes(item.rank) && !rewardPair.includes(item.id)
         );
         if (availableItems.length === 0) {

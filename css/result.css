@@ -104,6 +104,12 @@
   border: 1px solid #555;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 10px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  opacity: 1;
+}
+.result-choice-container.slide-up {
+  opacity: 0;
 }
 .result-choice-container-title {
   font-size: .9rem;
@@ -197,4 +203,131 @@
 }
 .result-choice-container-item-button:hover::before {
   opacity: 1;
+}
+
+#result-player-card-background {
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+#result-player-card-background.active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  opacity: 1;
+  z-index: 15;
+}
+
+#result-player-card-hidden {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+#result-player-card-hidden.active {
+  animation: playerCardAnimation 1.5s ease-in-out;
+  animation-fill-mode: both;
+}
+@keyframes playerCardAnimation {
+  0% {
+    top: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+.result-player-card-title {
+  font-family: serif;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 20px;
+}
+.result-player-card-new-skill-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  min-width: 300px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.result-new-skill-title {
+  width: fit-content;
+  height: fit-content;
+  font-size: 0.6rem;
+  font-family: serif;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #999;
+  padding: 2px 5px;
+  border-radius: calc(0.6rem + 10px);
+}
+.result-new-skill-name {
+  font-family: serif;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.result-new-skill-description {
+  font-size: 0.7rem;
+  font-family: serif;
+}
+.result-player-card-current-skills-container {
+  width: 40%;
+  min-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.result-player-card-current-skill-button {
+  position: relative;
+  width: 90%;
+  padding: 10px 20px;
+  margin: 0 auto;
+  color: #e8d9b6;
+  font-family: serif;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 30, 30, 0.5); 
+  border: 1px solid #706040; 
+  border-radius: 5px;
+  box-shadow: 
+    inset 0 0 8px rgba(0, 0, 0, 0.6), 
+    1px 1px 0px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+.result-player-card-current-skill-button:hover {
+  border-color: #a09070;
+  background-color: rgba(30, 30, 30, 0.3); 
+  box-shadow: 0 3px 6px rgba(255, 255, 255, 0.2);
+}
+.result-player-card-current-skill-button-description {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);  width: fit-content;
+  height: fit-content;
+  font-size: 0.6rem;
+  font-family: serif;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #999;
+  padding: 2px 5px;
+  border-radius: calc(0.6rem + 10px);
 }

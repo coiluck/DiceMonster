@@ -11,7 +11,7 @@ import { addTooltipEvents } from './module/addToolTip.js';
 
 let isProcessing
 
-function initGame() {
+export function initGame() {
   chooseEnemy(globalGameState.round, globalGameState.difficulty);
   setUpPlayer();
   setUpItems();

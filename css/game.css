@@ -201,11 +201,9 @@
   text-align: center;
 }
 .card.player {
-  background: 
-    linear-gradient(135deg, rgba(99, 99, 99, 0.6) 0%, rgba(58, 58, 58, 0.6) 100%),
-    linear-gradient(90deg, rgba(99, 99, 99, 0.8) 0%, rgba(58, 58, 58, 0.8) 100%);
-  border: 1px solid #555;
-  border-radius: 10px;
+  background-color: rgb(0, 0, 0, 0.6);
+  background-image: url('../assets/images/b_paper.jpg');
+  background-blend-mode: multiply;
   padding: 15px;
 }
 .card.player > * {
@@ -215,19 +213,55 @@
 .card.player::before {
   content: '';
   position: absolute;
-  top: 10%;
-  left: 5%;
-  width: 90%;
-  height: 70%;
-  background-image: url('../assets/images/player.png');
-  background-size: cover;
-  background-position: center top;
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, #B87F33, #674F30);
+  padding: 4px;
+  -webkit-mask:
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  z-index: 3;
+  pointer-events: none;
 }
-
+.game-image-container {
+  width: 70%;
+  margin: 0 auto;
+  height: 50%;
+  background-color: #fff;
+  border: 2px solid #FFD700;
+  border-radius: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.game-image-container img:not(.ascension) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  animation: floating 4s infinite ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
+  -o-user-drag: none;
+}
+.game-image-container img.ascension {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@keyframes floating {
+  0%   { transform: translate3d(0, 3px, 0) scale(1.1); }
+  50%  { transform: translate3d(0, -3px, 0) scale(1.1); }
+  100% { transform: translate3d(0, 3px, 0) scale(1.1); }
+}
 .status-bar {
   position: relative;
   height: 20px;
@@ -371,10 +405,11 @@
   text-align: center;
 }
 
-.card {
+.card.enemy {
   position: relative;
   height: 100%;
   aspect-ratio: 5 / 7;
+  background-color: rgb(0, 0, 0, 0.3);
   border: 1px solid #555;
   display: flex;
   flex-direction: column;
@@ -553,6 +588,25 @@
   }
   .card.player {
     max-height: 250px;
+    padding: 8px;
+  }
+  .card.player h3 {
+    font-size: 1.1rem;
+  }
+  .game-image-container {
+    height: 30%;
+  }
+  .card.player .player-card-container {
+    gap: 5px;
+  }
+  .status-bar.hp {
+    height: 15px;
+  }
+  .status-bar .label {
+    font-size: 0.8rem;
+  }
+  #player-hp, #player-max-hp {
+    font-size: 0.8rem;
   }
   .card .enemy-name {
     font-size: 0.8rem;
