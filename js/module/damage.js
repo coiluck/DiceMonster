@@ -27,7 +27,7 @@ export async function executeHand(target, hand, dice) {
       damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       for (const enemy in globalGameState.enemies) {
-        changeEnemyAttack(enemy, -2);
+        changeEnemyAttack(enemy, -2, true);
       }
       break;
     case 'three card':
