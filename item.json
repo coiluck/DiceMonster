@@ -1,20 +1,146 @@
 [
   {
     "id": 1,
-    "name": "アイテム1",
-    "image": "item1.png",
-    "description": "アイテム1の説明",
-    "type": "アイテム",
-    "rank": 1,
-    "effect": "アイテム1の効果"
+    "name": "錆びた剣",
+    "enName": "Decayed Blade",
+    "image": "./assets/images/items/BrokenSword.ico",
+    "description": "攻撃 +1",
+    "enDescription": "Default enDescription",
+    "rank": 1
   },
   {
     "id": 2,
-    "name": "アイテム2",
-    "image": "item2.png",
-    "description": "アイテム2の説明",
-    "type": "アイテム",
-    "rank": 2,
-    "effect": "アイテム2の効果"
+    "name": "鋭い剣",
+    "enName": "Keen Blade",
+    "image": "./assets/images/items/sword.ico",
+    "description": "攻撃 +2",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 3,
+    "name": "王家の叡智",
+    "enName": "Regal Wisdom",
+    "image": "./assets/images/items/Ebook.ico",
+    "description": "ターン開始時にスキルポイント +1",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 4,
+    "name": "永久の獄炎",
+    "enName": "Abyssal Flame",
+    "image": "./assets/images/items/ele_fire.ico",
+    "description": "ターン開始時に敵のHP -1",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 5,
+    "name": "王家の断罪",
+    "enName": "Regal Judgement",
+    "image": "./assets/images/items/ele_thunder.ico",
+    "description": "ラウンド開始時に敵のHP -5",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 6,
+    "name": "白銀の宝珠",
+    "enName": "Argent Pearl",
+    "image": "./assets/images/items/Orb_WhiteMagic.ico",
+    "description": "ラウンド開始時にスキルポイント +2",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 7,
+    "name": "癒しの音色",
+    "enName": "Seraphic Hymn",
+    "image": "./assets/images/items/Music.ico",
+    "description": "ラウンド開始時にHP +3",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 8,
+    "name": "王家の勲章",
+    "enName": "Regal Blessing",
+    "image": "./assets/images/items/AngelWing.ico",
+    "description": "ラウンド開始時にシールドを3得た状態で始まる。",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 9,
+    "name": "王家の紋章",
+    "enName": "Regal Sigil",
+    "image": "./assets/images/items/Castle.ico",
+    "description": "「フルハウス」で減少させる敵の攻撃力がさらに -1",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 10,
+    "name": "勝利の旗印",
+    "enName": "Victor's Standard",
+    "image": "./assets/images/items/Hero.ico",
+    "description": "「ストレート」で得るバフの数 +1",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 11,
+    "name": "鉄壁の盾",
+    "enName": "Bastion Shield",
+    "image": "./assets/images/items/Shield (Security).ico",
+    "description": "「スリーカード」で得られるシールドの数が2倍になる。",
+    "enDescription": "Default enDescription",
+    "rank": 1
+  },
+  {
+    "id": 12,
+    "name": "守護の鎧",
+    "enName": "Guardian's Plate",
+    "image": "./assets/images/items/Armor.ico",
+    "description": "受けるすべてのダメージを1軽減する。",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 13,
+    "name": "迅速の飛靴",
+    "enName": "Boots of Alacrity",
+    "image": "./assets/images/items/Pegasus Boot.ico",
+    "description": "スキル使用時に必要なスキルポイント -1",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 14,
+    "name": "渇血の護符",
+    "enName": "Bloodthirsty Talisman",
+    "image": "./assets/images/items/SwordAxe.ico",
+    "description": "与えるダメージ +3、ただしシールドを得られなくなる",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 15,
+    "name": "血呪の秘薬",
+    "enName": "Crimson Pact",
+    "image": "./assets/images/items/Potion_2.ico",
+    "description": "与えるダメージ +3、ただし毎ターン開始時にHP -2",
+    "enDescription": "Default enDescription",
+    "rank": 2
+  },
+  {
+    "id": 16,
+    "name": "賢者の杖",
+    "enName": "Staff of Erudition",
+    "image": "./assets/images/items/Fire Staff.ico",
+    "description": "最大スキルポイント +3",
+    "enDescription": "Default enDescription",
+    "rank": 1
   }
 ]
