@@ -118,11 +118,12 @@ async function setUpResult() {
           // 獲得する新しいスキル情報を表示
           const newSkillInfo = document.createElement('div');
           newSkillInfo.className = 'result-player-card-new-skill-info';
+          let limitedMessage = newSkill.isLimmitedTimes ? '使用制限: 1ラウンド1回 ' : '';
           newSkillInfo.innerHTML = `
             <p class="result-new-skill-title">獲得するスキル</p>
             <div class="result-new-skill-data">
               <p class="result-new-skill-name">${newSkill.name}</p>
-              <p class="result-new-skill-description">${newSkill.description}</p>
+              <p class="result-new-skill-description">${newSkill.description} ${limitedMessage}消費ポイント: ${newSkill.cost}</p>
             </div>
           `;
           skillSwapContainer.appendChild(newSkillInfo);

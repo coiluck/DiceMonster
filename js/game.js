@@ -6,10 +6,10 @@ document.querySelector('.top-new-button').addEventListener('click', () => {
   initGame();
 });
 
-import { globalGameState } from './module/gameState.js';
+import { globalGameState, setGlobalGameState } from './module/gameState.js';
 import { addTooltipEvents } from './module/addToolTip.js';
 
-let isProcessing
+let isProcessing;
 
 export function initGame() {
   chooseEnemy(globalGameState.round, globalGameState.difficulty);
@@ -153,7 +153,7 @@ function setUpEnemy(enemyIds) {
   }
 }
 
-import { skillsData } from './module/skills.js';
+import { skillsData, useSkill } from './module/skills.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -162,6 +162,10 @@ function setUpPlayer() {
   document.querySelector('#player-max-hp').textContent = globalGameState.player.maxHp;
   document.querySelector('#skill-point').textContent = globalGameState.player.skillsPoint;
   // buffの設定
+  globalGameState.player.shield = 0;
+  globalGameState.player.damageReduction = 0;
+  globalGameState.player.attack = 0;
+  // アイテムに応じてbuffを追加してから始める
   document.querySelector('#player-buff-container .buff-shield .buff-number').textContent = globalGameState.player.shield;
   document.querySelector('#player-buff-container .buff-shield').style.display = globalGameState.player.shield === 0 ? 'none' : 'block';
   document.querySelector('#player-buff-container .buff-attack .buff-number').textContent = globalGameState.player.attack;
@@ -169,19 +173,34 @@ function setUpPlayer() {
   document.querySelector('#player-buff-container .buff-reduction .buff-number').textContent = globalGameState.player.damageReduction;
   document.querySelector('#player-buff-container .buff-reduction').style.display = globalGameState.player.damageReduction === 0 ? 'none' : 'block';
   // skillの設定
+  globalGameState.player.skillsPoint = 0;
+  // アイテムに応じてskillsPointを増加させてから始める
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint
   document.querySelector('.skills').innerHTML = '';
   for (const skill of globalGameState.player.skills) {
     const skillBtn = document.createElement('button');
     skillBtn.className = 'skill-btn';
     skillBtn.textContent = skillsData[skill].name;
     skillBtn.dataset.skill = skill;
-    addTooltipEvents(skillBtn, skillsData[skill].description);
+    addTooltipEvents(skillBtn, `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost}`);
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
       if (isProcessing) {
         message('warning', '敵のターン中にスキルを使用することはできません', 3000);
         return;
       }
+      if (skillBtn.dataset.skill === 'mishoji') {
+        return;
+      }
+      if (skillsData[skillBtn.dataset.skill].cost > globalGameState.player.skillsPoint) {
+        message('warning', 'スキルポイントが不足しています', 2500);
+        return;
+      }
+      if (skillBtn.classList.contains('locked')) {
+        message('warning', '同じラウンドで1度しか使えないスキルです', 2500);
+        return;
+      }
+      useSkill(skillBtn.dataset.skill, skillBtn);
     });
     document.querySelector('.skills').appendChild(skillBtn);
   }

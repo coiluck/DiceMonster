@@ -56,7 +56,7 @@ export async function executeHand(target, hand, dice) {
   }
 }
 
-function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplayer
+export function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplayer
   if (target === 'player') {
     globalGameState.player.hp = Math.min(globalGameState.player.hp + value, globalGameState.player.maxHp);
     document.getElementById('player-hp').textContent = globalGameState.player.hp
@@ -75,7 +75,7 @@ function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplaye
 
 import { gameOver, roundEnd } from './result.js';
 
-function damage(target, value) {
+export function damage(target, value) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
   if (target === 'player') {
     let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
@@ -130,7 +130,7 @@ function damage(target, value) {
     }
   }
 }
-function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
+export function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
   if (!globalGameState.enemies[targetId]) {
     return;
   }
@@ -151,7 +151,7 @@ function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
     Math.max(0, globalGameState.enemies[targetId].attack + globalGameState.enemies[targetId].attackInThisTurn);
   targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
 }
-function addPlayerBuff(buffName, value) {
+export function addPlayerBuff(buffName, value) {
   if (globalGameState.player.hasOwnProperty(buffName)) {
     globalGameState.player[buffName] += value;
     // DOMも更新
