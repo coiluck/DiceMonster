@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./css/game.css">
   <link rel="stylesheet" href="./css/result.css">
   <link rel="stylesheet" href="./css/pause.css">
+  <link rel="stylesheet" href="./css/settings.css">
   <link rel="stylesheet" href="./css/buff.css">
   <link rel="stylesheet" href="./css/tooltip.css">
   <link rel="stylesheet" href="./css/message.css">
@@ -57,7 +58,37 @@
     </div>
   </div>
 
-  <div id="modal-settings" class="modal"></div>
+  <div id="modal-settings" class="modal">
+    <div class="settings-container">
+      <div class="settings-header">
+        <h1>SETTINGS</h1>
+      </div>
+      <div class="setting-item">
+        <label class="setting-label">Language / 言語</label>
+          <div class="language-toggle">
+            <button class="lang-btn active" id="btn-ja">日本語</button>
+            <button class="lang-btn" id="btn-en">English</button>
+          </div>
+        </div>
+      <div class="setting-divider"></div>
+      <div class="setting-item">
+        <label class="setting-label">BGM Volume / BGM音量</label>
+        <div class="volume-control">
+            <input type="range" min="0" max="100" value="40" class="volume-slider" id="bgm-volume">
+          <div class="volume-value"><span id="bgm-value">40</span>%</div>
+        </div>
+      </div>
+      <div class="setting-divider"></div>
+      <div class="setting-item">
+        <label class="setting-label">SE Volume / SE音量</label>
+        <div class="volume-control">
+          <input type="range" min="0" max="100" value="80" class="volume-slider" id="se-volume">
+          <div class="volume-value"><span id="se-value">80</span>%</div>
+        </div>
+      </div>
+      <button id="settings-close-button">Close</button>
+    </div>
+  </div>
 
   <div id="modal-rules" class="modal"></div>
 
@@ -205,7 +236,7 @@
       <button class="pause-button" id="pause-resume-button">Resume</button>
       <button class="pause-button" id="pause-restart-button">Restart</button>
       <button class="pause-button" id="pause-settings-button">Settings</button>
-      <button class="pause-button" id="pause-quit-button">Quit</button>
+      <button class="pause-button" id="pause-quit-button">Save & Quit</button>
     </div>
   </div>
 
@@ -214,6 +245,7 @@
   <script src="./js/top.js" type="module"></script>
   <script src="./js/game.js" type="module"></script>
   <script src="./js/pause.js" type="module"></script>
+  <script src="./js/settings.js" type="module"></script>
   <script src="./js/module/addToolTip.js" type="module"></script>
 </body>
 </html>

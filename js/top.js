@@ -28,3 +28,7 @@ document.querySelector('.top-new-button').addEventListener('click', () => {
 document.querySelector('.top-rules-button').addEventListener('click', () => {
   changeModal('rules', null, 500, true);
 });
+
+document.querySelector('.settings-icon').addEventListener('click', () => {
+  changeModal('settings', null, 500, true);
+});

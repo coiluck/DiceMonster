@@ -25,8 +25,12 @@ export function changeModal(modalName, scrollContainer, duration = 500, isFlex =
 }
 
 // 上から重ねるタイプのmodal表示
-export function showModal(modalName, scrollContainer) {
-  document.getElementById(`modal-${modalName}`).style.display = 'block';
+export function showModal(modalName, scrollContainer, isFlex = false) {
+  if (!isFlex){
+    document.getElementById(`modal-${modalName}`).style.display = 'block';
+  } else {
+    document.getElementById(`modal-${modalName}`).style.display = 'flex';
+  }
   document.getElementById(`modal-${modalName}`).style.zIndex = '100';
   document.getElementById(`modal-${modalName}`).classList.remove('fade-out');
   document.getElementById(`modal-${modalName}`).classList.add('fade-in');
