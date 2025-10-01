@@ -151,12 +151,24 @@ function setUpEnemy(enemyIds) {
     `;
     document.getElementById('enemy-container').appendChild(enemyCard);
   }
+  // アイテムの効果を反映
+  let damageByItem = 0;
+  if (globalGameState.player.items.includes(4)) {
+    damageByItem += globalGameState.player.items.filter(n => n === 4).length;
+  }
+  if (globalGameState.player.items.includes(5)) {
+    damageByItem += globalGameState.player.items.filter(n => n === 5).length * 5;
+  }
+  for (const enemyId in globalGameState.enemies) {
+    if (globalGameState.enemies[enemyId].hp > 0) {
+      damage(enemyId, damageByItem, true);
+    }
+  }
 }
 
 import { skillsData, useSkill } from './module/skills.js';
 import { renderBuff } from './module/buff.js';
 import { damage } from './module/damage.js';
-import { gameOver } from './module/result.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -171,7 +183,6 @@ function setUpPlayer() {
   globalGameState.player.reduceSkillPoint = 0;
   globalGameState.player.maxSkillPoint = 10;
   // globalGameState.player.skillsPoint = 0; <- これ引き継いだほうが面白いのでは
-  renderBuff();
   // アイテムの効果を反映
   for (const id of globalGameState.player.items) {
     if (id === 1) {
@@ -202,7 +213,7 @@ function setUpPlayer() {
     }
   }
   // アイテムが反映された後に設定
-  Math.min(globalGameState.player.skillsPoint + 3, globalGameState.player.maxSkillPoint);
+  globalGameState.player.skillsPoint = Math.min(globalGameState.player.skillsPoint, globalGameState.player.maxSkillPoint);
   if (globalGameState.player.items.includes(14)) {
     globalGameState.player.shield = 0;
   }
@@ -210,6 +221,7 @@ function setUpPlayer() {
     const damage = globalGameState.player.items.filter(n => n === 15).length;
     damage('player', 2 * damage);
   }
+  console.log(globalGameState.player);
   // 表示を更新
   renderBuff();
   document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')
@@ -220,7 +232,7 @@ function setUpPlayer() {
     skillBtn.className = 'skill-btn';
     skillBtn.textContent = skillsData[skill].name;
     skillBtn.dataset.skill = skill;
-    addTooltipEvents(skillBtn, `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost}`);
+    addTooltipEvents(skillBtn, `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`);
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
       if (isProcessing) {
@@ -394,7 +406,12 @@ function executeTurnItems() {
     if (id === 3) {
       globalGameState.player.skillsPoint++;
     } else if (id === 4) {
-      // すべての敵に1ダメ
+      // すべての敵に1ダメージ
+      for (const enemyId in globalGameState.enemies) {
+        if (globalGameState.enemies[enemyId].hp > 0) {
+          damage(enemyId, 1, true);
+        }
+      }
     } else if (id === 15) {
       damage('player', 2);
     }

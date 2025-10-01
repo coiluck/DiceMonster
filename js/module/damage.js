@@ -79,7 +79,7 @@ export function heal(target, value) { // targetは1, 2, ...のようなuniqueId�
 
 import { gameOver, roundEnd } from './result.js';
 
-export function damage(target, value) {
+export function damage(target, value, isFixedDamage = false) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
   if (target === 'player') {
     let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
@@ -105,7 +105,9 @@ export function damage(target, value) {
     if (!globalGameState.enemies[target] || globalGameState.enemies[target].hp == 0) {
       return;
     }
-    value += globalGameState.player.attack;
+    if (!isFixedDamage) {
+      value += globalGameState.player.attack;
+    }
     const newHp = globalGameState.enemies[target].hp -= value;
     if (newHp > 0) {
       const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
@@ -136,6 +138,9 @@ export function damage(target, value) {
 }
 export function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
   if (!globalGameState.enemies[targetId]) {
+    return;
+  }
+  if (globalGameState.enemies[targetId].hp <= 0) {
     return;
   }
   // 永続的な攻撃力か一時的な攻撃力か判別

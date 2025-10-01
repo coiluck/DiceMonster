@@ -97,7 +97,7 @@ export function useSkill(skillId, pushedButton) {
   document.getElementById('dice-confirm-button').disabled = true;
   document.getElementById('dice-attack-button').disabled = true;
   // skillsPointを消費……なんで複数形なんだろう
-  const consumeCost = skillId.cost - globalGameState.player.reduceSkillPoint;
+  const consumeCost = skillsData[skillId].cost - globalGameState.player.reduceSkillPoint;
   globalGameState.player.skillsPoint -= consumeCost;
   // 発動
   switch(skillId) {
@@ -165,9 +165,11 @@ export function useSkill(skillId, pushedButton) {
       break;
   }
   // 再使用不可の場合は設定
-  if (skillId.isLimmitedTimes) {
+  if (skillsData[skillId].isLimmitedTimes) {
     pushedButton.classList.add('locked');
   }
+  // スキルポイントを更新
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')int);
   // 処理が終わったのでdice-buttonsのボタンを有効化
   document.getElementById('dice-roll-button').disabled = false;
   document.getElementById('dice-reroll-button').disabled = false;
@@ -200,7 +202,7 @@ function invertDice(event) {
 function fluxDice(event) {
   // まず輪転用のイベントリスナを削除
   document.querySelectorAll('.dice').forEach(dice => {
-    dice.removeEventListener('click', invertDice);
+    dice.removeEventListener('click', fluxDice);
   });
   deleteMessage();
   // 輪転
