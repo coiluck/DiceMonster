@@ -1,17 +1,21 @@
 // damage.js
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+import { renderBuff } from "./buff.js";
 import { globalGameState } from "./gameState.js";
 
 export async function executeHand(target, hand, dice) {
   switch (hand.handId) {
     case 'four card':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3);
       for (const enemyId in globalGameState.enemies) {
         if (globalGameState.enemies[enemyId].hp > 0) {
           changeEnemyAttack(enemyId, -1);
         }
       }
+      const buffsInForCard = ["shield", "damageReduction", "attack"];
+      const randomIndexInForCard = Math.floor(Math.random() * buffsInForCard.length);
+      addPlayerBuff(buffsInForCard[randomIndexInForCard], 1);
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3);
       break;
     case 'straight':
       for (const enemyId in globalGameState.enemies) {
@@ -24,11 +28,11 @@ export async function executeHand(target, hand, dice) {
       addPlayerBuff(buffs[randomIndex], 1);
       break;
     case 'full house':
-      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
-      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       for (const enemy in globalGameState.enemies) {
         changeEnemyAttack(enemy, -2, true);
       }
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'three card':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
@@ -155,12 +159,7 @@ export function addPlayerBuff(buffName, value) {
   if (globalGameState.player.hasOwnProperty(buffName)) {
     globalGameState.player[buffName] += value;
     // DOMも更新
-    document.querySelector('#player-buff-container .buff-shield .buff-number').textContent = globalGameState.player.shield;
-    document.querySelector('#player-buff-container .buff-shield').style.display = globalGameState.player.shield === 0 ? 'none' : 'block';
-    document.querySelector('#player-buff-container .buff-attack .buff-number').textContent = globalGameState.player.attack;
-    document.querySelector('#player-buff-container .buff-attack').style.display = globalGameState.player.attack === 0 ? 'none' : 'block';
-    document.querySelector('#player-buff-container .buff-reduction .buff-number').textContent = globalGameState.player.damageReduction;
-    document.querySelector('#player-buff-container .buff-reduction').style.display = globalGameState.player.damageReduction === 0 ? 'none' : 'block';
+    renderBuff();
   } else {
     console.warn(`Invalid buff name: ${buffName}`);
   }

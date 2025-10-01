@@ -154,6 +154,7 @@ function setUpEnemy(enemyIds) {
 }
 
 import { skillsData, useSkill } from './module/skills.js';
+import { renderBuff } from './module/buff.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -166,12 +167,7 @@ function setUpPlayer() {
   globalGameState.player.damageReduction = 0;
   globalGameState.player.attack = 0;
   // アイテムに応じてbuffを追加してから始める
-  document.querySelector('#player-buff-container .buff-shield .buff-number').textContent = globalGameState.player.shield;
-  document.querySelector('#player-buff-container .buff-shield').style.display = globalGameState.player.shield === 0 ? 'none' : 'block';
-  document.querySelector('#player-buff-container .buff-attack .buff-number').textContent = globalGameState.player.attack;
-  document.querySelector('#player-buff-container .buff-attack').style.display = globalGameState.player.attack === 0 ? 'none' : 'block';
-  document.querySelector('#player-buff-container .buff-reduction .buff-number').textContent = globalGameState.player.damageReduction;
-  document.querySelector('#player-buff-container .buff-reduction').style.display = globalGameState.player.damageReduction === 0 ? 'none' : 'block';
+  renderBuff();
   // skillの設定
   globalGameState.player.skillsPoint = 0;
   // アイテムに応じてskillsPointを増加させてから始める

@@ -26,7 +26,7 @@ export function judgeHand() {
     return {
       handId: 'four card',
       handName: 'フォーカード',
-      text: `出目(${diceValue}) × 3 の大ダメージを与え、すべての敵の攻撃力 - 1`,
+      text: `出目の合計(${sum}) × 3 の大ダメージを与え、自分にランダムなバフを付与し、このラウンド中すべての敵の攻撃力 - 1`,
       skillpoint: 5,
     };
   }
