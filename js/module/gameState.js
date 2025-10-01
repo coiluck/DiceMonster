@@ -9,6 +9,8 @@ const initialState = {
     shield: 0,
     damageReduction: 0,
     attack: 0,
+    reduceSkillPoint: 0,
+    maxSkillPoint: 10,
     rerollCount: 2,
     skills: ['hanten', 'mishoji'],
     skillsPoint: 0,

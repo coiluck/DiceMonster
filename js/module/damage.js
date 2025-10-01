@@ -156,6 +156,9 @@ export function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {
   targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
 }
 export function addPlayerBuff(buffName, value) {
+  if (globalGameState.player.items.includes(14) && buffName === "shield") {
+    return; // 14番があるとシールドだめ
+  }
   if (globalGameState.player.hasOwnProperty(buffName)) {
     globalGameState.player[buffName] += value;
     // DOMも更新

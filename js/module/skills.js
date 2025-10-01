@@ -97,7 +97,8 @@ export function useSkill(skillId, pushedButton) {
   document.getElementById('dice-confirm-button').disabled = true;
   document.getElementById('dice-attack-button').disabled = true;
   // skillsPointを消費……なんで複数形なんだろう
-  globalGameState.player.skillsPoint -= skillId.cost;
+  const consumeCost = skillId.cost - globalGameState.player.reduceSkillPoint;
+  globalGameState.player.skillsPoint -= consumeCost;
   // 発動
   switch(skillId) {
     case 'tsuigeki':

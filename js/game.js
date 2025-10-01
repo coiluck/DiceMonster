@@ -155,6 +155,8 @@ function setUpEnemy(enemyIds) {
 
 import { skillsData, useSkill } from './module/skills.js';
 import { renderBuff } from './module/buff.js';
+import { damage } from './module/damage.js';
+import { gameOver } from './module/result.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -166,13 +168,53 @@ function setUpPlayer() {
   globalGameState.player.shield = 0;
   globalGameState.player.damageReduction = 0;
   globalGameState.player.attack = 0;
-  // アイテムに応じてbuffを追加してから始める
+  globalGameState.player.reduceSkillPoint = 0;
+  globalGameState.player.maxSkillPoint = 10;
+  // globalGameState.player.skillsPoint = 0; <- これ引き継いだほうが面白いのでは
   renderBuff();
-  // skillの設定
-  globalGameState.player.skillsPoint = 0;
-  // アイテムに応じてskillsPointを増加させてから始める
-  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint
+  // アイテムの効果を反映
+  for (const id of globalGameState.player.items) {
+    if (id === 1) {
+      globalGameState.player.attack++;
+    } else if (id === 2) {
+      globalGameState.player.attack += 2;
+    } else if (id === 3) {
+      globalGameState.player.skillsPoint++;
+    } else if (id === 6) { // 4と5は敵のHP
+      globalGameState.player.skillsPoint += 2;
+    } else if (id === 7) {
+      globalGameState.player.hp = Math.min(globalGameState.player.hp + 3, globalGameState.player.maxHp);
+      document.getElementById('player-hp').textContent = globalGameState.player.hp;
+      document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
+    } else if (id === 8) {
+      globalGameState.player.shield += 3;
+    } else if (id === 12) { // 9, 10, 11は役の強化系
+      globalGameState.player.damageReduction++;
+    } else if (id === 13) {
+      globalGameState.player.reduceSkillPoint++;
+    } else if (id === 14) {
+      globalGameState.player.attack += 3; // shield prohibit
+    } else if (id === 15) {
+      globalGameState.player.attack += 3; // all turn HP damage
+      // HP damageは下で反映
+    } else if (id === 16) {
+      globalGameState.player.maxSkillPoint += 3
+    }
+  }
+  // アイテムが反映された後に設定
+  Math.min(globalGameState.player.skillsPoint + 3, globalGameState.player.maxSkillPoint);
+  if (globalGameState.player.items.includes(14)) {
+    globalGameState.player.shield = 0;
+  }
+  if (globalGameState.player.items.includes(15)) {
+    const damage = globalGameState.player.items.filter(n => n === 15).length;
+    damage('player', 2 * damage);
+  }
+  // 表示を更新
+  renderBuff();
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')
   document.querySelector('.skills').innerHTML = '';
+  // skillの設定
   for (const skill of globalGameState.player.skills) {
     const skillBtn = document.createElement('button');
     skillBtn.className = 'skill-btn';
@@ -188,7 +230,7 @@ function setUpPlayer() {
       if (skillBtn.dataset.skill === 'mishoji') {
         return;
       }
-      if (skillsData[skillBtn.dataset.skill].cost > globalGameState.player.skillsPoint) {
+      if (skillsData[skillBtn.dataset.skill].cost - globalGameState.player.reduceSkillPoint > globalGameState.player.skillsPoint) {
         message('warning', 'スキルポイントが不足しています', 2500);
         return;
       }
@@ -329,6 +371,7 @@ async function processTurn(target) {
   });
   document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
   document.querySelector('#dice-hand-info-effect-value').textContent = '---';
+  executeTurnItems();
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0) {
       globalGameState.enemies[enemyId].attackInThisTurn = 0;
@@ -345,3 +388,16 @@ async function processTurn(target) {
   }
   isProcessing = false;
 };
+
+function executeTurnItems() {
+  for (const id of globalGameState.player.items) {
+    if (id === 3) {
+      globalGameState.player.skillsPoint++;
+    } else if (id === 4) {
+      // すべての敵に1ダメ
+    } else if (id === 15) {
+      damage('player', 2);
+    }
+  }
+  Math.min(globalGameState.player.skillsPoint + 3, globalGameState.player.maxSkillPoint);
+}
