@@ -196,6 +196,12 @@ function setUpPlayer() {
         message('warning', '同じラウンドで1度しか使えないスキルです', 2500);
         return;
       }
+      if ((skillsData[skillBtn.dataset.skill].enName === 'Invert' ||
+         skillsData[skillBtn.dataset.skill].enName === 'Flux') && 
+         document.querySelector('.dice').textContent === '？') {
+        message('warning', 'ダイスをロールしてから使用してください', 3000)
+        return;
+      }
       useSkill(skillBtn.dataset.skill, skillBtn);
     });
     document.querySelector('.skills').appendChild(skillBtn);
@@ -286,7 +292,7 @@ function rollDice() {
   }, 1000);
 }
 
-function toggleHold(event) {
+export function toggleHold(event) {
   event.currentTarget.classList.toggle('hold');
 }
 

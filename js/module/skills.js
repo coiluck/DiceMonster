@@ -44,8 +44,8 @@ export const skillsData = {
     name: '輪転',
     rank: 2,
     enName: 'Flux',
-    description: 'サイコロ1つの出目を+1か-1する（ループ式）',
-    enDescription: 'Increase or decrease the value of a single die by 1 (values loop).',
+    description: 'サイコロ1つの出目を+1する（ループ式）',
+    enDescription: 'Increase the value of a single die by 1 (values loop).',
     cost: 5,
   },
   gototsu: {
@@ -87,6 +87,8 @@ export const skillsData = {
 
 import { globalGameState } from "./gameState.js";
 import { damage, heal, changeEnemyAttack, addPlayerBuff } from "./damage.js"
+import { toggleHold } from "../game.js";
+import { message, deleteMessage } from "./message.js";
 
 export function useSkill(skillId, pushedButton) {
   // 処理中はdice-buttonsのボタンを無効化
@@ -109,7 +111,16 @@ export function useSkill(skillId, pushedButton) {
       heal('player', 5);
       break;
     case 'hanten':
-      // 後で書く
+      // まずHoldのイベントリスナを消去
+      document.querySelectorAll('.dice').forEach(dice => {
+        dice.removeEventListener('click', toggleHold);
+      });
+      // ボタン選択を可能にする
+      message('info', '反転させるサイコロを選択してください', 'infinity')
+      document.querySelectorAll('.dice').forEach(dice => {
+        dice.addEventListener('click', invertDice);
+      });
+      // イベントリスナはinvertDiceで再設定
       break;
     case 'fujaku':
       for (const enemyId in globalGameState.enemies) {
@@ -119,7 +130,16 @@ export function useSkill(skillId, pushedButton) {
       }
       break;
     case 'rinten':
-      // 後で書く
+      // まずHoldのイベントリスナを消去
+      document.querySelectorAll('.dice').forEach(dice => {
+        dice.removeEventListener('click', toggleHold);
+      });
+      // ボタン選択を可能にする
+      message('info', '反転させるサイコロを選択してください', 'infinity')
+      document.querySelectorAll('.dice').forEach(dice => {
+        dice.addEventListener('click', fluxDice);
+      });
+      // イベントリスナはfluxDiceで再設定
       break;
     case 'gototsu':
       addPlayerBuff('shield', 5);
@@ -143,7 +163,7 @@ export function useSkill(skillId, pushedButton) {
       console.warn(`failed to use skill: Invalid skill id (${skillKey})`);
       break;
   }
-  // 再使用負荷の場合は設定
+  // 再使用不可の場合は設定
   if (skillId.isLimmitedTimes) {
     pushedButton.classList.add('locked');
   }
@@ -152,4 +172,46 @@ export function useSkill(skillId, pushedButton) {
   document.getElementById('dice-reroll-button').disabled = false;
   document.getElementById('dice-confirm-button').disabled = false;
   document.getElementById('dice-attack-button').disabled = false;
+}
+
+import { judgeHand } from './judgeHand.js'
+
+function invertDice(event) {
+  // まず反転用のイベントリスナを削除
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.removeEventListener('click', invertDice);
+  });
+  deleteMessage();
+  // 反転
+  const targetNum = Number(event.currentTarget.textContent);
+  const newNum = 7 - targetNum;
+  event.currentTarget.textContent = newNum;
+  // 役を更新
+  const hand = judgeHand();
+  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ${hand.handName}`;
+  document.querySelector('#dice-hand-info-effect-value').textContent = hand.text;
+  // イベントリスナを再設定
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.addEventListener('click', toggleHold);
+  });
+}
+
+function fluxDice(event) {
+  // まず輪転用のイベントリスナを削除
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.removeEventListener('click', invertDice);
+  });
+  deleteMessage();
+  // 輪転
+  const targetNum = Number(event.currentTarget.textContent);
+  const newNum = targetNum + 1;
+  event.currentTarget.textContent = newNum;
+  // 役を更新
+  const hand = judgeHand();
+  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ${hand.handName}`;
+  document.querySelector('#dice-hand-info-effect-value').textContent = hand.text;
+  // イベントリスナを再設定
+  document.querySelectorAll('.dice').forEach(dice => {
+    dice.addEventListener('click', toggleHold);
+  });
 }
