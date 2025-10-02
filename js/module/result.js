@@ -2,6 +2,7 @@
 import { globalGameState } from "./gameState.js";
 import { message } from "./message.js";
 import { changeModal } from "./changeModal.js";
+import { playerAnimInGame } from "./characterAnimation.js";
 
 export function gameOver() {
   console.log('gameOver');

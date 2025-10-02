@@ -14,6 +14,7 @@ const initialState = {
     rerollCount: 2,
     skills: ['hanten', 'mishoji'],
     skillsPoint: 0,
+    isAllAttack: false,
     items: [],
   },
   enemies: {

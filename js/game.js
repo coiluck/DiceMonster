@@ -183,6 +183,7 @@ function setUpPlayer() {
   globalGameState.player.attack = 0;
   globalGameState.player.reduceSkillPoint = 0;
   globalGameState.player.maxSkillPoint = 10;
+  globalGameState.player.isAllAttack = false;
   // globalGameState.player.skillsPoint = 0; <- これ引き継いだほうが面白いのでは
   // アイテムの効果を反映
   for (const id of globalGameState.player.items) {
@@ -370,11 +371,13 @@ async function processTurn(target) {
   await executeHand(target, hand, dices);
   // skillpoint
   globalGameState.player.skillsPoint += hand.skillpoint;
-  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint;
+  globalGameState.player.skillsPoint = Math.min(globalGameState.player.skillsPoint, globalGameState.player.maxSkillPoint);
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '');
   // 敵の攻撃
   await enemyAttack();
   // 次のターンの設定
   globalGameState.player.rerollCount = 2;
+  globalGameState.player.isAllAttack = false;
   document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
   document.getElementById('dice-attack-button').disabled = false;
   setPhase(1);
