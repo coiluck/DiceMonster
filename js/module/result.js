@@ -5,9 +5,15 @@ import { changeModal } from "./changeModal.js";
 
 export function gameOver() {
   console.log('gameOver');
+  playerAnimInGame.stop();
 }
 
 export function roundEnd() {
+  playerAnimInGame.stop();
+  if (globalGameState.round === 15) {
+    gameClear();
+    return;
+  }
   changeModal('result', null, 500, false);
   setUpResult();
   setTimeout(() => {

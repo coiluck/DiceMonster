@@ -169,7 +169,7 @@ export function useSkill(skillId, pushedButton) {
     pushedButton.classList.add('locked');
   }
   // スキルポイントを更新
-  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')int);
+  document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '');
   // 処理が終わったのでdice-buttonsのボタンを有効化
   document.getElementById('dice-roll-button').disabled = false;
   document.getElementById('dice-reroll-button').disabled = false;

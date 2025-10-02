@@ -1,5 +1,6 @@
 // top.js
 import { isContinueGame } from './module/save.js';
+import { playerAnimInTop } from './module/characterAnimation.js';
 
 document.addEventListener('load', () => {
   // 前回のデータがあるなら「続きから」を表示
@@ -15,6 +16,9 @@ document.addEventListener('load', () => {
     console.log('前回のデータがありません');
     document.querySelector('.top-continue-game-button').style.display = 'none';
   }
+});
+document.addEventListener('DOMContentLoaded', () => {
+  playerAnimInTop.start();
 });
 
 import { changeModal } from './module/changeModal.js';

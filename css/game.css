@@ -211,6 +211,7 @@
   background-image: url('../assets/images/b_paper.jpg');
   background-blend-mode: multiply;
   padding: 15px;
+  margin: 15px;
 }
 .card.player > * {
   position: relative;
@@ -612,6 +613,7 @@
     max-height: 250px;
     padding: 8px;
     gap: 5px;
+    margin: 0;
   }
   .card.player h3 {
     font-size: 1.1rem;

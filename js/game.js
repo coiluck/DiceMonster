@@ -169,6 +169,7 @@ function setUpEnemy(enemyIds) {
 import { skillsData, useSkill } from './module/skills.js';
 import { renderBuff } from './module/buff.js';
 import { damage } from './module/damage.js';
+import { playerAnimInGame } from './module/characterAnimation.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -260,6 +261,7 @@ function setUpPlayer() {
     });
     document.querySelector('.skills').appendChild(skillBtn);
   }
+  playerAnimInGame.start();
 }
 
 function setUpItems() {}
