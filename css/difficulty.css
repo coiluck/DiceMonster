@@ -1,0 +1,116 @@
+#modal-difficulty {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.difficulty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.difficulty-container h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: serif;
+}
+
+.difficulty-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.difficulty-button {
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+  width: 60%;
+  margin: 0 auto;
+  border: 1px solid #1e1e1e;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+.difficulty-button:hover {
+  transform: scale(1.05);
+}
+.difficulty-button::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 1px solid rgba(255, 255, 255, 0.0);
+  pointer-events: none;
+}
+.difficulty-button:hover::after {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.difficulty-button .difficulty-icon {
+  position: relative;
+  margin-left: 0;
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  background-color: #4D4D4D;
+  box-sizing: border-box;
+}
+.difficulty-button .difficulty-icon::after {
+  position: absolute;
+  left: 99%;
+  top: 50%;
+  transform: translateY(-50%);
+  content: '';
+  display: block;
+  width: 10px;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  background-color: #4D4D4D;
+  box-sizing: border-box;
+}
+.difficulty-button .difficulty-icon img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1 / 1;
+  height: calc(1.2rem + 30px);
+  object-fit: cover;
+}
+.difficulty-button .difficulty-text {
+  color: #1e1e1e;
+  font-size: 1.2rem;
+  font-family: serif;
+  letter-spacing: .1rem;
+  text-align: center;
+  flex-grow: 1;
+  padding: 15px 30px;
+}
+
+
+#difficulty-close-button {
+  background: rgba(55, 55, 55, 0.1);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  font-size: .9rem;
+  font-family: serif;
+  letter-spacing: .1rem;
+  padding: 7px 25px;
+  border-radius: calc(0.9rem + 10px + 10px);
+  cursor: pointer;
+  margin: 50px auto;
+  transition: all 0.3s ease;
+}
+#difficulty-close-button:hover {
+  color: #1e1e1e;
+  background: #00ff88;
+}

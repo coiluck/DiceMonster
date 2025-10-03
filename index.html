@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./css/result.css">
   <link rel="stylesheet" href="./css/pause.css">
   <link rel="stylesheet" href="./css/settings.css">
+  <link rel="stylesheet" href="./css/difficulty.css">
   <link rel="stylesheet" href="./css/buff.css">
   <link rel="stylesheet" href="./css/endgame.css">
   <link rel="stylesheet" href="./css/tooltip.css">
@@ -56,6 +57,27 @@
           <span class="top-button-subtext">運命に抗う術を</span>
         </button>
       </div>
+    </div>
+  </div>
+  
+  <div id="modal-difficulty" class="modal">
+    <div class="difficulty-container">
+      <h2>難易度を選択してください</h2>
+      <div class="difficulty-buttons">
+        <button class="difficulty-button" id="difficulty-easy">
+          <span class="difficulty-icon"><img src="./assets/images/easy.avif" alt="easy"></span>
+          <span class="difficulty-text">EASY</span>
+        </button>
+        <button class="difficulty-button" id="difficulty-normal">
+          <span class="difficulty-icon"><img src="./assets/images/player.png" alt="normal"></span>
+          <span class="difficulty-text">NORMAL</span>
+        </button>
+        <button class="difficulty-button" id="difficulty-hard">
+          <span class="difficulty-icon"></span>
+          <span class="difficulty-text">HARD</span>
+        </button>
+      </div>
+      <button id="difficulty-close-button">Close</button>
     </div>
   </div>
 

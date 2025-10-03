@@ -27,7 +27,7 @@ document.querySelector('.top-continue-button').addEventListener('click', () => {
   changeModal('game', null, 500, true);
 });
 document.querySelector('.top-new-button').addEventListener('click', () => {
-  changeModal('game', null, 500, true);
+  changeModal('difficulty', null, 500, true);
 });
 document.querySelector('.top-rules-button').addEventListener('click', () => {
   changeModal('rules', null, 500, true);
