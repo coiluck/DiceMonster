@@ -3,8 +3,13 @@ const initialState = {
   round: 1,
   difficulty: 'easy',
   easyStageEnemy: [],
+  forStats: {
+    bossName: '',
+    totalTurns: 0,
+    totalDamage: 0,
+  },
   player: {
-    hp: 50,
+    hp: 1,
     maxHp: 50,
     shield: 0,
     damageReduction: 0,

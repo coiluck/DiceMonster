@@ -17,6 +17,7 @@ export function initGame() {
   setUpItems();
   setUpDice();
   isProcessing = false;
+  globalGameState.forStats.totalTurns++;
 }
 
 let enemyData;
@@ -107,7 +108,8 @@ async function chooseEnemy(round, difficulty) {
     const selectedBoss = enemyData.find(enemy => enemy.id === randomId);
     // selectedBossが存在する場合のみIDを配列に追加
     if (selectedBoss) {
-        enemyIds = [selectedBoss.id];
+      enemyIds = [selectedBoss.id];
+      globalGameState.forStats.bossName = selectedBoss.name;
     }
   }
   // 最終的に選ばれた敵
@@ -376,6 +378,7 @@ async function processTurn(target) {
   // 敵の攻撃
   await enemyAttack();
   // 次のターンの設定
+  globalGameState.forStats.totalTurns++;
   globalGameState.player.rerollCount = 2;
   globalGameState.player.isAllAttack = false;
   document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;

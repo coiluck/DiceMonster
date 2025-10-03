@@ -18,11 +18,10 @@ export async function executeHand(target, hand, dice) {
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3);
       break;
     case 'straight':
-      for (const enemyId in globalGameState.enemies) {
-        if (globalGameState.enemies[enemyId].hp > 0) {
-          damage(enemyId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
-        }
-      }
+      globalGameState.player.isAllAttack = true;
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+      globalGameState.player.isAllAttack = false;
+
       const buffs = ["shield", "damageReduction", "attack"];
       const randomIndex = Math.floor(Math.random() * buffs.length);
       addPlayerBuff(buffs[randomIndex], 1);
@@ -102,13 +101,15 @@ export function damage(target, value, isFixedDamage = false) {
       return;
     }
   } else {
+    let totalDamageDealt = 0; // この攻撃で与えた総ダメージ
+
     const targets = (globalGameState.player.isAllAttack === true)
       ? Object.keys(globalGameState.enemies)
       : [target];
 
     targets.forEach(enemyId => {
       if (!globalGameState.enemies[enemyId] || globalGameState.enemies[enemyId].hp <= 0) {
-        return; // continue to next target
+        return;
       }
 
       let currentDamage = value;
@@ -116,12 +117,17 @@ export function damage(target, value, isFixedDamage = false) {
         currentDamage += globalGameState.player.attack;
       }
 
+      // 実際に与えるダメージ量（敵の残りHPを超えない）を計算
+      const actualDamageDealt = Math.min(currentDamage, globalGameState.enemies[enemyId].hp);
+      totalDamageDealt += actualDamageDealt;
+
+      // 敵のHPを更新
       const newHp = globalGameState.enemies[enemyId].hp -= currentDamage;
       const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
 
       if (!targetEnemy) {
         console.warn('対象がありません');
-        return; // continue to next target
+        return;
       }
 
       if (newHp > 0) {
@@ -130,7 +136,7 @@ export function damage(target, value, isFixedDamage = false) {
       } else {
         targetEnemy.querySelector('.enemy-hp').textContent = `HP: 0`;
         targetEnemy.dataset.enemyHp = 0;
-        // フェードアウト
+        // フェードアウト処理
         targetEnemy.querySelector('.enemy-name').classList.add('fade-out');
         targetEnemy.querySelector('.enemy-attack').classList.add('fade-out');
         targetEnemy.querySelector('.enemy-hp').classList.add('fade-out');
@@ -139,13 +145,15 @@ export function damage(target, value, isFixedDamage = false) {
           targetEnemy.innerHTML = '';
           targetEnemy.innerHTML += '<img src="./assets/images/defeatedCard.avif" class="defeated-card-image">';
           targetEnemy.querySelector('.defeated-card-image').classList.add('fade-in');
-          // すべての敵のhPが0以下ならラウンド終了
+          // すべての敵のHPが0以下ならラウンド終了
           if (Object.values(globalGameState.enemies).every(enemy => enemy.hp <= 0)) {
             roundEnd();
           }
         }, 500);
       }
     });
+    // 計算した総ダメージをglobalGameStateに加算
+    globalGameState.forStats.totalDamage += totalDamageDealt;
   }
 }
 export function changeEnemyAttack(targetId, value, isThisTurnOnly = false) {

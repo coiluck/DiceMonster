@@ -15,17 +15,17 @@ export function setUpEndgame(isClear) {
     {
       label: '総ターン数',
       enLabel: 'Total Turns',
-      value: globalGameState.totalTurns
+      value: globalGameState.forStats.totalTurns
     },
     {
       label: '毎ターンの平均ダメージ',
       enLabel: 'Average Damage per Turn',
-      value: globalGameState.averageDamage
+      value: (globalGameState.forStats.totalDamage / globalGameState.forStats.totalTurns).toFixed(1)
     },
     {
-      label: '最も多く出した役',
-      enLabel: 'Most Frequent Hand',
-      value: globalGameState.mostFrequentHand
+      label: '所持アイテム数',
+      enLabel: 'Number of Items',
+      value: globalGameState.player.items.length
     }
   ];
   let statsHTML = ''; 
