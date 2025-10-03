@@ -1,0 +1,172 @@
+#modal-endgame {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.endgame-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.endgame-title {
+  font-size: 4rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 0.3rem;
+}
+.endgame-title.clear {
+  text-shadow: 
+    0 0 20px rgba(100, 200, 255, 0.8),
+    0 0 40px rgba(100, 200, 255, 0.6),
+    0 0 60px rgba(100, 200, 255, 0.4);
+  animation: clearGlow 2s ease-in-out infinite alternate;
+}
+@keyframes clearGlow {
+  from {
+    text-shadow: 
+      0 0 20px rgba(100, 200, 255, 0.8),
+      0 0 40px rgba(100, 200, 255, 0.6),
+      0 0 60px rgba(100, 200, 255, 0.4);
+  }
+  to {
+    text-shadow: 
+      0 0 30px rgba(100, 200, 255, 1),
+      0 0 60px rgba(100, 200, 255, 0.8),
+      0 0 90px rgba(100, 200, 255, 0.6);
+  }
+}
+.endgame-title.gameover {
+  text-shadow: 
+    0 0 20px rgba(255, 100, 100, 0.8),
+    0 0 40px rgba(255, 100, 100, 0.6),
+    0 0 60px rgba(255, 100, 100, 0.4);
+  animation: glowRed 2s ease-in-out infinite alternate;
+}
+@keyframes glowRed {
+  from {
+    text-shadow: 
+      0 0 20px rgba(255, 50, 50, 0.8),
+      0 0 40px rgba(255, 50, 50, 0.6),
+      0 0 60px rgba(255, 50, 50, 0.4);
+  }
+  to {
+    text-shadow: 
+      0 0 30px rgba(255, 50, 50, 1),
+      0 0 60px rgba(255, 50, 50, 0.8),
+      0 0 90px rgba(255, 50, 50, 0.6);
+  }
+}
+.endgame-subtitle.clear {
+  font-size: 1.8rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #a0d0ff;
+  margin-bottom: 40px;
+  font-style: italic;
+  opacity: 0.9;
+}
+.endgame-subtitle.gameover {
+  font-size: 1.8rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #ffb0b0;
+  margin-bottom: 40px;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+
+.endgame-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 70%;
+  max-width: 500px;
+  padding: 30px;
+  margin: 0 auto 40px;
+  border-radius: 15px;
+}
+.endgame-stats.clear {
+  background: rgba(15, 25, 50, 0.6);
+  border: 1px solid rgba(100, 200, 255, 0.3);
+}
+.endgame-stats.gameover {
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  background: rgba(50, 15, 15, 0.7);
+}
+.endgame-stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  color: #cde;
+}
+.endgame-stat-label {
+  font-weight: normal;
+  font-family: 'Georgia', serif;
+}
+.endgame-stat-value.clear {
+  font-weight: bold;
+  color: #64c8ff;
+  font-family: 'Courier New', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', monospace, serif;
+}
+.endgame-stat-value.gameover {
+  font-weight: bold;
+  color: #ffb0b0;
+  font-family: 'Courier New', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', monospace, serif;
+}
+
+.endgame-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+.endgame-btn {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.1rem;
+}
+.endgame-btn#endgame-restart-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+.endgame-btn#endgame-restart-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+}
+.endgame-btn#endgame-main-menu-button {
+  background: linear-gradient(135deg, #434343 0%, #000000 100%);
+  color: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+.endgame-btn#endgame-main-menu-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+}
+
+
+@media (max-width: 768px) {
+  .endgame-title {
+    font-size: 3.5rem;
+  }
+  .endgame-subtitle {
+    font-size: 1.2rem;
+  }
+  .endgame-stat-item {
+    font-size: .9rem;
+  }
+}

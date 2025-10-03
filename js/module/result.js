@@ -3,16 +3,17 @@ import { globalGameState } from "./gameState.js";
 import { message } from "./message.js";
 import { changeModal } from "./changeModal.js";
 import { playerAnimInGame } from "./characterAnimation.js";
+import { setUpEndgame } from "./Endgame.js";
 
 export function gameOver() {
-  console.log('gameOver');
   playerAnimInGame.stop();
+  setUpEndgame(false);
 }
 
 export function roundEnd() {
   playerAnimInGame.stop();
   if (globalGameState.round === 15) {
-    gameClear();
+    setUpEndgame(true);
     return;
   }
   changeModal('result', null, 500, false);

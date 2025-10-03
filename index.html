@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./css/pause.css">
   <link rel="stylesheet" href="./css/settings.css">
   <link rel="stylesheet" href="./css/buff.css">
+  <link rel="stylesheet" href="./css/endgame.css">
   <link rel="stylesheet" href="./css/tooltip.css">
   <link rel="stylesheet" href="./css/message.css">
   <title>六面天運 - サイコロローグライク - </title>
@@ -237,6 +238,39 @@
       <button class="pause-button" id="pause-restart-button">Restart</button>
       <button class="pause-button" id="pause-settings-button">Settings</button>
       <button class="pause-button" id="pause-quit-button">Save & Quit</button>
+    </div>
+  </div>
+
+  <div id="modal-endgame" class="modal">
+    <div class="endgame-container">
+      <h1 class="endgame-title gameover">Game Over!</h1>
+      <p class="endgame-subtitle">— ここにサブタイトルを入れます —</p>
+      <div class="endgame-stats">
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">最終ラウンド</span>
+          <span class="endgame-stat-value">12</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">総ターン数</span>
+          <span class="endgame-stat-value">42</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">毎ターンの平均ダメージ</span>
+          <span class="endgame-stat-value">19</span>
+        </div>
+        <div class="endgame-stat-item">
+          <span class="endgame-stat-label">最も多く出した役</span>
+          <span class="endgame-stat-value">フォーカード</span>
+        </div>
+      </div>
+      <div class="endgame-buttons">
+        <button class="endgame-btn" id="endgame-restart-button">
+          <span>Restart</span>
+        </button>
+        <button class="endgame-btn" id="endgame-main-menu-button">
+          <span>Main Menu</span>
+        </button>
+      </div>
     </div>
   </div>
 
