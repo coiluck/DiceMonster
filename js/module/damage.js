@@ -197,7 +197,7 @@ export function addPlayerBuff(buffName, value) {
 export async function enemyAttack() {
   await wait(500);
   for (const enemyId in globalGameState.enemies) {
-    if (globalGameState.enemies[enemyId].hp > 0) {
+    if (globalGameState.enemies[enemyId].hp > 0 && globalGameState.player.hp > 0) {
       damage('player', globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
     }
     await wait(500);

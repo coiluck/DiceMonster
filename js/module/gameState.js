@@ -9,7 +9,7 @@ const initialState = {
     totalDamage: 0,
   },
   player: {
-    hp: 1,
+    hp: 50,
     maxHp: 50,
     shield: 0,
     damageReduction: 0,

@@ -2,9 +2,6 @@
 document.querySelector('.top-continue-button').addEventListener('click', () => {
   initGame();
 });
-document.querySelector('.top-new-button').addEventListener('click', () => {
-  initGame();
-});
 
 import { globalGameState, setGlobalGameState } from './module/gameState.js';
 import { addTooltipEvents } from './module/addToolTip.js';
@@ -377,8 +374,11 @@ async function processTurn(target) {
   document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '');
   // 敵の攻撃
   await enemyAttack();
+  // 戦闘が続行中の場合はターン数をカウント
+  if (Object.values(globalGameState.enemies).some(enemy => enemy.hp > 0) && globalGameState.player.hp > 0) {
+    globalGameState.forStats.totalTurns++;
+  }
   // 次のターンの設定
-  globalGameState.forStats.totalTurns++;
   globalGameState.player.rerollCount = 2;
   globalGameState.player.isAllAttack = false;
   document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;

@@ -114,11 +114,13 @@
   font-family: 'Georgia', serif;
 }
 .endgame-stat-value.clear {
+  text-transform: uppercase;
   font-weight: bold;
   color: #64c8ff;
   font-family: 'Courier New', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', monospace, serif;
 }
 .endgame-stat-value.gameover {
+  text-transform: uppercase;
   font-weight: bold;
   color: #ffb0b0;
   font-family: 'Courier New', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', monospace, serif;

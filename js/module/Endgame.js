@@ -8,6 +8,11 @@ export function setUpEndgame(isClear) {
   // statsの設定
   const statsData = [
     {
+      label: '難易度',
+      enLabel: 'Difficulty',
+      value: globalGameState.difficulty
+    },
+    {
       label: isClear ? '撃破したボス' : '最終ラウンド',
       enLabel: isClear ? 'Defeated Boss' : 'Final Round',
       value: isClear ? globalGameState.bossName : globalGameState.round
@@ -62,7 +67,9 @@ export function setUpEndgame(isClear) {
 document.addEventListener('DOMContentLoaded', () => {
   // ボタンの設定
   document.getElementById('endgame-restart-button').addEventListener('click', () => {
+    const difficulty = globalGameState.difficulty;
     resetGlobalState();
+    globalGameState.difficulty = difficulty;
     initGame();
     changeModal('game', null, 500, true);
   });
