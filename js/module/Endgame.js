@@ -1,4 +1,4 @@
-// Endgame.js
+// endGame.js
 import { globalGameState, resetGlobalState } from "./gameState.js";
 import { changeModal } from "./changeModal.js";
 import { initGame } from "../game.js";

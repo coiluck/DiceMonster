@@ -52,7 +52,6 @@
   font-family: 'Courier New', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', monospace, serif;
   font-size: .9rem;
   letter-spacing: .1rem;
-  text-transform: uppercase;
   transition: all 0.3s ease;
 }
 .lang-btn:hover {

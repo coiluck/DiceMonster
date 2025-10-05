@@ -5,7 +5,7 @@
     "enName": "Decayed Blade",
     "image": "./assets/images/items/BrokenSword.ico",
     "description": "攻撃 +1",
-    "enDescription": "Default enDescription",
+    "enDescription": "Attack +1",
     "rank": 1
   },
   {
@@ -14,7 +14,7 @@
     "enName": "Keen Blade",
     "image": "./assets/images/items/sword.ico",
     "description": "攻撃 +2",
-    "enDescription": "Default enDescription",
+    "enDescription": "Attack +2",
     "rank": 2
   },
   {
@@ -23,7 +23,7 @@
     "enName": "Regal Wisdom",
     "image": "./assets/images/items/Ebook.ico",
     "description": "ターン開始時にスキルポイント +1",
-    "enDescription": "Default enDescription",
+    "enDescription": "Gain +1 skill point at the start of your turn.",
     "rank": 2
   },
   {
@@ -32,7 +32,7 @@
     "enName": "Abyssal Flame",
     "image": "./assets/images/items/ele_fire.ico",
     "description": "ターン開始時に敵のHP -1",
-    "enDescription": "Default enDescription",
+    "enDescription": "Enemy loses 1 HP at the start of your turn.",
     "rank": 1
   },
   {
@@ -41,7 +41,7 @@
     "enName": "Regal Judgement",
     "image": "./assets/images/items/ele_thunder.ico",
     "description": "ラウンド開始時に敵のHP -5",
-    "enDescription": "Default enDescription",
+    "enDescription": "Enemy loses 5 HP at the start of the round.",
     "rank": 2
   },
   {
@@ -50,7 +50,7 @@
     "enName": "Argent Pearl",
     "image": "./assets/images/items/Orb_WhiteMagic.ico",
     "description": "ラウンド開始時にスキルポイント +2",
-    "enDescription": "Default enDescription",
+    "enDescription": "Gain +2 skill points at the start of the round.",
     "rank": 1
   },
   {
@@ -59,7 +59,7 @@
     "enName": "Seraphic Hymn",
     "image": "./assets/images/items/Music.ico",
     "description": "ラウンド開始時にHP +3",
-    "enDescription": "Default enDescription",
+    "enDescription": "Gain +3 HP at the start of the round.",
     "rank": 1
   },
   {
@@ -68,7 +68,7 @@
     "enName": "Regal Blessing",
     "image": "./assets/images/items/AngelWing.ico",
     "description": "ラウンド開始時にシールドを3得た状態で始まる。",
-    "enDescription": "Default enDescription",
+    "enDescription": "Start the round with 3 Shield.",
     "rank": 1
   },
   {
@@ -77,7 +77,7 @@
     "enName": "Regal Sigil",
     "image": "./assets/images/items/Castle.ico",
     "description": "「フルハウス」で減少させる敵の攻撃力がさらに -1",
-    "enDescription": "Default enDescription",
+    "enDescription": "'Full House' reduces enemy attack by an additional 1.",
     "rank": 1
   },
   {
@@ -86,7 +86,7 @@
     "enName": "Victor's Standard",
     "image": "./assets/images/items/Hero.ico",
     "description": "「ストレート」で得るバフの数 +1",
-    "enDescription": "Default enDescription",
+    "enDescription": "Gain +1 buff from 'Straight'.",
     "rank": 2
   },
   {
@@ -94,8 +94,8 @@
     "name": "鉄壁の盾",
     "enName": "Bastion Shield",
     "image": "./assets/images/items/Shield (Security).ico",
-    "description": "「スリーカード」で得られるシールドの数が2倍になる。",
-    "enDescription": "Default enDescription",
+    "description": "「スリーカード」で得られるシールドの数 +100%",
+    "enDescription": "Increases Shield gained from 'Three of a Kind' by 100%.",
     "rank": 1
   },
   {
@@ -104,7 +104,7 @@
     "enName": "Guardian's Plate",
     "image": "./assets/images/items/Armor.ico",
     "description": "受けるすべてのダメージを1軽減する。",
-    "enDescription": "Default enDescription",
+    "enDescription": "Reduce all incoming damage by 1.",
     "rank": 2
   },
   {
@@ -113,7 +113,7 @@
     "enName": "Boots of Alacrity",
     "image": "./assets/images/items/Pegasus Boot.ico",
     "description": "スキル使用時に必要なスキルポイント -1",
-    "enDescription": "Default enDescription",
+    "enDescription": "Reduces the skill point cost of skills by 1.",
     "rank": 2
   },
   {
@@ -122,7 +122,7 @@
     "enName": "Bloodthirsty Talisman",
     "image": "./assets/images/items/SwordAxe.ico",
     "description": "与えるダメージ +3、ただしシールドを得られなくなる",
-    "enDescription": "Default enDescription",
+    "enDescription": "Deal +3 damage, but you can no longer gain Shield.",
     "rank": 2
   },
   {
@@ -131,7 +131,7 @@
     "enName": "Crimson Pact",
     "image": "./assets/images/items/Potion_2.ico",
     "description": "与えるダメージ +3、ただし毎ターン開始時にHP -2",
-    "enDescription": "Default enDescription",
+    "enDescription": "Deal +3 damage, but lose 2 HP at the start of each turn.",
     "rank": 2
   },
   {
@@ -140,7 +140,7 @@
     "enName": "Staff of Erudition",
     "image": "./assets/images/items/Fire Staff.ico",
     "description": "最大スキルポイント +3",
-    "enDescription": "Default enDescription",
+    "enDescription": "Maximum skill points +3.",
     "rank": 1
   }
 ]

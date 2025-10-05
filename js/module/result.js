@@ -3,7 +3,7 @@ import { globalGameState } from "./gameState.js";
 import { message } from "./message.js";
 import { changeModal } from "./changeModal.js";
 import { playerAnimInGame } from "./characterAnimation.js";
-import { setUpEndgame } from "./Endgame.js";
+import { setUpEndgame } from "./endGame.js";
 
 export function gameOver() {
   playerAnimInGame.stop();

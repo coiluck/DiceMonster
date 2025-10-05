@@ -23,12 +23,15 @@ export async function executeHand(target, hand, dice) {
       globalGameState.player.isAllAttack = false;
 
       const buffs = ["shield", "damageReduction", "attack"];
-      const randomIndex = Math.floor(Math.random() * buffs.length);
-      addPlayerBuff(buffs[randomIndex], 1);
+      for (let i = 0; i < globalGameState.player.items.filter(item => item === 10).length + 1; i++) {
+        const randomIndex = Math.floor(Math.random() * buffs.length);
+        addPlayerBuff(buffs[randomIndex], 1);
+      }
       break;
     case 'full house':
+      const attackReduction = 2 + globalGameState.player.items.filter(item => item === 9).length;
       for (const enemy in globalGameState.enemies) {
-        changeEnemyAttack(enemy, -2, true);
+        changeEnemyAttack(enemy, -attackReduction, true);
       }
       damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
@@ -39,8 +42,9 @@ export async function executeHand(target, hand, dice) {
         acc[val] = (acc[val] || 0) + 1;
         return acc;
       }, {});
-      const threeKind = Object.entries(counts).find(([num, count]) => count === 3);
-      addPlayerBuff('shield', Number(threeKind[0]));
+      const sortedDice = [...dice].sort((a, b) => a - b);
+      const shieldValue = sortedDice[1] * (globalGameState.player.items.filter(item => item === 11).length + 1);
+      addPlayerBuff('shield', shieldValue);
       break;
     case 'all even':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));

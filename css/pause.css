@@ -26,6 +26,7 @@
   width: fit-content;
   padding: 10px 20px;
   background: transparent;
+  letter-spacing: 0.2rem;
   font-family: 'Zen Old Mincho', serif;
   border: none;
   border-bottom: 1px solid #000;
