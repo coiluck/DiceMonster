@@ -11,7 +11,6 @@ let isProcessing;
 export function initGame() {
   chooseEnemy(globalGameState.round, globalGameState.difficulty);
   setUpPlayer();
-  setUpItems();
   setUpDice();
   isProcessing = false;
   globalGameState.forStats.totalTurns++;
@@ -250,14 +249,18 @@ function setUpEnemy(enemyIds) {
     enemyCard.dataset.enemyId = enemy.id;
     enemyCard.dataset.uniqueId = enemyUniqueIdCount;
     enemyCard.dataset.enemyHp = enemy.hp;
+
+    const enemyName = window.currentLang === 'en' ? enemy.enName : enemy.name;
+    const enemyDescription = window.currentLang === 'en' ? enemy.enDescription : enemy.description;
+
     enemyCard.innerHTML = `
       <p class="enemy-attack">${enemy.attack}</p>
-      <p class="enemy-name">${enemy.name}</p>
+      <p class="enemy-name">${enemyName}</p>
       <img src="./assets/images/enemy/${enemy.image}">
       <p class="enemy-hp">HP: ${enemy.hp}</p>
     `;
     document.getElementById('enemy-container').appendChild(enemyCard);
-    const enemyDescription = window.currentLang === 'en' ? enemy.enDescription : enemy.description;
+    // 説明がある場合
     if (enemyDescription) {
       addTooltipEvents(enemyCard, enemyDescription, true);
     }
@@ -343,30 +346,30 @@ function setUpPlayer() {
   for (const skill of globalGameState.player.skills) {
     const skillBtn = document.createElement('button');
     skillBtn.className = 'skill-btn';
-    skillBtn.textContent = skillsData[skill].name;
+    skillBtn.textContent = window.currentLang === 'en' ? skillsData[skill].enName : skillsData[skill].name;
     skillBtn.dataset.skill = skill;
-    addTooltipEvents(skillBtn, `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`);
+    addTooltipEvents(skillBtn, window.currentLang === 'en' ? `${skillsData[skill].enDescription} Cost: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}` : `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`);
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
       if (isProcessing) {
-        message('warning', '敵のターン中にスキルを使用することはできません', 3000);
+        message('warning', window.currentLang === 'en' ? 'Cannot use skills during enemy turns' : '敵のターン中にスキルを使用することはできません', 3000);
         return;
       }
       if (skillBtn.dataset.skill === 'mishoji') {
         return;
       }
       if (skillsData[skillBtn.dataset.skill].cost - globalGameState.player.reduceSkillPoint > globalGameState.player.skillsPoint) {
-        message('warning', 'スキルポイントが不足しています', 2500);
+        message('warning', window.currentLang === 'en' ? 'Skill points are insufficient' : 'スキルポイントが不足しています', 2500);
         return;
       }
       if (skillBtn.classList.contains('locked')) {
-        message('warning', '同じラウンドで1度しか使えないスキルです', 2500);
+        message('warning', window.currentLang === 'en' ? 'This skill can only be used once per round' : '同じラウンドで1度しか使えないスキルです', 2500);
         return;
       }
       if ((skillsData[skillBtn.dataset.skill].enName === 'Invert' ||
          skillsData[skillBtn.dataset.skill].enName === 'Flux') && 
          document.querySelector('.dice').textContent === '？') {
-        message('warning', 'ダイスをロールしてから使用してください', 3000)
+        message('warning', window.currentLang === 'en' ? 'Roll the dice before using' : 'ダイスをロールしてから使用してください', 3000)
         return;
       }
       useSkill(skillBtn.dataset.skill, skillBtn);
@@ -375,8 +378,6 @@ function setUpPlayer() {
   }
   playerAnimInGame.start();
 }
-
-function setUpItems() {}
 
 function setUpDice() {
   document.querySelector('.dice-area').innerHTML = '';
@@ -407,12 +408,12 @@ document.getElementById('dice-roll-button').addEventListener('click', () => {
 });
 document.getElementById('dice-reroll-button').addEventListener('click', () => {
   if (globalGameState.player.rerollCount === 0) {
-    message('warning', 'リロール回数がありません', 3000);
+    message('warning', window.currentLang === 'en' ? 'No rerolls left' : 'リロール回数がありません', 3000);
     return;
   }
   rollDice();
   globalGameState.player.rerollCount--;
-  document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
+  document.querySelector('#dice-reroll-button').textContent = window.currentLang === 'en' ? `Reroll (${globalGameState.player.rerollCount} left)` : `リロール（残り${globalGameState.player.rerollCount}回）`;
   setPhase(2); 
 });
 document.getElementById('dice-confirm-button').addEventListener('click', () => {
@@ -455,7 +456,7 @@ function rollDice() {
     });
     const hand = judgeHand();
     console.log(`役: ${hand.handName}`);
-    document.querySelector('#dice-hand-info-title').textContent = `現在の役: ${hand.handName}`;
+    document.querySelector('#dice-hand-info-title').textContent = window.currentLang === 'en' ? `Current Hand: ${hand.handName}` : `現在の役: ${hand.handName}`;
     document.querySelector('#dice-hand-info-effect-value').textContent = hand.text;
   }, 1000);
 }
@@ -493,7 +494,7 @@ async function processTurn(target) {
   // 次のターンの設定
   globalGameState.player.rerollCount = 2;
   globalGameState.player.isAllAttack = false;
-  document.querySelector('#dice-reroll-button').textContent = `リロール（残り${globalGameState.player.rerollCount}回）`;
+  document.querySelector('#dice-reroll-button').textContent = window.currentLang === 'en' ? `Reroll (${globalGameState.player.rerollCount} left)` : `リロール（残り${globalGameState.player.rerollCount}回）`;
   document.getElementById('dice-attack-button').disabled = false;
   setPhase(1);
   document.querySelectorAll('.dice').forEach(dice => {
@@ -501,7 +502,7 @@ async function processTurn(target) {
     dice.removeEventListener('click', toggleHold);
     dice.textContent = '？';
   });
-  document.querySelector('#dice-hand-info-title').textContent = `現在の役: ---`;
+  document.querySelector('#dice-hand-info-title').textContent = window.currentLang === 'en' ? 'Current Hand: ---' : '現在の役: ---';
   document.querySelector('#dice-hand-info-effect-value').textContent = '---';
   executeTurnItems();
   for (const enemyId in globalGameState.enemies) {
