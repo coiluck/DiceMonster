@@ -30,18 +30,12 @@ export async function executeHand(target, hand, dice) {
       break;
     case 'full house':
       const attackReduction = 2 + globalGameState.player.items.filter(item => item === 9).length;
-      for (const enemy in globalGameState.enemies) {
-        changeEnemyAttack(enemy, -attackReduction, true);
-      }
+      changeEnemyAttack(target.dataset.uniqueId, -attackReduction, true);
       damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'three card':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
-      const counts = dice.reduce((acc, val) => {
-        acc[val] = (acc[val] || 0) + 1;
-        return acc;
-      }, {});
       const sortedDice = [...dice].sort((a, b) => a - b);
       const shieldValue = sortedDice[1] * (globalGameState.player.items.filter(item => item === 11).length + 1);
       addPlayerBuff('shield', shieldValue);

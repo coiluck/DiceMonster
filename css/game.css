@@ -87,7 +87,6 @@
   background-size: cover;
   background-blend-mode: luminosity;
   border: 1px solid #222;
-  border-radius: 5px;
   color: #333;
   font-size: 1rem;
   font-weight: bold;
@@ -121,6 +120,19 @@
   background-repeat: no-repeat;
   border-radius: 5px;
   z-index: 1;
+}
+.player-container-left-button::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+.player-container-left-button:hover {
+  transform: scale(1.03) translateY(-2px);
 }
 
 .dice-area {

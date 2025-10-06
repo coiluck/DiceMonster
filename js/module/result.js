@@ -4,14 +4,17 @@ import { message } from "./message.js";
 import { changeModal } from "./changeModal.js";
 import { playerAnimInGame } from "./characterAnimation.js";
 import { setUpEndgame } from "./endGame.js";
+import { resetItemListContainer } from "./gameSub.js";
 
 export function gameOver() {
   playerAnimInGame.stop();
+  resetItemListContainer();
   setUpEndgame(false);
 }
 
 export function roundEnd() {
   playerAnimInGame.stop();
+  resetItemListContainer();
   if (globalGameState.round === 15) {
     setUpEndgame(true);
     return;
@@ -19,6 +22,7 @@ export function roundEnd() {
   changeModal('result', null, 500, false);
   setUpResult();
   setTimeout(() => {
+    resetItemListContainer(); // 一応（gameが消えている最中にも押せるので）
     document.getElementById('result-header').classList.add('active');
     document.querySelector('#result-header .result-header-round').classList.add('active');
     document.getElementById('result-content').classList.add('active');

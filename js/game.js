@@ -331,8 +331,8 @@ function setUpPlayer() {
     globalGameState.player.shield = 0;
   }
   if (globalGameState.player.items.includes(15)) {
-    const damage = globalGameState.player.items.filter(n => n === 15).length;
-    damage('player', 2 * damage);
+    const selfDamage = globalGameState.player.items.filter(n => n === 15).length;
+    damage('player', 2 * selfDamage);
   }
   console.log(globalGameState.player);
   // 表示を更新
