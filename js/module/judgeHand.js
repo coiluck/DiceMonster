@@ -86,9 +86,6 @@ const handData = {
 };
 
 export function judgeHand() {
-  // グローバル状態からプレイヤーのアイテムリストを取得 (存在しない場合も考慮)
-  const playerItems = window.globalGameState?.player?.items || [];
-
   const diceElements = document.querySelectorAll('.dice');
 
   if (diceElements.length !== 4) {
@@ -108,7 +105,7 @@ export function judgeHand() {
   const sum = dices.reduce((a, b) => a + b, 0);
 
   // 現在の言語設定を取得
-  const lang = window.language === 'en' ? 'en' : 'ja';
+  const lang = window.currentLang === 'en' ? 'en' : 'ja';
 
   // フォーカード
   if (countsValues.includes(4)) {

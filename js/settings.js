@@ -1,17 +1,17 @@
 // settings.js
 const btnJa = document.getElementById('btn-ja');
 const btnEn = document.getElementById('btn-en');
-let currentLang = 'ja'; // ほんとうはlocalStrageかnodeの保存領域に入れる
+window.currentLang = 'ja'; // ほんとうはlocalStrageかnodeの保存領域に入れる
 // currentLangの部分は後で書く
 btnJa.addEventListener('click', () => {
   btnJa.classList.add('active');
   btnEn.classList.remove('active');
-  currentLang = 'ja';
+  window.currentLang = 'ja';
 });
 btnEn.addEventListener('click', () => {
   btnEn.classList.add('active');
   btnJa.classList.remove('active');
-  currentLang = 'en';
+  window.currentLang = 'en';
 });
 
 import { setVolume } from "./module/audio.js";

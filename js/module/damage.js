@@ -121,9 +121,8 @@ export function damage(target, value, isFixedDamage = false) {
         currentDamage += globalGameState.player.attack;
       }
 
-      // 実際に与えるダメージ量（敵の残りHPを超えない）を計算
-      const actualDamageDealt = Math.min(currentDamage, globalGameState.enemies[enemyId].hp);
-      totalDamageDealt += actualDamageDealt;
+      // ダメージは敵のHPを超えて計算
+      totalDamageDealt += currentDamage;
 
       // 敵のHPを更新
       const newHp = globalGameState.enemies[enemyId].hp -= currentDamage;
