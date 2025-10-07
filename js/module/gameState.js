@@ -1,6 +1,6 @@
 // gameState.js
 const initialState = {
-  round: 11,
+  round: 1,
   difficulty: 'easy',
   easyStageEnemy: [],
   forStats: {
@@ -17,7 +17,7 @@ const initialState = {
     reduceSkillPoint: 0,
     maxSkillPoint: 10,
     rerollCount: 2,
-    skills: ['hanten', 'mishoji'],
+    skills: ['mishoji', 'mishoji'],
     skillsPoint: 0,
     isAllAttack: false,
     items: [],

@@ -15,11 +15,11 @@ export async function executeHand(target, hand, dice) {
       const buffsInForCard = ["shield", "damageReduction", "attack"];
       const randomIndexInForCard = Math.floor(Math.random() * buffsInForCard.length);
       addPlayerBuff(buffsInForCard[randomIndexInForCard], 1);
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3);
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0) * 3, false, dice);
       break;
     case 'straight':
       globalGameState.player.isAllAttack = true;
-      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5), false, dice);
       globalGameState.player.isAllAttack = false;
 
       const buffs = ["shield", "damageReduction", "attack"];
@@ -31,28 +31,28 @@ export async function executeHand(target, hand, dice) {
     case 'full house':
       const attackReduction = 2 + globalGameState.player.items.filter(item => item === 9).length;
       changeEnemyAttack(target.dataset.uniqueId, -attackReduction, true);
-      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5));
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5), false, dice);
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'three card':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0), false, dice);
       const sortedDice = [...dice].sort((a, b) => a - b);
       const shieldValue = sortedDice[1] * (globalGameState.player.items.filter(item => item === 11).length + 1);
       addPlayerBuff('shield', shieldValue);
       break;
     case 'all even':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0), false, dice);
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'all odd':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0), false, dice);
       heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
       break;
     case 'one pair':
-      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0));
+      damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0), false, dice);
       break;
     case 'no pair':
-      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
+      damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) / 2), false, dice);
       break;
   }
 }
@@ -115,17 +115,15 @@ export function damage(target, value, isFixedDamage = false, dices = []) {
       if (!isFixedDamage) {
         currentDamage += globalGameState.player.attack;
       }
-
       if (!isFixedDamage && dices.length > 0) {
         // 特殊効果の設定
         const diceSum = dices.reduce((a, b) => a + b, 0);
-        
         // ID:4 腐敗したシカ「偶数の出目でしかダメージを与えられない」
-        if (enemyMasterId === 4 && diceSum % 2 !== 0) {
+        if (globalGameState.enemies[enemyId].id === 4 && diceSum % 2 !== 0) {
           currentDamage = globalGameState.player.attack; // 出目によるダメージは0。基礎攻撃力分のみ
         }
         // ID:7 星を紡ぐ者「出目の合計値が素数の時に大ダメージ(2倍)」
-        if (enemyMasterId === 7) {
+        if (globalGameState.enemies[enemyId].id === 7) {
           const isPrime = num => {
             if (num <= 1) return false;
             for (let i = 2; i * i <= num; i++) {
@@ -138,7 +136,7 @@ export function damage(target, value, isFixedDamage = false, dices = []) {
           }
         }
         // ID:9 黄昏の牙「出目の合計値が15以下の場合、受けるダメージを半減」
-        if (enemyMasterId === 9 && diceSum <= 15) {
+        if (globalGameState.enemies[enemyId].id === 9 && diceSum <= 15) {
           currentDamage = Math.ceil(currentDamage / 2);
         }
       }

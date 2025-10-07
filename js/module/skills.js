@@ -89,6 +89,7 @@ import { globalGameState } from "./gameState.js";
 import { damage, heal, changeEnemyAttack, addPlayerBuff } from "./damage.js"
 import { toggleHold } from "../game.js";
 import { message, deleteMessage } from "./message.js";
+import { playerAnimInGame, playerAnimOfAscension } from "./characterAnimation.js";
 
 export function useSkill(skillId, pushedButton) {
   // 処理中はdice-buttonsのボタンを無効化
@@ -146,6 +147,8 @@ export function useSkill(skillId, pushedButton) {
       addPlayerBuff('shield', 5);
       break;
     case 'shinka':
+      playerAnimInGame.stop;
+      playerAnimOfAscension.start;
       document.querySelector('.game-image-container img').src = './assets/images/9-8-8-4.webp';
       document.querySelector('.game-image-container img').classList.add('ascension');
       globalGameState.maxHp = 70;

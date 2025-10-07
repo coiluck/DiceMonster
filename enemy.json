@@ -159,7 +159,7 @@
     "isBoss": true,
     "enName": "Skyrend",
     "image": "roar_of_destruction.avif",
-    "hp": 20,
+    "hp": 60,
     "attack": 4,
     "description": "竜系のモンスターを毎ターン召喚する(最大制限あり)。消滅するとき、すべての敵のHPを10、攻撃力を2増やす",
     "enDescription": ""

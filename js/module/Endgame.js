@@ -44,6 +44,9 @@ export function setUpEndgame(isClear) {
     `;
   }
   document.querySelector('#modal-endgame .endgame-stats').innerHTML = statsHTML;
+  // ゲームオーバーテキストのデータ
+  const enSubtitleArray = ['Your legend ends here', 'You couldn’t reach your destiny', 'The world moves on without you', 'Only silence remains...','The darkness claims another soul'];
+  const jaSubtitleArray = ['光は途絶え、闇だけが残った', '運命はあなたを見放した', 'あなたの物語は、ここで途切れた', '希望は、手のひらから零れ落ちた', 'その手は、もう何も掴めない', '足跡は風にさらわれた'];
   // スタイルの設定
   document.querySelectorAll('#modal-endgame .clear, #modal-endgame .gameover').forEach(element => {
     element.classList.remove('clear', 'gameover');
@@ -51,14 +54,14 @@ export function setUpEndgame(isClear) {
   if (isClear) {
     document.querySelector('#modal-endgame .endgame-title').textContent = 'Game Clear!'
     document.querySelector('#modal-endgame .endgame-title').classList.add('clear');
-    document.querySelector('#modal-endgame .endgame-subtitle').textContent = 'aaaaaaa'
+    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? '' : 'aaaaaaa'
     document.querySelector('#modal-endgame .endgame-subtitle').classList.add('clear');
     document.querySelector('#modal-endgame .endgame-stats').classList.add('clear');
     document.querySelectorAll('#modal-endgame .endgame-stat-value').forEach(element => element.classList.add('clear'));
   } else {
     document.querySelector('#modal-endgame .endgame-title').textContent = 'Game Over!'
     document.querySelector('#modal-endgame .endgame-title').classList.add('gameover');
-    document.querySelector('#modal-endgame .endgame-subtitle').textContent = 'bbbbbbbbbb'
+    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? enSubtitleArray[Math.floor(Math.random() * enSubtitleArray.length)] : jaSubtitleArray[Math.floor(Math.random() * jaSubtitleArray.length)]
     document.querySelector('#modal-endgame .endgame-subtitle').classList.add('gameover');
     document.querySelector('#modal-endgame .endgame-stats').classList.add('gameover');
     document.querySelectorAll('#modal-endgame .endgame-stat-value').forEach(element => element.classList.add('gameover'));

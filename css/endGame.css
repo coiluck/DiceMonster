@@ -68,7 +68,7 @@
   }
 }
 .endgame-subtitle.clear {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-family: 'Georgia', 'Times New Roman', serif;
   color: #a0d0ff;
   margin-bottom: 40px;
@@ -76,7 +76,7 @@
   opacity: 0.9;
 }
 .endgame-subtitle.gameover {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-family: 'Georgia', 'Times New Roman', serif;
   color: #ffb0b0;
   margin-bottom: 40px;
