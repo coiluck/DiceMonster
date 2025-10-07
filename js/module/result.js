@@ -59,7 +59,7 @@ async function setUpResult() {
 
     const containerTitle = document.createElement('p');
     containerTitle.className = 'result-choice-container-title';
-    containerTitle.textContent = '以下の選択肢からひとつ選んでください';
+    containerTitle.textContent = window.currentLang === 'en' ? 'Select one option from below' : '以下の選択肢からひとつ選んでください';
     choiceContainer.appendChild(containerTitle);
 
     const wrapper = document.createElement('div');
@@ -73,14 +73,14 @@ async function setUpResult() {
       if (typeof rewardId === 'string') {
         // スキルの場合
         const skill = skillsData[rewardId];
-        name = skill.name;
-        description = skill.description;
+        name = window.currentLang === 'en' ? skill.enName : skill.name;
+        description = window.currentLang === 'en' ? skill.enDescription : skill.description;
         rewardType = 'skill';
       } else {
         // アイテムの場合
         const item = itemDataList.find(i => i.id === rewardId);
-        name = item.name;
-        description = item.description;
+        name = window.currentLang === 'en' ? item.enName : item.name;
+        description = window.currentLang === 'en' ? item.enDescription : item.description;
         rewardType = 'item';
       }
 
@@ -90,7 +90,7 @@ async function setUpResult() {
       const typeP = document.createElement('p');
       typeP.className = 'result-choice-container-type';
       // rewardTypeに基づいてテキストを設定
-      typeP.textContent = rewardType === 'skill' ? 'スキル' : 'アイテム';
+      typeP.textContent = rewardType === 'skill' ? window.currentLang === 'en' ? 'Skill' : 'スキル' : window.currentLang === 'en' ? 'Item' : 'アイテム';
       itemDiv.appendChild(typeP);
 
       const titleP = document.createElement('p');
@@ -102,7 +102,7 @@ async function setUpResult() {
       descriptionP.textContent = description;
       const button = document.createElement('button');
       button.className = 'result-choice-container-item-button';
-      button.textContent = '選択';
+      button.textContent = window.currentLang === 'en' ? 'Select' : '選択';
       // data属性を追加
       button.dataset.rewardType = rewardType;
       button.dataset.rewardId = rewardId;

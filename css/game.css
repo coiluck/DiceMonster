@@ -89,7 +89,9 @@
   border: 1px solid #222;
   color: #333;
   font-size: 1rem;
+  font-family: serif;
   font-weight: bold;
+  letter-spacing: 0.1rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -187,15 +189,16 @@
 }
 #dice-hand-info-effect-title {
   font-size: 0.8rem;
+  font-family: serif;
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid #555;
 }
 #dice-hand-info-effect-value {
   font-size: 0.8rem;
+  font-family: serif;
   text-align: center;
   margin: 10px 0;
-  font-family: serif;
 }
 
 .player-card-container {
@@ -245,6 +248,11 @@
           mask-composite: exclude;
   z-index: 3;
   pointer-events: none;
+}
+.card.player h3 {
+  font-family: serif;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
 }
 .game-image-container {
   width: 70%;
@@ -416,6 +424,7 @@
 }
 .button-group button {
   padding: 5px 15px;
+  font-family: "Roboto", "Noto Sans JP", sans-serif;
   background: transparent;
   border: 1px solid #00ff88;
   color: #00ff88;

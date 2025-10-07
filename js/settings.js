@@ -52,7 +52,54 @@ function changeLanguage() {
   });
 };
 const languageData = [
-  // modal-game
+  // top
+  {
+    selector: '.top-main-title',
+    ja: '六面天運',
+    en: 'Dice Monster',
+  },
+  {
+    selector: '.top-sub-title .top-sub-title-text',
+    ja: '振って、揃えて、運命を覆せ',
+    en: 'Roll the dice. Shape your fate.',
+  },
+  {
+    selector: '.top-continue-button .top-button-text',
+    ja: '前回の冒険から',
+    en: 'Continue from Last Adventure',
+  },
+  {
+    selector: '.top-continue-button .top-button-subtext',
+    ja: '物語を紡ぎ直す',
+    en: 'Rewrite the Story',
+  },
+  {
+    selector: '.top-new-button .top-button-text',
+    ja: '新たな旅を始める',
+    en: 'Start New Journey',
+  },
+  {
+    selector: '.top-new-button .top-button-subtext',
+    ja: '未知の運命へ',
+    en: 'To Unknown Fate',
+  },
+  {
+    selector: '.top-rules-button .top-button-text',
+    ja: '冒険の掟を知る',
+    en: 'Know the Rules',
+  },
+  {
+    selector: '.top-rules-button .top-button-subtext',
+    ja: '運命に抗う術を',
+    en: 'Resist Fate',
+  },
+  // difficulty
+  {
+    selector: '.difficulty-container h2',
+    ja: '難易度を選択してください',
+    en: 'Select Difficulty',
+  },
+  // game
   {
     selector: '#item-button',
     ja: 'アイテム',
@@ -102,5 +149,11 @@ const languageData = [
     selector: '#skill-point-label',
     ja: 'スキルポイント: ',
     en: 'Skill Point: ',
+  },
+  // result
+  {
+    selector: '.result-player-card-title',
+    ja: '入れ替えるスキルを選択してください',
+    en: 'Select the skill to replace',
   },
 ]

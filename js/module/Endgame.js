@@ -35,13 +35,14 @@ export function setUpEndgame(isClear) {
   ];
   let statsHTML = ''; 
   for (const stat of statsData) {
-  statsHTML += `
+    const label = window.currentLang === 'en' ? stat.enLabel : stat.label;
+    statsHTML += `
       <div class="endgame-stat-item">
-        <span class="endgame-stat-label">${stat.label}</span>
+        <span class="endgame-stat-label">${label}</span>
         <span class="endgame-stat-value">${stat.value}</span>
       </div>
-      `;
-    }
+    `;
+  }
   document.querySelector('#modal-endgame .endgame-stats').innerHTML = statsHTML;
   // スタイルの設定
   document.querySelectorAll('#modal-endgame .clear, #modal-endgame .gameover').forEach(element => {
