@@ -77,7 +77,7 @@ export function heal(target, value) { // targetは1, 2, ...のようなuniqueId�
 
 import { gameOver, roundEnd } from './result.js';
 
-export function damage(target, value, isFixedDamage = false) {
+export function damage(target, value, isFixedDamage = false, dices = []) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
   if (target === 'player') {
     let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
@@ -116,12 +116,43 @@ export function damage(target, value, isFixedDamage = false) {
         currentDamage += globalGameState.player.attack;
       }
 
+      if (!isFixedDamage && dices.length > 0) {
+        // 特殊効果の設定
+        const diceSum = dices.reduce((a, b) => a + b, 0);
+        
+        // ID:4 腐敗したシカ「偶数の出目でしかダメージを与えられない」
+        if (enemyMasterId === 4 && diceSum % 2 !== 0) {
+          currentDamage = globalGameState.player.attack; // 出目によるダメージは0。基礎攻撃力分のみ
+        }
+        // ID:7 星を紡ぐ者「出目の合計値が素数の時に大ダメージ(2倍)」
+        if (enemyMasterId === 7) {
+          const isPrime = num => {
+            if (num <= 1) return false;
+            for (let i = 2; i * i <= num; i++) {
+              if (num % i === 0) return false;
+            }
+            return true;
+          };
+          if (isPrime(diceSum)) {
+            currentDamage *= 2;
+          }
+        }
+        // ID:9 黄昏の牙「出目の合計値が15以下の場合、受けるダメージを半減」
+        if (enemyMasterId === 9 && diceSum <= 15) {
+          currentDamage = Math.ceil(currentDamage / 2);
+        }
+      }
+
       // ダメージは敵のHPを超えて計算
       totalDamageDealt += currentDamage;
 
       // 敵のHPを更新
       const newHp = globalGameState.enemies[enemyId].hp -= currentDamage;
       const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
+
+      if (globalGameState.enemies[enemyId].id === 12 && currentDamage > 0) {
+        damage('player', 2, true); // 固定ダメージとして扱う
+      }
 
       if (!targetEnemy) {
         console.warn('対象がありません');

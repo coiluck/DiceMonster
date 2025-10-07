@@ -1,6 +1,6 @@
 // gameState.js
 const initialState = {
-  round: 15,
+  round: 11,
   difficulty: 'easy',
   easyStageEnemy: [],
   forStats: {
