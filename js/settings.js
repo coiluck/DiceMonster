@@ -30,6 +30,7 @@ document.getElementById('se-volume').addEventListener('input', (e) => {
 
 // 設定を閉じる
 import { changeModal, closeModal } from "./module/changeModal.js";
+import { playSound } from './module/audio.js';
 
 document.getElementById('settings-close-button').addEventListener('click', (event) => {
   if (document.getElementById('modal-settings').style.zIndex === '100') {
@@ -39,6 +40,7 @@ document.getElementById('settings-close-button').addEventListener('click', (even
     changeModal('top', null, 500);
     console.log('from top')
   }
+  playSound('button');
 })
 
 
@@ -50,6 +52,7 @@ function changeLanguage() {
       element.textContent = item[window.currentLang];
     }
   });
+  playSound('metallic');
 };
 const languageData = [
   // top

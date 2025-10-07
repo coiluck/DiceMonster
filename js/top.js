@@ -22,17 +22,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 import { changeModal } from './module/changeModal.js';
+import { playSound } from './module/audio.js';
 
 document.querySelector('.top-continue-button').addEventListener('click', () => {
   changeModal('game', null, 500, true);
+  playSound('metallic');
 });
 document.querySelector('.top-new-button').addEventListener('click', () => {
   changeModal('difficulty', null, 500, true);
+  playSound('button');
 });
 document.querySelector('.top-rules-button').addEventListener('click', () => {
   changeModal('rules', null, 500, true);
+  playSound('button');
 });
 
 document.querySelector('.settings-icon').addEventListener('click', () => {
   changeModal('settings', null, 500, true);
+  playSound('button');
+});
+
+
+import { bgm } from './module/audio.js';
+
+document.querySelectorAll('button').forEach((button) => {
+  button.addEventListener('click', () => {
+    bgm.play('assets/audio/theme1.mp3');
+  });
 });

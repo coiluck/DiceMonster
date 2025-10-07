@@ -41,12 +41,17 @@ async function getItemData() {
 
 import { initGame } from '../game.js';
 import { addTooltipEvents } from './addToolTip.js';
+import { playSound } from './audio.js';
 
 async function setUpResult() {
-  document.querySelector('#result-header .result-header-round').innerHTML = `Round ${globalGameState.round} >> ${globalGameState.round + 1}`;
+  if (globalGameState.round === 14) {
+    document.querySelector('#result-header .result-header-round').innerHTML = `Round ${globalGameState.round} >> Boss`;
+  } else {
+    document.querySelector('#result-header .result-header-round').innerHTML = `Round ${globalGameState.round} >> ${globalGameState.round + 1}`;
+  }
   // 獲得アイテムを抽選
   const reward = await getReward();
-  console.log(reward);
+  console.log('--- ラウンド終了 ---');
   // 獲得アイテムを表示
   const resultContent = document.getElementById('result-content');
   resultContent.innerHTML = '';
@@ -108,6 +113,7 @@ async function setUpResult() {
       button.dataset.rewardId = rewardId;
       // クリックイベントリスナーを追加
       button.addEventListener('click', (event) => {
+        playSound('metallic');
         const clickedButton = event.currentTarget;
         // コンテナ内のすべてのボタンを無効化
         const container = clickedButton.closest('.result-choice-container');
@@ -130,20 +136,31 @@ async function setUpResult() {
           // 獲得する新しいスキル情報を表示
           const newSkillInfo = document.createElement('div');
           newSkillInfo.className = 'result-player-card-new-skill-info';
-          let limitedMessage = newSkill.isLimmitedTimes ? '使用制限: 1ラウンド1回 ' : '';
-          newSkillInfo.innerHTML = `
+          let limitedMessageLang = window.currentLang === 'en' ? 'Usage Limit: 1 Round 1 Time' : '使用制限: 1ラウンド1回 ';
+          let limitedMessage = newSkill.isLimmitedTimes ? limitedMessageLang : '';
+          if (window.currentLang === 'en') {
+            newSkillInfo.innerHTML = `
+            <p class="result-new-skill-title">New Skill</p>
+            <div class="result-new-skill-data">
+              <p class="result-new-skill-name">${newSkill.enName}</p>
+              <p class="result-new-skill-description">${newSkill.enDescription} ${limitedMessage}Cost: ${newSkill.cost}</p>
+            </div>
+          `;
+          } else {
+            newSkillInfo.innerHTML = `
             <p class="result-new-skill-title">獲得するスキル</p>
             <div class="result-new-skill-data">
               <p class="result-new-skill-name">${newSkill.name}</p>
               <p class="result-new-skill-description">${newSkill.description} ${limitedMessage}消費ポイント: ${newSkill.cost}</p>
             </div>
           `;
+          }
           skillSwapContainer.appendChild(newSkillInfo);
 
           // タイトルを設定
           const title = document.createElement('p');
           title.className = 'result-player-card-title';
-          title.textContent = '入れ替えるスキルを選択してください';
+          title.textContent = window.currentLang === 'en' ? 'Select the skill to replace' : '入れ替えるスキルを選択してください';
           skillSwapContainer.appendChild(title);
 
           // 現在の所持スキルを入れ替え候補としてボタンで表示
@@ -154,14 +171,22 @@ async function setUpResult() {
             const currentSkill = skillsData[currentSkillId];
             const skillButton = document.createElement('button');
             skillButton.className = 'result-player-card-current-skill-button';
-            skillButton.innerHTML = `
-              <p class="result-choice-container-item-title">${currentSkill.name}</p>
-              <p class="result-player-card-current-skill-button-description">所持中のスキル</p>
-            `;
-            addTooltipEvents(skillButton, currentSkill.description);
+            if (window.currentLang === 'en') {
+              skillButton.innerHTML = `
+                <p class="result-choice-container-item-title">${currentSkill.enName}</p>
+                <p class="result-player-card-current-skill-button-description">Owned Skill</p>
+              `;
+            } else {
+              skillButton.innerHTML = `
+                <p class="result-choice-container-item-title">${currentSkill.name}</p>
+                <p class="result-player-card-current-skill-button-description">所持中のスキル</p>
+              `;
+            }
+            addTooltipEvents(skillButton, window.currentLang === 'en' ? currentSkill.enDescription : currentSkill.description);
 
             // 現在のスキルボタンがクリックされた時の処理
             skillButton.addEventListener('click', () => {
+              playSound('metallic');
               // スキルを入れ替え
               globalGameState.player.skills[index] = newSkillId;
               console.log(`所持スキル: ${globalGameState.player.skills}`);

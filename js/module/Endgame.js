@@ -44,9 +44,11 @@ export function setUpEndgame(isClear) {
     `;
   }
   document.querySelector('#modal-endgame .endgame-stats').innerHTML = statsHTML;
-  // ゲームオーバーテキストのデータ
-  const enSubtitleArray = ['Your legend ends here', 'You couldn’t reach your destiny', 'The world moves on without you', 'Only silence remains...','The darkness claims another soul'];
-  const jaSubtitleArray = ['光は途絶え、闇だけが残った', '運命はあなたを見放した', 'あなたの物語は、ここで途切れた', '希望は、手のひらから零れ落ちた', 'その手は、もう何も掴めない', '足跡は風にさらわれた'];
+  // subtitleのデータ
+  const enVictoryArray = ['A new dawn rises', 'Your name echoes through eternity', 'The darkness fades before your light', 'Fate kneels before your will', 'You have carved your legend into history', 'Silence falls… but this time, in peace'];
+  const jaVictoryArray = ['新たな暁が訪れる', 'あなたの名は、永遠に刻まれた', '闇は退き、光が世界を包む', '運命さえ、あなたの意志に膝をつく', 'あなたの伝説は、今、歴史となった'];
+  const enGameoverArray = ['Your legend ends here', 'You couldn’t reach your destiny', 'The world moves on without you', 'Only silence remains...','The darkness claims another soul'];
+  const jaGameoverArray = ['光は途絶え、闇だけが残った', '運命はあなたを見放した', 'あなたの物語は、ここで途切れた', '希望は、手のひらから零れ落ちた', 'その手は、もう何も掴めない', '足跡は風にさらわれた'];
   // スタイルの設定
   document.querySelectorAll('#modal-endgame .clear, #modal-endgame .gameover').forEach(element => {
     element.classList.remove('clear', 'gameover');
@@ -54,23 +56,26 @@ export function setUpEndgame(isClear) {
   if (isClear) {
     document.querySelector('#modal-endgame .endgame-title').textContent = 'Game Clear!'
     document.querySelector('#modal-endgame .endgame-title').classList.add('clear');
-    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? '' : 'aaaaaaa'
+    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? enVictoryArray[Math.floor(Math.random() * enVictoryArray.length)] : jaVictoryArray[Math.floor(Math.random() * jaVictoryArray.length)]
     document.querySelector('#modal-endgame .endgame-subtitle').classList.add('clear');
     document.querySelector('#modal-endgame .endgame-stats').classList.add('clear');
     document.querySelectorAll('#modal-endgame .endgame-stat-value').forEach(element => element.classList.add('clear'));
   } else {
     document.querySelector('#modal-endgame .endgame-title').textContent = 'Game Over!'
     document.querySelector('#modal-endgame .endgame-title').classList.add('gameover');
-    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? enSubtitleArray[Math.floor(Math.random() * enSubtitleArray.length)] : jaSubtitleArray[Math.floor(Math.random() * jaSubtitleArray.length)]
+    document.querySelector('#modal-endgame .endgame-subtitle').textContent = window.currentLang === 'en' ? enGameoverArray[Math.floor(Math.random() * enGameoverArray.length)] : jaGameoverArray[Math.floor(Math.random() * jaGameoverArray.length)]
     document.querySelector('#modal-endgame .endgame-subtitle').classList.add('gameover');
     document.querySelector('#modal-endgame .endgame-stats').classList.add('gameover');
     document.querySelectorAll('#modal-endgame .endgame-stat-value').forEach(element => element.classList.add('gameover'));
   }
 }
 
+import { playSound } from './audio.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   // ボタンの設定
   document.getElementById('endgame-restart-button').addEventListener('click', () => {
+    playSound('metallic');
     const difficulty = globalGameState.difficulty;
     resetGlobalState();
     globalGameState.difficulty = difficulty;
@@ -78,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     changeModal('game', null, 500, true);
   });
   document.getElementById('endgame-main-menu-button').addEventListener('click', () => {
+    playSound('metallic');
     changeModal('top', null, 500);
   })
 });

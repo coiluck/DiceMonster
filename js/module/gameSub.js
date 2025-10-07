@@ -8,7 +8,10 @@ async function getItemData() {
   return itemData;
 }
 
+import { playSound } from './audio.js';
+
 document.getElementById('item-button').addEventListener('click', async () => {
+  playSound('button');
   document.getElementById('modal-item').classList.add('active');
   document.querySelector('#modal-item h3').textContent = window.currentLang === 'en' ? 'Item List' : 'アイテム一覧';
   // 所持アイテムを順に並び変え
@@ -141,6 +144,7 @@ const handData = {
 };
 
 document.getElementById('pair-button').addEventListener('click', () => {
+  playSound('button');
   document.getElementById('modal-item').classList.add('active');
   document.querySelector('#modal-item h3').textContent = window.currentLang === 'en' ? 'Hand List' : '役一覧';
   document.querySelector('#modal-item .item-list-container').innerHTML = '';
@@ -159,6 +163,7 @@ document.getElementById('pair-button').addEventListener('click', () => {
 
 document.getElementById('item-close-button').addEventListener('click', () => {
   resetItemListContainer();
+  playSound('button');
 });
 
 // modal-gameが消えるときに毎回これを実行

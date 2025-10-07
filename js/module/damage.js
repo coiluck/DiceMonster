@@ -57,6 +57,8 @@ export async function executeHand(target, hand, dice) {
   }
 }
 
+import { playSound } from './audio.js';
+
 export function heal(target, value) { // targetは1, 2, ...のようなuniqueIdかplayer
   if (target === 'player') {
     globalGameState.player.hp = Math.min(globalGameState.player.hp + value, globalGameState.player.maxHp);
@@ -80,6 +82,7 @@ import { gameOver, roundEnd } from './result.js';
 export function damage(target, value, isFixedDamage = false, dices = []) {
   console.log('攻撃対象: ', target, '攻撃力: ', value);
   if (target === 'player') {
+    playSound('attack');
     let actualDamage = Math.max(0, value - globalGameState.player.damageReduction);
     // シールドでダメージを吸収
     const damageToShield = Math.min(actualDamage, globalGameState.player.shield);
@@ -100,6 +103,9 @@ export function damage(target, value, isFixedDamage = false, dices = []) {
       return;
     }
   } else {
+    if (dices.length > 0) {
+      playSound('attack');
+    }
     let totalDamageDealt = 0; // この攻撃で与えた総ダメージ
 
     const targets = (globalGameState.player.isAllAttack === true)
@@ -241,7 +247,7 @@ async function getEnemyData() {
 import { addTooltipEvents } from './addToolTip.js';
 
 export async function enemyAttack() {
-  await wait(500);
+  await wait(750);
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0 && globalGameState.player.hp > 0) {
       // 攻撃

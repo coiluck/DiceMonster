@@ -285,6 +285,7 @@ import { skillsData, useSkill } from './module/skills.js';
 import { renderBuff } from './module/buff.js';
 import { damage } from './module/damage.js';
 import { playerAnimInGame } from './module/characterAnimation.js';
+import { playSound } from './module/audio.js';
 
 function setUpPlayer() {
   // アイテムの効果はこの前に書かないといけない
@@ -353,27 +354,33 @@ function setUpPlayer() {
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
       if (isProcessing) {
+        playSound('disable');
         message('warning', window.currentLang === 'en' ? 'Cannot use skills during enemy turns' : '敵のターン中にスキルを使用することはできません', 3000);
         return;
       }
       if (skillBtn.dataset.skill === 'mishoji') {
+        playSound('disable');
         return;
       }
       if (skillsData[skillBtn.dataset.skill].cost - globalGameState.player.reduceSkillPoint > globalGameState.player.skillsPoint) {
+        playSound('disable');
         message('warning', window.currentLang === 'en' ? 'Skill points are insufficient' : 'スキルポイントが不足しています', 2500);
         return;
       }
       if (skillBtn.classList.contains('locked')) {
+        playSound('disable');
         message('warning', window.currentLang === 'en' ? 'This skill can only be used once per round' : '同じラウンドで1度しか使えないスキルです', 2500);
         return;
       }
       if ((skillsData[skillBtn.dataset.skill].enName === 'Invert' ||
-         skillsData[skillBtn.dataset.skill].enName === 'Flux') && 
-         document.querySelector('.dice').textContent === '？') {
+      skillsData[skillBtn.dataset.skill].enName === 'Flux') && 
+      document.querySelector('.dice').textContent === '？') {
+        playSound('disable');
         message('warning', window.currentLang === 'en' ? 'Roll the dice before using' : 'ダイスをロールしてから使用してください', 3000)
         return;
       }
       useSkill(skillBtn.dataset.skill, skillBtn);
+      playSound('metallic');
     });
     document.querySelector('.skills').appendChild(skillBtn);
   }
@@ -409,6 +416,7 @@ document.getElementById('dice-roll-button').addEventListener('click', () => {
 });
 document.getElementById('dice-reroll-button').addEventListener('click', () => {
   if (globalGameState.player.rerollCount === 0) {
+    playSound('disable');
     message('warning', window.currentLang === 'en' ? 'No rerolls left' : 'リロール回数がありません', 3000);
     return;
   }
@@ -418,9 +426,11 @@ document.getElementById('dice-reroll-button').addEventListener('click', () => {
   setPhase(2); 
 });
 document.getElementById('dice-confirm-button').addEventListener('click', () => {
+  playSound('metallic');
   setPhase(3);
 });
 document.getElementById('dice-attack-button').addEventListener('click', () => {
+  playSound('metallic');
   isProcessing = true;
   document.getElementById('dice-attack-button').disabled = true;
   document.querySelectorAll('.card.enemy, .card.boss').forEach(enemy => {
@@ -440,6 +450,7 @@ function rollDice() {
   if (dicesToRoll.length === 0) {
     return; // すべて`.hold`のときとか
   }
+  playSound('dice');
   // ランダムな整数を生成
   const getRandomNumber = () => Math.floor(Math.random() * 6) + 1;
   // アニメーションを開始
@@ -463,6 +474,7 @@ function rollDice() {
 }
 
 export function toggleHold(event) {
+  playSound('button');
   event.currentTarget.classList.toggle('hold');
 }
 
@@ -525,6 +537,7 @@ async function processTurn(target) {
       }
     }
   }
+  console.log('--- ターン終了 ---');
   isProcessing = false;
 };
 
