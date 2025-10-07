@@ -34,13 +34,13 @@
   },
   {
     "id": 4,
-    "rank": 5,
+    "rank": 4,
     "name": "腐敗したシカ",
     "enName": "BlightStag",
     "image": "rotted_deer.avif",
     "hp": 20,
     "attack": 3,
-    "description": "偶数の出目でしかダメージを与えられない。サイコロの出目を介さない効果（アイテム、攻撃力バフ、スキル）によるダメージは、この能力の影響を受けない。",
+    "description": "偶数の出目でしかダメージを与えられない。（攻撃力バフはダメージ計算に加算されるが、判定は「出目の合計のみ」で行う。アイテム・スキル由来のダメージは対象外）",
     "enDescription": ""
   },
   {
@@ -49,7 +49,7 @@
     "name": "さまよえる者",
     "enName": "Wayfarer",
     "image": "lost_one.avif",
-    "hp": 30,
+    "hp": 35,
     "attack": 3,
     "description": "",
     "enDescription": ""
@@ -60,7 +60,7 @@
     "name": "紅き妖眼",
     "enName": "ScarletVex",
     "image": "nine_tails.avif",
-    "hp": 25,
+    "hp": 30,
     "attack": 4,
     "description": "",
     "enDescription": ""
@@ -71,9 +71,9 @@
     "name": "星を紡ぐ者",
     "enName": "Starweaver",
     "image": "cosmos_observation.avif",
-    "hp": 40,
+    "hp": 45,
     "attack": 3,
-    "description": "出目の合計値が素数の時に大ダメージ(2倍)を受ける。サイコロの出目を介さない効果（アイテム、攻撃力バフ、スキル）によるダメージは、この能力の影響を受けない。",
+    "description": "出目の合計値が素数の時に大ダメージ(2倍)を受ける。（攻撃力バフはダメージ計算に加算されるが、判定は「出目の合計のみ」で行う。アイテム・スキル由来のダメージは対象外）",
     "enDescription": ""
   },
   {
@@ -82,7 +82,7 @@
     "rank": 6,
     "enName": "Obsidian",
     "image": "corroded_obsidian.avif",
-    "hp": 30,
+    "hp": 35,
     "attack": 4,
     "description": "",
     "enDescription": ""
@@ -93,9 +93,9 @@
     "rank": 6,
     "enName": "Duskfang",
     "image": "golden_tooth.avif",
-    "hp": 25,
+    "hp": 30,
     "attack": 5,
-    "description": "",
+    "description": "出目の合計値が15以下の場合、受けるダメージを半減する。（攻撃力バフはダメージ計算に加算されるが、判定は「出目の合計のみ」で行う。アイテム・スキル由来のダメージは対象外）",
     "enDescription": ""
   },
   {
@@ -104,7 +104,7 @@
     "name": "宵闇の凶角",
     "enName": "Nighthorn",
     "image": "nightmare_beast.avif",
-    "hp": 25,
+    "hp": 30,
     "attack": 6,
     "description": "",
     "enDescription": ""
@@ -115,7 +115,7 @@
     "rank": 7,
     "enName": "StoneDrake",
     "image": "cave_dragon.avif",
-    "hp": 35,
+    "hp": 40,
     "attack": 4,
     "description": "",
     "enDescription": ""
@@ -126,7 +126,7 @@
     "name": "厄災竜",
     "enName": "Doomwyrm",
     "image": "disaster_dragon.avif",
-    "hp": 40,
+    "hp": 45,
     "attack": 4,
     "description": "ダメージを受けるたびにプレーヤーに2ダメージ",
     "enDescription": ""
@@ -137,9 +137,9 @@
     "rank": 8,
     "enName": "Starfrost",
     "image": "frost_dragon.avif",
-    "hp": 35,
-    "attack": 4,
-    "description": "出目の合計値が15以下の場合、受けるダメージを半減する。サイコロの出目を介さない効果（アイテム、攻撃力バフ、スキル）によるダメージは、この能力の影響を受けない。",
+    "hp": 40,
+    "attack": 5,
+    "description": "毎ターンHPを2回復する（最大HP: 99）",
     "enDescription": ""
   },
   {
@@ -148,8 +148,8 @@
     "isBoss": true,
     "enName": "Earthrend",
     "image": "fire_of_destruction.avif",
-    "hp": 70,
-    "attack": 4,
+    "hp": 80,
+    "attack": 6,
     "description": "攻撃時に自分の攻撃 +1、与えたダメージの半分のHPを回復",
     "enDescription": ""
   },
@@ -159,9 +159,9 @@
     "isBoss": true,
     "enName": "Skyrend",
     "image": "roar_of_destruction.avif",
-    "hp": 60,
+    "hp": 20,
     "attack": 4,
-    "description": "竜系のモンスターを毎ターン召喚する(最大制限あり)。消滅するとき、すべての敵のHPを5、攻撃力を1増やす",
+    "description": "竜系のモンスターを毎ターン召喚する(最大制限あり)。消滅するとき、すべての敵のHPを10、攻撃力を2増やす",
     "enDescription": ""
   }
 ]

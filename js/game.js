@@ -29,7 +29,7 @@ async function chooseEnemy(round, difficulty) {
   // 各ラウンドの敵の設定
   const enemySpawnSettings = [
     {
-      rounds: { start: 1, end: 3 },
+      rounds: { start: 1, end: 2 },
       difficulties: {
         easy: {
           guaranteedRank: 3,          // 確定で出現する敵のランク
@@ -49,7 +49,7 @@ async function chooseEnemy(round, difficulty) {
       }
     },
     {
-      rounds: { start: 4, end: 5 },
+      rounds: { start: 3, end: 5 },
       difficulties: {
         easy: {
           guaranteedRank: 3,
@@ -262,6 +262,7 @@ function setUpEnemy(enemyIds) {
     document.getElementById('enemy-container').appendChild(enemyCard);
     // 説明がある場合
     if (enemyDescription) {
+      enemyCard.style.borderColor = 'rgba(0, 174, 255, 0.5)';
       addTooltipEvents(enemyCard, enemyDescription, true);
     }
   }
@@ -422,7 +423,7 @@ document.getElementById('dice-confirm-button').addEventListener('click', () => {
 document.getElementById('dice-attack-button').addEventListener('click', () => {
   isProcessing = true;
   document.getElementById('dice-attack-button').disabled = true;
-  document.querySelectorAll('.card.enemy').forEach(enemy => {
+  document.querySelectorAll('.card.enemy, .card.boss').forEach(enemy => {
     const hp = Number(enemy.dataset.enemyHp);
     if (hp > 0) {
       enemy.classList.add('target');
@@ -465,14 +466,14 @@ export function toggleHold(event) {
   event.currentTarget.classList.toggle('hold');
 }
 
-import { executeHand, enemyAttack } from './module/damage.js';
+import { executeHand, enemyAttack, heal } from './module/damage.js';
 
 function decideAttackTarget(event) {
   processTurn(event.currentTarget);
 }
 async function processTurn(target) {
   // すべてのtargetとイベントリスナーを解除
-  document.querySelectorAll('.card.enemy').forEach(card => {
+  document.querySelectorAll('.card.enemy, .card.boss').forEach(card => {
     card.classList.remove('target');
     card.removeEventListener('click', decideAttackTarget);
   });
@@ -507,6 +508,7 @@ async function processTurn(target) {
   executeTurnItems();
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0) {
+      // total attackをリセット
       globalGameState.enemies[enemyId].attackInThisTurn = 0;
       const targetEnemy = document.querySelector(`.card[data-unique-id="${enemyId}"]`);
       if (!targetEnemy) {
@@ -517,6 +519,10 @@ async function processTurn(target) {
       const totalAttack =
         Math.max(0, globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
       targetEnemy.querySelector('.enemy-attack').textContent = `${totalAttack}`;
+      // 凍星竜の場合はHPを回復
+      if (globalGameState.enemies[enemyId].id === 13) {
+        heal(enemyId, 2);
+      }
     }
   }
   isProcessing = false;

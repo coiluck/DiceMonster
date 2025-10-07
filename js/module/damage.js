@@ -64,9 +64,10 @@ export function heal(target, value) { // targetは1, 2, ...のようなuniqueId�
     document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
   } else {
     if (!globalGameState.enemies[target] || globalGameState.enemies[target].hp == 0) {
+      console.warn('対象がありません');
       return;
     }
-    const newHp = globalGameState.enemies[target].hp += value;
+    const newHp = Math.min(globalGameState.enemies[target].hp + value, 99);
     const targetEnemy = document.querySelector(`.card[data-unique-id="${target}"]`);
     if (!targetEnemy) console.warn('対象がありません');
     targetEnemy.querySelector('.enemy-hp').textContent = `HP: ${newHp}`;
@@ -138,6 +139,15 @@ export function damage(target, value, isFixedDamage = false) {
         targetEnemy.querySelector('.enemy-attack').classList.add('fade-out');
         targetEnemy.querySelector('.enemy-hp').classList.add('fade-out');
         targetEnemy.querySelector('img').classList.add('fade-out');
+        // 15「天を喰らう咆哮」の場合 -> 残りの敵を強化
+        if (globalGameState.enemies[enemyId].id === 15) {
+          for (const enemyId in globalGameState.enemies) {
+            if (globalGameState.enemies[enemyId].hp > 0) {
+              heal(enemyId, 10);
+              changeEnemyAttack(enemyId, 2);
+            }
+          }
+        }
         setTimeout(() => {
           targetEnemy.innerHTML = '';
           targetEnemy.innerHTML += '<img src="./assets/images/defeatedCard.avif" class="defeated-card-image">';
@@ -190,13 +200,78 @@ export function addPlayerBuff(buffName, value) {
   }
 }
 
+let enemyData;
+async function getEnemyData() {
+  if (!enemyData) {
+    const response = await fetch('enemy.json');
+    enemyData = await response.json();
+  }
+  return enemyData;
+}
+
+import { addTooltipEvents } from './addToolTip.js';
 
 export async function enemyAttack() {
   await wait(500);
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0 && globalGameState.player.hp > 0) {
+      // 攻撃
       damage('player', globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
+      // bossの場合
+      if (globalGameState.enemies[enemyId].id === 14) {
+        heal(enemyId, Math.floor(globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn / 2));
+        changeEnemyAttack(enemyId, 1);
+      } else if (globalGameState.enemies[enemyId].id === 15) {
+        const maxEnemy = globalGameState.difficulty === 'hard' ? 4 : 3; // 最大敵数
+
+        if (Object.keys(globalGameState.enemies).length < maxEnemy) {
+          // 敵を召喚
+          const dragons = [11, 12, 13];
+          const randomDragon = dragons[Math.floor(Math.random() * dragons.length)];
+          const enemyData = await getEnemyData();
+          
+          // 新しいuniqueIdを生成（既存の最大ID + 1）
+          const existingIds = Object.keys(globalGameState.enemies).map(Number);
+          const newUniqueId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+          
+          const enemyInfo = enemyData.find(e => e.id === randomDragon);
+          
+          // globalGameStateに入れる
+          globalGameState.enemies[newUniqueId] = {
+            id: randomDragon,
+            hp: enemyInfo.hp,
+            attack: enemyInfo.attack,
+            attackInThisTurn: 0,
+          };
+          
+          // 要素をDOMに作成
+          const enemyCard = document.createElement('div');
+          enemyCard.className = 'card';
+          enemyCard.classList.add('enemy');
+          enemyCard.dataset.enemyId = randomDragon;
+          enemyCard.dataset.uniqueId = newUniqueId;
+          enemyCard.dataset.enemyHp = enemyInfo.hp;
+        
+          const enemyName = window.currentLang === 'en' ? enemyInfo.enName : enemyInfo.name;
+          const enemyDescription = window.currentLang === 'en' ? enemyInfo.enDescription : enemyInfo.description;
+        
+          enemyCard.innerHTML = `
+            <p class="enemy-attack">${enemyInfo.attack}</p>
+            <p class="enemy-name">${enemyName}</p>
+            <img src="./assets/images/enemy/${enemyInfo.image}">
+            <p class="enemy-hp">HP: ${enemyInfo.hp}</p>
+          `;
+          document.getElementById('enemy-container').appendChild(enemyCard);
+          
+          // 説明がある場合
+          if (enemyDescription) {
+            enemyCard.style.borderColor = 'rgba(0, 174, 255, 0.5)';
+            addTooltipEvents(enemyCard, enemyDescription, true);
+          }
+        }
+      }
     }
+    // 敵の攻撃間隔
     await wait(500);
   }
 }
