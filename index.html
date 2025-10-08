@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./css/pause.css">
   <link rel="stylesheet" href="./css/settings.css">
   <link rel="stylesheet" href="./css/difficulty.css">
+  <link rel="stylesheet" href="./css/rule.css">
   <link rel="stylesheet" href="./css/item.css">
   <link rel="stylesheet" href="./css/buff.css">
   <link rel="stylesheet" href="./css/endgame.css">
@@ -117,7 +118,80 @@
     </div>
   </div>
 
-  <div id="modal-rules" class="modal"></div>
+  <div id="modal-rules" class="modal">
+    <div class="rules-container">
+      <h2>ゲームについて</h2>
+      <div class="rules-section">
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/ja_main.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>ゲームの目的と流れ</h3>
+            <p>
+              サイコロを振って役を作り、出現する敵をすべて倒してラウンドクリアを目指すゲームです。<br><br>
+              「ダイスを振る」→「役で攻撃」→「敵の攻撃」の順でターンが進行します。
+            </p>
+          </div>
+        </div>
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/areas.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>戦闘画面の見方</h3>
+            <p>
+              ① プレイヤー情報: あなたのHP、スキルポイント、そして攻撃力アップなどの強化（バフ）状態が表示されます。<br>
+              ② 敵情報: 敵の残りHPと攻撃力が表示されています。<br>
+              ③ ダイスエリア: ここに振られたサイコロが表示されます。成立している「役（ハンド）」と、その効果も確認できます。<br>
+              ④ スキル: スキルポイントを消費して、戦闘を有利にするスキルを使用できます。初期状態では持っていません<br>
+              ⑤ 行動ボタン: ダイスを振る、振り直す（リロール）、攻撃するなど、あなたの行動を選択します。
+            </p>
+          </div>
+        </div>
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/ja_dice_and_hand.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>ダイスと役</h3>
+            <p>
+              4つのサイコロを振り、ポーカーのような「役」を作って攻撃します。役が強いほど、ダメージが大きくなったり、強力な追加効果が発動したりします。<br><br>
+              サイコロを振った後は1ターンに2回まで、好きな個数を選んで振り直す「リロール」が可能です。そのまま振らずに残したいサイコロをクリックすると、サイコロの枠が赤色になり「ホールド状態」になります。
+            </p>
+          </div>
+        </div>
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/ja_skills.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>戦況を覆すスキル</h3>
+            <p>
+              役を揃えると「スキルポイント」が溜まります。獲得するスキルポイントの量は役の強さに応じて異なります。<br><br>
+              スキルポイントを消費して、戦闘を有利に進める「スキル」を発動できます。「ダイスの出目を操作する」「敵全体にダメージを与える」など、効果は様々です。絶好のタイミングで使って戦いを有利に運びましょう。
+            </p>
+          </div>
+        </div>
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/ja_enemy.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>敵の固有能力</h3>
+            <p>
+              冒険の道中では、特殊な能力を持つ敵が多数出現します。特殊な能力を持つ敵は青色の枠をしており、マウスをホバーすると能力が確認できます。<br><br>
+              例えば以下のような敵がいます<br>
+              ・腐敗したシカ: 出目の合計が「偶数」の時しかダメージを与えられない<br>
+              ・星を紡ぐ者: 出目の合計が「素数」の時にダメージが2倍になる<br><br>
+              また、ボスも強力な能力を有しています。青い枠の敵やボスが出てきたら、能力を確認してみてください。
+            </p>
+          </div>
+        </div>
+        <div class="rules-item">
+          <div class="rules-item-image-container"><img src="./assets/images/rules/pause.avif"></div>
+          <div class="rules-item-text-container">
+            <h3>ゲームの中断</h3>
+            <p>
+              「Esc」キーを押すと、様々なボタンが現れます。<br>
+              「Save & Quit」を押すと現在の状態が保存され、Topの「前回の冒険から」を押すことで中断したところから再開できます。
+            </p>
+          </div>
+        </div>
+      </div>
+      <button id="rules-close-button">Close</button>
+    </div>
+  </div>
 
   <div id="modal-game" class="modal">
     <div class="game-container">

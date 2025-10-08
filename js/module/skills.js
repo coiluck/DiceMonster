@@ -105,7 +105,7 @@ export function useSkill(skillId, pushedButton) {
     case 'tsuigeki':
       for (const enemyId in globalGameState.enemies) {
         if (globalGameState.enemies[enemyId].hp > 0) {
-          damage(enemyId, 5);
+          damage(enemyId, 5, true);
         }
       }
       break;

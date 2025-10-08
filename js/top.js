@@ -33,7 +33,7 @@ document.querySelector('.top-new-button').addEventListener('click', () => {
   playSound('button');
 });
 document.querySelector('.top-rules-button').addEventListener('click', () => {
-  changeModal('rules', null, 500, true);
+  changeModal('rules', '.rules-section', 500, true);
   playSound('button');
 });
 
@@ -42,6 +42,9 @@ document.querySelector('.settings-icon').addEventListener('click', () => {
   playSound('button');
 });
 
+document.getElementById('rules-close-button').addEventListener('click', () => {
+  changeModal('top', null, 500, true);
+})
 
 import { bgm } from './module/audio.js';
 

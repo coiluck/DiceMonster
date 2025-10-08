@@ -17,6 +17,7 @@
 }
 
 .difficulty-container h2 {
+  margin-top: 50px;
   font-size: 1.5rem;
   font-weight: bold;
   font-family: serif;
@@ -25,7 +26,9 @@
 .difficulty-buttons {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
+  flex-grow: 1;
   width: 100%;
   margin-top: 20px;
 }

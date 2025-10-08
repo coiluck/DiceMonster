@@ -102,6 +102,12 @@ const languageData = [
     ja: '難易度を選択してください',
     en: 'Select Difficulty',
   },
+  // rules
+  {
+    selector: '#modal-rules .rules-container h2',
+    ja: 'ゲームについて',
+    en: 'About the Game'
+  },
   // game
   {
     selector: '#item-button',
