@@ -108,6 +108,9 @@
   gap: 5px;
   min-width: 0;
 }
+.rules-item-text-container > * {
+  white-space: pre-line;
+}
 .rules-item-image-container h3 {
   font-size: 1.1rem;
 }
