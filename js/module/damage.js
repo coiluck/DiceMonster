@@ -250,6 +250,8 @@ export async function enemyAttack() {
   await wait(750);
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0 && globalGameState.player.hp > 0) {
+      // 敵の攻撃間隔
+      await wait(500);
       // 攻撃
       damage('player', globalGameState.enemies[enemyId].attack + globalGameState.enemies[enemyId].attackInThisTurn);
       // bossの場合
@@ -306,7 +308,5 @@ export async function enemyAttack() {
         }
       }
     }
-    // 敵の攻撃間隔
-    await wait(500);
   }
 }

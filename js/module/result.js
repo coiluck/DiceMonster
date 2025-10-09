@@ -252,8 +252,8 @@ async function getReward() {
     // 1ペアにつき2回抽選を行う
     for (let j = 0; j < 2; j++) {
       const RewardContentWeight = {
-        skill: 0.3,
-        item: 0.7,
+        skill: 0.35,
+        item: 0.65,
       };
       const random = Math.random();
       if (random < RewardContentWeight.skill) {

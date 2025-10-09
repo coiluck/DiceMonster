@@ -83,7 +83,7 @@ async function chooseEnemy(round, difficulty) {
         },
         hard: {
           guaranteedRank: 6,
-          additionalRankPoints: 8,
+          additionalRankPoints: 9,
           maxAdditionalEnemies: 2 // 合計3体
         }
       }
@@ -98,12 +98,12 @@ async function chooseEnemy(round, difficulty) {
         },
         normal: {
           guaranteedRank: 7,
-          additionalRankPoints: 8,
+          additionalRankPoints: 10,
           maxAdditionalEnemies: 2 // 合計3体
         },
         hard: {
           guaranteedRank: 7,
-          additionalRankPoints: 12,
+          additionalRankPoints: 15,
           maxAdditionalEnemies: 3 // 合計4体
         }
       }
@@ -118,12 +118,12 @@ async function chooseEnemy(round, difficulty) {
         },
         normal: {
           guaranteedRank: 8,
-          additionalRankPoints: 10,
+          additionalRankPoints: 15,
           maxAdditionalEnemies: 2 // 合計3体
         },
         hard: {
           guaranteedRank: 8,
-          additionalRankPoints: 12,
+          additionalRankPoints: 18,
           maxAdditionalEnemies: 3 // 合計4体
         }
       }
@@ -166,6 +166,7 @@ async function chooseEnemy(round, difficulty) {
       const selectedBoss = bosses.splice(randomIndex, 1)[0];
       enemies.push(selectedBoss);
       globalGameState.forStats.bossName = selectedBoss.name;
+      console.log(globalGameState.forStats.bossName, selectedBoss);
     }
   } else { // 通常ラウンドの処理
   // 確定枠の敵を選出
@@ -284,10 +285,19 @@ function setUpEnemy(enemyIds) {
 import { skillsData, useSkill } from './module/skills.js';
 import { renderBuff } from './module/buff.js';
 import { damage } from './module/damage.js';
-import { playerAnimInGame } from './module/characterAnimation.js';
+import { playerAnimInGame, playerAnimOfAscension } from './module/characterAnimation.js';
 import { playSound } from './module/audio.js';
 
 function setUpPlayer() {
+  // 進化スキルのリセット
+  const ascensionImg = document.querySelector('.card.player .game-image-container img.ascension');
+  if (ascensionImg) {
+    ascensionImg.classList.remove('ascension');
+    playerAnimOfAscension.stop();
+    playerAnimInGame.start();
+    globalGameState.player.maxHp = 50;
+    globalGameState.player.hp = Math.min(globalGameState.player.hp, globalGameState.player.maxHp);
+  }
   // buffの設定
   globalGameState.player.maxHp = 50;
   globalGameState.player.shield = 0;
@@ -517,7 +527,6 @@ async function processTurn(target) {
   });
   document.querySelector('#dice-hand-info-title').textContent = window.currentLang === 'en' ? 'Current Hand: ---' : '現在の役: ---';
   document.querySelector('#dice-hand-info-effect-value').textContent = '---';
-  executeTurnItems();
   for (const enemyId in globalGameState.enemies) {
     if (globalGameState.enemies[enemyId].hp > 0) {
       // total attackをリセット
@@ -537,24 +546,29 @@ async function processTurn(target) {
       }
     }
   }
-  console.log('--- ターン終了 ---');
+  if (Object.values(globalGameState.enemies).some(enemy => enemy.hp > 0) && globalGameState.player.hp > 0) {
+    executeTurnItems(); // アイテムの効果を反映
+    console.log('--- ターン終了 ---');
+  }
   isProcessing = false;
 };
 
 function executeTurnItems() {
-  for (const id of globalGameState.player.items) {
-    if (id === 3) {
-      globalGameState.player.skillsPoint++;
-    } else if (id === 4) {
-      // すべての敵に1ダメージ
-      for (const enemyId in globalGameState.enemies) {
-        if (globalGameState.enemies[enemyId].hp > 0) {
-          damage(enemyId, 1, true);
-        }
+  const skillPointGain = globalGameState.player.items.filter(id => id === 3).length;
+  if (skillPointGain > 0) {
+    globalGameState.player.skillsPoint += skillPointGain;
+  }
+  const areaDamageCount = globalGameState.player.items.filter(id => id === 4).length;
+  if (areaDamageCount > 0) {
+    for (const enemyId in globalGameState.enemies) {
+      if (globalGameState.enemies[enemyId].hp > 0) {
+        damage(enemyId, 1 * areaDamageCount, true);
       }
-    } else if (id === 15) {
-      damage('player', 2);
     }
   }
-  Math.min(globalGameState.player.skillsPoint + 3, globalGameState.player.maxSkillPoint);
+  const selfDamageCount = globalGameState.player.items.filter(id => id === 15).length;
+  if (selfDamageCount > 0) {
+    damage('player', 2 * selfDamageCount);
+  }
+  globalGameState.player.skillsPoint = Math.min(globalGameState.player.skillsPoint, globalGameState.player.maxSkillPoint);
 }

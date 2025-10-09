@@ -15,7 +15,7 @@ export function setUpEndgame(isClear) {
     {
       label: isClear ? '撃破したボス' : '最終ラウンド',
       enLabel: isClear ? 'Defeated Boss' : 'Final Round',
-      value: isClear ? globalGameState.bossName : globalGameState.round
+      value: isClear ? globalGameState.forStats.bossName : globalGameState.round
     },
     {
       label: '総ターン数',
