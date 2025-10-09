@@ -147,11 +147,13 @@ export function useSkill(skillId, pushedButton) {
       addPlayerBuff('shield', 5);
       break;
     case 'shinka':
-      playerAnimInGame.stop;
-      playerAnimOfAscension.start;
-      document.querySelector('.game-image-container img').src = './assets/images/9-8-8-4.webp';
+      playerAnimInGame.stop();
+      playerAnimOfAscension.start();
       document.querySelector('.game-image-container img').classList.add('ascension');
-      globalGameState.maxHp = 70;
+      globalGameState.player.maxHp = 70;
+      document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
+      document.querySelector('#player-hp').textContent = globalGameState.player.hp;
+      document.querySelector('#player-max-hp').textContent = globalGameState.player.maxHp;
       heal('player', 20);
       addPlayerBuff('attack', 2);
       break;

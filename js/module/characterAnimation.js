@@ -117,6 +117,6 @@ export const playerAnimInTop = new CharacterAnimation(
 );
 export const playerAnimOfAscension = new CharacterAnimation(
   '.card.player .game-image-container img',
-  './assets/images/player',
-  15,
+  './assets/images/shinka',
+  187,
 );

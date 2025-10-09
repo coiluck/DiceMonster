@@ -288,12 +288,8 @@ import { playerAnimInGame } from './module/characterAnimation.js';
 import { playSound } from './module/audio.js';
 
 function setUpPlayer() {
-  // アイテムの効果はこの前に書かないといけない
-  document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
-  document.querySelector('#player-hp').textContent = globalGameState.player.hp;
-  document.querySelector('#player-max-hp').textContent = globalGameState.player.maxHp;
-  document.querySelector('#skill-point').textContent = globalGameState.player.skillsPoint;
   // buffの設定
+  globalGameState.player.maxHp = 50;
   globalGameState.player.shield = 0;
   globalGameState.player.damageReduction = 0;
   globalGameState.player.attack = 0;
@@ -301,6 +297,10 @@ function setUpPlayer() {
   globalGameState.player.maxSkillPoint = 10;
   globalGameState.player.isAllAttack = false;
   // globalGameState.player.skillsPoint = 0; <- これ引き継いだほうが面白いのでは
+  document.querySelector('#player-bar').style.width = `${globalGameState.player.hp / globalGameState.player.maxHp * 100}%`;
+  document.querySelector('#player-hp').textContent = globalGameState.player.hp;
+  document.querySelector('#player-max-hp').textContent = globalGameState.player.maxHp;
+  document.querySelector('#skill-point').textContent = globalGameState.player.skillsPoint;
   // アイテムの効果を反映
   for (const id of globalGameState.player.items) {
     if (id === 1) {
