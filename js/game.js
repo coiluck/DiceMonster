@@ -349,7 +349,7 @@ function setUpPlayer() {
     const selfDamage = globalGameState.player.items.filter(n => n === 15).length;
     damage('player', 2 * selfDamage);
   }
-  console.log(globalGameState.player);
+  console.log(globalGameState);
   // 表示を更新
   renderBuff();
   document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')

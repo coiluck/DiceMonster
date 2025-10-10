@@ -26,7 +26,8 @@ document.getElementById('pause-settings-button').addEventListener('click', () =>
   showModal('settings', null);
 });
 
-import { globalGameState, resetGlobalState } from './module/gameState.js';
+import { globalGameState, resetGlobalState, setGlobalGameState } from './module/gameState.js';
+import { initGame } from './game.js';
 // Restart処理
 document.getElementById('pause-restart-button').addEventListener('click', () => {
   closeModal('pause');
@@ -34,12 +35,16 @@ document.getElementById('pause-restart-button').addEventListener('click', () => 
   changeModal('top', null, 500);
 });
 // Quit処理
-document.getElementById('pause-quit-button').addEventListener('click', () => {
-  // データを保存
-  // あとで書く
-  // そのラウンドから再開
-
+document.getElementById('pause-quit-button').addEventListener('click', async () => {
+  // データを保存はresultのすべての報酬を獲得したときに更新
+  // ここでは何もしない
   // Topに遷移
   closeModal('pause');
   changeModal('top', null, 500);
+  // continueボタンを表示
+  const gameData = await window.appData.getGameData()
+  if (gameData) {
+    document.querySelector('.top-continue-button').style.display = 'flex';
+    window.gameData = gameData;
+  }
 });

@@ -1,18 +1,18 @@
 // settings.js
 const btnJa = document.getElementById('btn-ja');
 const btnEn = document.getElementById('btn-en');
-window.currentLang = 'ja'; // ほんとうはlocalStrageかnodeの保存領域に入れる
-// currentLangの部分は後で書く
 btnJa.addEventListener('click', () => {
   btnJa.classList.add('active');
   btnEn.classList.remove('active');
   window.currentLang = 'ja';
+  window.appData.setLang('ja');
   changeLanguage();
 });
 btnEn.addEventListener('click', () => {
   btnEn.classList.add('active');
   btnJa.classList.remove('active');
   window.currentLang = 'en';
+  window.appData.setLang('en');
   changeLanguage();
 });
 
@@ -45,7 +45,7 @@ document.getElementById('settings-close-button').addEventListener('click', (even
 
 
 // LanguageData
-function changeLanguage() {
+export function changeLanguage() {
   languageTextData.forEach(item => {
     const element = document.querySelector(item.selector);
     if (element) {

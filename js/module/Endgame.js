@@ -4,6 +4,8 @@ import { changeModal } from "./changeModal.js";
 import { initGame } from "../game.js";
 
 export function setUpEndgame(isClear) {
+  window.appData.saveGameData(null);
+  document.querySelector('.top-continue-button').style.display = 'none';
   changeModal('endgame', null, 500, false);
   // statsの設定
   const statsData = [

@@ -79,6 +79,7 @@ button {
 }
 /* ここからmodal-top */
 #modal-top {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;

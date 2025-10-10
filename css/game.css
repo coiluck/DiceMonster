@@ -447,6 +447,16 @@
   gap: 10px;
   text-align: center;
 }
+.card.enemy img, .card.boss img {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
+  -o-user-drag: none;
+}
 .card .enemy-name {
   font-size: .9rem;
   font-weight: bold;

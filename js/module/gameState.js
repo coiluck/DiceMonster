@@ -17,7 +17,7 @@ const initialState = {
     reduceSkillPoint: 0,
     maxSkillPoint: 10,
     rerollCount: 2,
-    skills: ['shinka', 'mishoji'],
+    skills: ['mishoji', 'mishoji'],
     skillsPoint: 0,
     isAllAttack: false,
     items: [],

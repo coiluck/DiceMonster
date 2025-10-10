@@ -1,5 +1,5 @@
 // result.js
-import { globalGameState } from "./gameState.js";
+import { globalGameState, setGlobalGameState } from "./gameState.js";
 import { message } from "./message.js";
 import { changeModal } from "./changeModal.js";
 import { playerAnimInGame } from "./characterAnimation.js";
@@ -205,6 +205,14 @@ async function setUpResult() {
                 // すべての報酬選択が終わったかチェック
                 if (document.querySelectorAll('.result-choice-container').length === 0) {
                   globalGameState.round++;
+                  window.appData.saveGameData(globalGameState);
+                  document.querySelector('.top-continue-button').style.display = 'flex';
+                  document.querySelector('.top-continue-button').addEventListener('click', () => {
+                    setGlobalGameState(globalGameState);
+                    initGame();
+                    changeModal('game', null, 500, true);
+                    playSound('metallic');
+                  });
                   changeModal('game', null, 500, false);
                   initGame();
                 }

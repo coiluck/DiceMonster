@@ -212,7 +212,7 @@ function fluxDice(event) {
   deleteMessage();
   // 輪転
   const targetNum = Number(event.currentTarget.textContent);
-  const newNum = targetNum + 1;
+  const newNum = (targetNum === 6) ? 1 : (targetNum + 1);
   event.currentTarget.textContent = newNum;
   // 役を更新
   const hand = judgeHand();
