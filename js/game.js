@@ -425,6 +425,8 @@ function setUpDice() {
 
 import { message } from './module/message.js';
 
+let isRolling = false;
+
 // フェーズを切り替える関数
 function setPhase(phase) {
   document.querySelectorAll('.button-group').forEach(group => {
@@ -436,6 +438,7 @@ function setPhase(phase) {
   });
 }
 document.getElementById('dice-roll-button').addEventListener('click', () => {
+  if (isRolling) return;
   rollDice();
   setPhase(2);
 });
@@ -445,6 +448,7 @@ document.getElementById('dice-reroll-button').addEventListener('click', () => {
     message('warning', window.currentLang === 'en' ? 'No rerolls left' : 'リロール回数がありません', 3000);
     return;
   }
+  if (isRolling) return;
   rollDice();
   globalGameState.player.rerollCount--;
   document.querySelector('#dice-reroll-button').textContent = window.currentLang === 'en' ? `Reroll (${globalGameState.player.rerollCount} left)` : `リロール（残り${globalGameState.player.rerollCount}回）`;
@@ -471,6 +475,7 @@ setPhase(1); // 初期状態
 import { judgeHand } from './module/judgeHand.js';
 
 function rollDice() {
+  isRolling = true;
   const dicesToRoll = document.querySelectorAll('.dice:not(.hold)');
   if (dicesToRoll.length === 0) {
     return; // すべて`.hold`のときとか
@@ -495,6 +500,7 @@ function rollDice() {
     console.log(`役: ${hand.handName}`);
     document.querySelector('#dice-hand-info-title').textContent = window.currentLang === 'en' ? `Current Hand: ${hand.handName}` : `現在の役: ${hand.handName}`;
     document.querySelector('#dice-hand-info-effect-value').textContent = hand.text;
+    isRolling = false;
   }, 1000);
 }
 
