@@ -32,7 +32,7 @@ export async function executeHand(target, hand, dice) {
       const attackReduction = 2 + globalGameState.player.items.filter(item => item === 9).length;
       changeEnemyAttack(target.dataset.uniqueId, -attackReduction, true);
       damage(target.dataset.uniqueId, Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5), false, dice);
-      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) / 2));
+      heal('player', Math.floor(dice.reduce((a, b) => a + b, 0) * 1.5 / 2));
       break;
     case 'three card':
       damage(target.dataset.uniqueId, dice.reduce((a, b) => a + b, 0), false, dice);
@@ -266,13 +266,13 @@ export async function enemyAttack() {
           const dragons = [11, 12, 13];
           const randomDragon = dragons[Math.floor(Math.random() * dragons.length)];
           const enemyData = await getEnemyData();
-          
+
           // 新しいuniqueIdを生成（既存の最大ID + 1）
           const existingIds = Object.keys(globalGameState.enemies).map(Number);
           const newUniqueId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
-          
+
           const enemyInfo = enemyData.find(e => e.id === randomDragon);
-          
+
           // globalGameStateに入れる
           globalGameState.enemies[newUniqueId] = {
             id: randomDragon,
@@ -280,7 +280,7 @@ export async function enemyAttack() {
             attack: enemyInfo.attack,
             attackInThisTurn: 0,
           };
-          
+
           // 要素をDOMに作成
           const enemyCard = document.createElement('div');
           enemyCard.className = 'card';
@@ -288,10 +288,10 @@ export async function enemyAttack() {
           enemyCard.dataset.enemyId = randomDragon;
           enemyCard.dataset.uniqueId = newUniqueId;
           enemyCard.dataset.enemyHp = enemyInfo.hp;
-        
+
           const enemyName = window.currentLang === 'en' ? enemyInfo.enName : enemyInfo.name;
           const enemyDescription = window.currentLang === 'en' ? enemyInfo.enDescription : enemyInfo.description;
-        
+
           enemyCard.innerHTML = `
             <p class="enemy-attack">${enemyInfo.attack}</p>
             <p class="enemy-name">${enemyName}</p>
@@ -299,7 +299,7 @@ export async function enemyAttack() {
             <p class="enemy-hp">HP: ${enemyInfo.hp}</p>
           `;
           document.getElementById('enemy-container').appendChild(enemyCard);
-          
+
           // 説明がある場合
           if (enemyDescription) {
             enemyCard.style.borderColor = 'rgba(0, 174, 255, 0.5)';
