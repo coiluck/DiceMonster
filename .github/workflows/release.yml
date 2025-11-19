@@ -1,0 +1,68 @@
+name: Build and Release Windows Portable
+
+# 使用方法
+# 1: `npm version patch`
+# package.jsonのversionが1.0.0 -> 1.0.1になり、
+# 自動的に "v1.0.1" というGitタグが作成される、はず
+# 2: `git push --follow-tags`
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Portable App
+        run: npm run build:win:portable
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # バージョン番号をタグから取得し、"v"を取り除いて変数にセット
+      - name: Extract Version
+        id: extract_version
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Upload to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/*.exe
+          draft: false
+          prerelease: false
+          # releaseのタイトル
+          name: Release ${{ github.ref_name }}
+          # releaseの本文
+          body: |
+            ### インストール方法
+            添付のファイル（`dice-monster-portable-${{ env.VERSION }}.exe`）をダウンロード
+
+            ### アンインストール方法
+
+            以下のどちらも行ってください
+
+            - ダウンロードしたファイル（デフォルトでは`dice-monster-portable-${{ env.VERSION }}.exe`というファイル名）を削除
+            - `C:\Users\${username}\AppData\Roaming`にある`dice-monster`というフォルダを削除
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -79,7 +79,12 @@ async function setUpResult() {
         // スキルの場合
         const skill = skillsData[rewardId];
         name = window.currentLang === 'en' ? skill.enName : skill.name;
-        description = window.currentLang === 'en' ? skill.enDescription : skill.description;
+        const baseDescription = window.currentLang === 'en' ? skill.enDescription : skill.description;
+        const limitedMessageLang = window.currentLang === 'en' ? ' | Usage Limit: 1 Round 1 Time' : ' | 使用制限: 1ラウンド1回';
+        const limitedMessage = skill.isLimmitedTimes ? limitedMessageLang : '';
+        const costMessage = window.currentLang === 'en' ? ` | Cost: ${skill.cost}` : ` | 消費ポイント: ${skill.cost}`;
+
+        description = `${baseDescription}${limitedMessage}${costMessage}`;
         rewardType = 'skill';
       } else {
         // アイテムの場合
@@ -130,20 +135,20 @@ async function setUpResult() {
           skillSwapContainer.classList.add('active');
           skillSwapContainer.innerHTML = '';
 
-          const newSkillId = clickedButton.dataset.rewardId;
-          const newSkill = skillsData[newSkillId];
+          const newSkillId = clickedButton.dataset.rewardId; // 獲得する新しいスキルのID 例: 'tsuigeki'
+          const newSkill = skillsData[newSkillId]; // 獲得する新しいスキルのデータ 例: { id: 'tsuigeki', name: '追撃', description: '攻撃力を1上げる', cost: 1, rank: 1, isLimmitedTimes: false }
 
           // 獲得する新しいスキル情報を表示
           const newSkillInfo = document.createElement('div');
           newSkillInfo.className = 'result-player-card-new-skill-info';
-          let limitedMessageLang = window.currentLang === 'en' ? 'Usage Limit: 1 Round 1 Time' : '使用制限: 1ラウンド1回 ';
+          let limitedMessageLang = window.currentLang === 'en' ? '| Usage Limit: 1 Round 1 Time' : '| 使用制限: 1ラウンド1回';
           let limitedMessage = newSkill.isLimmitedTimes ? limitedMessageLang : '';
           if (window.currentLang === 'en') {
             newSkillInfo.innerHTML = `
             <p class="result-new-skill-title">New Skill</p>
             <div class="result-new-skill-data">
               <p class="result-new-skill-name">${newSkill.enName}</p>
-              <p class="result-new-skill-description">${newSkill.enDescription} ${limitedMessage}Cost: ${newSkill.cost}</p>
+              <p class="result-new-skill-description">${newSkill.enDescription} ${limitedMessage} | Cost: ${newSkill.cost}</p>
             </div>
           `;
           } else {
@@ -151,7 +156,7 @@ async function setUpResult() {
             <p class="result-new-skill-title">獲得するスキル</p>
             <div class="result-new-skill-data">
               <p class="result-new-skill-name">${newSkill.name}</p>
-              <p class="result-new-skill-description">${newSkill.description} ${limitedMessage}消費ポイント: ${newSkill.cost}</p>
+              <p class="result-new-skill-description">${newSkill.description} ${limitedMessage} | 消費ポイント: ${newSkill.cost}</p>
             </div>
           `;
           }

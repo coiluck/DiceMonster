@@ -187,13 +187,13 @@ async function chooseEnemy(round, difficulty) {
         let currentCombination = [];
         let currentRankSum = 0;
         // 候補となる敵（既に追加済みの敵は除く）
-        let candidates = normalEnemies.filter(e => 
+        let candidates = normalEnemies.filter(e =>
           !enemies.some(existing => existing.id === e.id) && e.rank <= setting.additionalRankPoints
         );
         // maxAdditionalEnemiesの数だけ敵を選ぶ
         for (let j = 0; j < setting.maxAdditionalEnemies; j++) {
           // 残りランクポイントで追加可能な敵だけ
-          const availableCandidates = candidates.filter(e => 
+          const availableCandidates = candidates.filter(e =>
             e.rank <= (setting.additionalRankPoints - currentRankSum) &&
             !currentCombination.some(c => c.id === e.id)
           );
@@ -201,7 +201,7 @@ async function chooseEnemy(round, difficulty) {
 
           const randomIndex = Math.floor(Math.random() * availableCandidates.length);
           const selected = availableCandidates[randomIndex];
-        
+
           currentCombination.push(selected);
           currentRankSum += selected.rank;
         }
@@ -355,12 +355,27 @@ function setUpPlayer() {
   document.getElementById('skill-point').textContent = globalGameState.player.skillsPoint + (globalGameState.player.skillsPoint === globalGameState.player.maxSkillPoint ? '(最大)' : '')
   document.querySelector('.skills').innerHTML = '';
   // skillの設定
-  for (const skill of globalGameState.player.skills) {
+  for (const skill of globalGameState.player.skills) { // skillはスキルのID 例: 'tsuigeki'
     const skillBtn = document.createElement('button');
     skillBtn.className = 'skill-btn';
     skillBtn.textContent = window.currentLang === 'en' ? skillsData[skill].enName : skillsData[skill].name;
     skillBtn.dataset.skill = skill;
-    addTooltipEvents(skillBtn, window.currentLang === 'en' ? `${skillsData[skill].enDescription} Cost: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}` : `${skillsData[skill].description} 消費ポイント: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`);
+    // ホバー時のテキストを設定
+    let hoverText = null;
+    if (window.currentLang === 'en') {
+      hoverText = `${skillsData[skill].enDescription}`;
+      if (skillsData[skill].isLimmitedTimes) {
+        hoverText += ` | Usage Limit: 1 Round 1 Time`;
+      }
+      hoverText += ` | Cost: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`;
+    } else {
+      hoverText = `${skillsData[skill].description}`;
+      if (skillsData[skill].isLimmitedTimes) {
+        hoverText += ` | 使用制限: 1ラウンド1回`;
+      }
+      hoverText += ` | 消費ポイント: ${skillsData[skill].cost - globalGameState.player.reduceSkillPoint}`;
+    }
+    addTooltipEvents(skillBtn, hoverText);
     skillBtn.addEventListener('click', () => {
       // スキルの使用処理
       if (isProcessing) {
@@ -383,7 +398,7 @@ function setUpPlayer() {
         return;
       }
       if ((skillsData[skillBtn.dataset.skill].enName === 'Invert' ||
-      skillsData[skillBtn.dataset.skill].enName === 'Flux') && 
+      skillsData[skillBtn.dataset.skill].enName === 'Flux') &&
       document.querySelector('.dice').textContent === '？') {
         playSound('disable');
         message('warning', window.currentLang === 'en' ? 'Roll the dice before using' : 'ダイスをロールしてから使用してください', 3000)
@@ -433,7 +448,7 @@ document.getElementById('dice-reroll-button').addEventListener('click', () => {
   rollDice();
   globalGameState.player.rerollCount--;
   document.querySelector('#dice-reroll-button').textContent = window.currentLang === 'en' ? `Reroll (${globalGameState.player.rerollCount} left)` : `リロール（残り${globalGameState.player.rerollCount}回）`;
-  setPhase(2); 
+  setPhase(2);
 });
 document.getElementById('dice-confirm-button').addEventListener('click', () => {
   playSound('metallic');
